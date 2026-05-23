@@ -30,7 +30,7 @@ async function signupAction(formData: FormData) {
     data: { email: parsed.data.email, name: parsed.data.name, passwordHash },
   });
 
-  // FR-AUTH-02: every user belongs to at least one workspace (a personal one on signup).
+  // every user belongs to at least one workspace (a personal one on signup).
   // Bootstrap: first user whose email matches BOOTSTRAP_ADMIN_EMAIL joins the demo workspace as ADMIN.
   if (env.BOOTSTRAP_ADMIN_EMAIL && env.BOOTSTRAP_ADMIN_EMAIL === parsed.data.email) {
     const demo = await db.workspace.findFirst({ where: { id: "demo-workspace" } });
@@ -51,7 +51,7 @@ async function signupAction(formData: FormData) {
     data: { userId: user.id, workspaceId: personal.id, role: "ADMIN" },
   });
 
-  // FR-AUTH-09 — send verification email on signup
+  // send verification email on signup
   await requestVerificationForUser(user.id, user.email);
 
   await signIn("credentials", { email: parsed.data.email, password: parsed.data.password, redirectTo: "/dashboard" });

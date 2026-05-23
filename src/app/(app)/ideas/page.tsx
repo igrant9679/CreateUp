@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getActiveChannel } from "@/lib/channel";
 
-// Global "Ideas" nav entry redirects to the active channel's ideas page (FR-CHAT-01
+// Global "Ideas" nav entry redirects to the active channel's ideas page (
 // principle — channel-scoped). If no channels exist yet, route to onboarding.
 
 export default async function IdeasPage() {

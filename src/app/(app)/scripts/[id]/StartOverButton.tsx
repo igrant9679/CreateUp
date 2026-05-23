@@ -3,7 +3,7 @@
 import { Eraser } from "lucide-react";
 import { startOverAction } from "@/app/actions/canvas";
 
-// FR-CANV-12 — confirmation before destructive Start Over.
+// confirmation before destructive Start Over.
 export function StartOverButton({ scriptId, hasBody }: { scriptId: string; hasBody: boolean }) {
   return (
     <form

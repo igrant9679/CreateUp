@@ -4,7 +4,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { setProjectStatusAction } from "@/app/actions/production";
 
-// FR-PIPE-02 — Writer's Room. Projects in Research/Writing, due-soon, per-assignee filter.
+// Writer's Room. Projects in Research/Writing, due-soon, per-assignee filter.
 
 export default async function WritersRoomPage({ searchParams }: { searchParams: Promise<{ mine?: string }> }) {
   const { workspace, user } = await requireMembership();

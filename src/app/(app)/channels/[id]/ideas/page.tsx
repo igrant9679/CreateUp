@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { outlierBand } from "@/lib/intel";
 import { regenerateIdeasAction, writeIdeaToCanvasAction } from "@/app/actions/ideas";
 
-// MU-06 — Ideas Library. FR-IDEA-03 list with sort/filter; FR-IDEA-09 regenerate.
+// MU-06 — Ideas Library. list with sort/filter; regenerate.
 
 export default async function ChannelIdeasPage({
   params,

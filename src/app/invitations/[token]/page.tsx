@@ -3,7 +3,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
-// FR-AUTH-04 — invitee accepts and joins the workspace with the role from the invite.
+// invitee accepts and joins the workspace with the role from the invite.
 
 async function acceptAction(token: string) {
   "use server";

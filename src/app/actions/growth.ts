@@ -8,7 +8,7 @@ import { llm } from "@/lib/llm";
 import { youtube } from "@/lib/youtube";
 import { writeJson, readJson } from "@/lib/db/json";
 
-// ── FR-PERF — Sync published-video stats into Content Projects ───────────
+// ── — Sync published-video stats into Content Projects ───────────
 
 /** Generates a ChannelStat row for a project. In mock mode this fabricates plausible numbers;
  *  with USE_MOCK_YOUTUBE=false the real YouTube provider will be used. */
@@ -47,7 +47,7 @@ export async function syncStatsAction(formData: FormData) {
   revalidatePath(`/production/projects/${projectId}`);
 }
 
-// ── FR-MERIT — Idea / ContentProject merit tags ──────────────────────────
+// ── — Idea / ContentProject merit tags ──────────────────────────
 
 const MERITS = ["pillar", "trending", "experiment"] as const;
 
@@ -75,7 +75,7 @@ export async function setProjectMeritAction(formData: FormData) {
   revalidatePath(`/production/projects/${id}`);
 }
 
-// ── FR-KW — keywords ─────────────────────────────────────────────────────
+// ── — keywords ─────────────────────────────────────────────────────
 
 export async function setProjectKeywordsAction(formData: FormData) {
   const id = String(formData.get("id"));
@@ -89,7 +89,7 @@ export async function setProjectKeywordsAction(formData: FormData) {
   revalidatePath(`/production/projects/${id}`);
 }
 
-// ── FR-CHAP — chapter markers ────────────────────────────────────────────
+// ── — chapter markers ────────────────────────────────────────────
 
 /** Generate YouTube-style chapter markers from the script outline + body. */
 export async function generateChapterMarkersAction(formData: FormData) {
@@ -113,7 +113,7 @@ export async function generateChapterMarkersAction(formData: FormData) {
   revalidatePath(`/scripts/${scriptId}/publish`);
 }
 
-// ── FR-REPURP — derivative content projects ──────────────────────────────
+// ── — derivative content projects ──────────────────────────────
 
 export async function repurposeProjectAction(formData: FormData) {
   const parentId = String(formData.get("parentId"));
@@ -138,7 +138,7 @@ export async function repurposeProjectAction(formData: FormData) {
   redirect(`/production/projects/${child.id}`);
 }
 
-// ── FR-SUB — Audience submissions ────────────────────────────────────────
+// ── — Audience submissions ────────────────────────────────────────
 
 const submitSchema = z.object({
   channelId: z.string(),

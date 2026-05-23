@@ -7,7 +7,7 @@ import { updateThumbnailConfigAction } from "@/app/actions/final-pass";
 import { ModelChip } from "@/components/ModelChip";
 import { readJson } from "@/lib/db/json";
 
-// FR-CHAN-04 — Channel Settings: details, linked YouTube, Script Defaults.
+// Channel Settings: details, linked YouTube, Script Defaults.
 
 const LANGS = [
   "en", "es", "fr", "de", "it", "pt", "nl", "sv", "da", "fi", "no", "pl", "cs", "ro", "tr", "el", "ru", "uk", "ar", "hi", "bn", "ja", "ko", "zh", "th", "vi", "id", "ms",
@@ -62,17 +62,17 @@ export default async function ChannelSettingsPage({ params }: { params: Promise<
         </div>
       </form>
 
-      {/* FR-CHAN-05 — Relink YouTube channel (triggers voice + audience re-train) */}
+      {/* Relink YouTube channel (triggers voice + audience re-train) */}
       <form action={relinkYoutubeAction} className="card flex items-end gap-2 mt-4">
         <input type="hidden" name="channelId" value={id} />
         <label className="flex-1 flex flex-col gap-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Relink YouTube channel (FR-CHAN-05) — re-trains voice + audience</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Relink YouTube channel — re-trains voice + audience</span>
           <input name="handle" required placeholder="@new-handle" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
         </label>
         <button type="submit" className="btn">Relink & retrain</button>
       </form>
 
-      {/* FR-CHAN-08 — Business / brand channel toggle */}
+      {/* Business / brand channel toggle */}
       <form action={setBusinessChannelAction} className="card flex items-center gap-3 mt-4">
         <input type="hidden" name="channelId" value={id} />
         <input type="hidden" name="business" value={channel.presentationStyle === "business" ? "0" : "1"} />
@@ -83,12 +83,12 @@ export default async function ChannelSettingsPage({ params }: { params: Promise<
         <button type="submit" className="btn">{channel.presentationStyle === "business" ? "Switch to personality" : "Mark as business"}</button>
       </form>
 
-      {/* FR-THUMB-06/07 — Thumbnail brand assets + soft limit */}
+      {/* Thumbnail brand assets + soft limit */}
       {(() => {
         const cfg = readJson<{ palette?: string; typography?: string; facePosition?: string; styleNotes?: string; logoUrl?: string }>(channel.thumbnailConfig ?? null, {});
         return (
           <form action={updateThumbnailConfigAction} className="card flex flex-col gap-3 mt-4">
-            <h2 className="font-mono font-bold text-[14px]">Thumbnail brand & limits (FR-THUMB-06/07)</h2>
+            <h2 className="font-mono font-bold text-[14px]">Thumbnail brand & limits</h2>
             <input type="hidden" name="channelId" value={id} />
             <Field name="palette" label="Palette (hex / names)" defaultValue={cfg.palette ?? ""} placeholder="e.g. #E5482F, off-white, charcoal" />
             <Field name="typography" label="Typography" defaultValue={cfg.typography ?? ""} placeholder="e.g. Bold sans, max 4 words, all-caps last word" />

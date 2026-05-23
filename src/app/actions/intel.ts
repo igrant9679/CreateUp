@@ -6,7 +6,7 @@ import { requireMembership, requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { youtube } from "@/lib/youtube";
 
-// FR-INTEL-09 — Find Similar Channels: searches for channels sharing the same category
+// Find Similar Channels: searches for channels sharing the same category
 // (with the youtube provider, since IntelChannel doesn't have semantic tags).
 export async function findSimilarChannelsAction(formData: FormData) {
   await requireMembership();
@@ -35,7 +35,7 @@ export async function findSimilarChannelsAction(formData: FormData) {
   revalidatePath(`/intel/channels/${intelChannelId}`);
 }
 
-// FR-INTEL-12 — Auto-index unindexed @handles. Called from the Intel search box when a
+// Auto-index unindexed @handles. Called from the Intel search box when a
 // query looks like a handle and yields no matches.
 export async function autoIndexHandleAction(formData: FormData) {
   await requireMembership();
@@ -82,7 +82,7 @@ export async function autoIndexHandleAction(formData: FormData) {
   redirect(`/intel/channels/${upserted.id}`);
 }
 
-// FR-INTEL-10 — Chat with channel / video: open a new chat with the entity pre-loaded
+// Chat with channel / video: open a new chat with the entity pre-loaded
 // as context. Requires an active channel (the user's own — chat is channel-scoped).
 export async function chatWithEntityAction(formData: FormData) {
   const { user } = await requireRole("EDITOR");

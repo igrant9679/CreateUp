@@ -4,7 +4,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { setProjectStatusAction } from "@/app/actions/production";
 
-// FR-PIPE-03 — Film Queue: projects in Recording, grouped by shoot day (publishDate).
+// Film Queue: projects in Recording, grouped by shoot day (publishDate).
 
 export default async function FilmQueuePage({ searchParams }: { searchParams: Promise<{ mine?: string }> }) {
   const { workspace, user } = await requireMembership();

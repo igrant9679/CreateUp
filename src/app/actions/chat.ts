@@ -9,7 +9,7 @@ import { readJson } from "@/lib/db/json";
 import { llm } from "@/lib/llm";
 import { getActiveChannel } from "@/lib/channel";
 
-/** FR-CHAT-01 — Channel-scoped: require active channel before chatting. */
+/** Channel-scoped: require active channel before chatting. */
 export async function createChatAction(formData: FormData) {
   const { user, workspace } = await requireRole("EDITOR");
   let channelId = String(formData.get("channelId") ?? "");
@@ -32,7 +32,7 @@ const postSchema = z.object({
   content: z.string().min(1).max(10_000),
 });
 
-/** FR-CHAT-02/11 — Post a message, gather context, get an LLM response with conversation history. */
+/** Post a message, gather context, get an LLM response with conversation history. */
 export async function postMessageAction(formData: FormData) {
   const parsed = postSchema.safeParse({
     chatId: formData.get("chatId"),
@@ -63,11 +63,11 @@ export async function postMessageAction(formData: FormData) {
     data: { chatId: chat.id, role: "user", content: parsed.data.content },
   });
 
-  // Detect intent (FR-CHAT-10 — "turn this into a script" creates a Script + opens Canvas)
+  // Detect intent ( — "turn this into a script" creates a Script + opens Canvas)
   const turnIntoScript = /turn (this|that|it) into (a |the )?script|make (this|that|it) a script|write (this|that) (as|into) a script/i.test(parsed.data.content);
 
-  // FR-CHAT-04 — answer in-chat outlier requests via Intel data
-  // FR-CHAT-05 — quick web search
+  // answer in-chat outlier requests via Intel data
+  // quick web search
   let extraContext = "";
   if (/outlier|outliers|long-form outlier|top \d+ about/i.test(parsed.data.content)) {
     const { db } = await import("@/lib/db");
@@ -77,16 +77,16 @@ export async function postMessageAction(formData: FormData) {
       take: 10,
       include: { intelChannel: true },
     });
-    extraContext += "\n[FR-CHAT-04 outliers from indexed Intel]\n" + top.map((v) => `- ${v.outlierScore?.toFixed(1)}x ${v.title} (${v.intelChannel.name})`).join("\n");
+    extraContext += "\n[ outliers from indexed Intel]\n" + top.map((v) => `- ${v.outlierScore?.toFixed(1)}x ${v.title} (${v.intelChannel.name})`).join("\n");
   }
   const webMatch = parsed.data.content.match(/\/(search|web)\s+(.+)/i);
   if (webMatch) {
     const { search } = await import("@/lib/search");
     const results = await search.search(webMatch[2], 5);
-    extraContext += "\n[FR-CHAT-05 quick web search]\n" + results.map((r, i) => `${i + 1}. ${r.title} — ${r.url}\n   ${r.snippet}`).join("\n");
+    extraContext += "\n[ quick web search]\n" + results.map((r, i) => `${i + 1}. ${r.title} — ${r.url}\n   ${r.snippet}`).join("\n");
   }
 
-  // Build system + context preamble (FR-AUD-05 — audience injected into chat)
+  // Build system + context preamble ( — audience injected into chat)
   const voice = chat.channel.voiceProfiles[0];
   const audienceKQ = readJson<string[]>(chat.channel.audience?.keyQuestions ?? null, []);
   const contextLines = chat.contextItems.map((c) => `[${c.kind}] ${c.ref}`).join("\n");
@@ -100,7 +100,7 @@ Differentiation: ${chat.channel.differentiation ?? "—"}
 Audience key questions: ${audienceKQ.slice(0, 5).join(" · ")}
 Voice profile (truncated): ${(voice?.data ?? "").slice(0, 600)}
 ${memoryLines ? `\nChannel Memory (durable facts — ALWAYS respect these):\n${memoryLines}\n` : ""}
-${starredResearch ? `\nStarred research (persisted across all scripts, FR-CHAT-09):\n${starredResearch}\n` : ""}${extraContext}
+${starredResearch ? `\nStarred research (persisted across all scripts,):\n${starredResearch}\n` : ""}${extraContext}
 Attached context items:
 ${contextLines || "(none)"}`;
 
@@ -116,7 +116,7 @@ ${contextLines || "(none)"}`;
   });
 
   if (turnIntoScript) {
-    // FR-CHAT-10 — spin a Script project from the conversation so far and redirect.
+    // spin a Script project from the conversation so far and redirect.
     const synthesis = await llm.complete({
       model: chat.channel.defaultModel ?? "claude-sonnet",
       system: "Synthesize the discussion into a working script title.",
@@ -146,7 +146,7 @@ const contextSchema = z.object({
   ref: z.string().min(1).max(4000),
 });
 
-/** FR-CHAT-02/03 — Attach a YouTube URL / web URL / pasted text as conversation context. */
+/** Attach a YouTube URL / web URL / pasted text as conversation context. */
 export async function addChatContextAction(formData: FormData) {
   const parsed = contextSchema.safeParse({
     chatId: formData.get("chatId"),

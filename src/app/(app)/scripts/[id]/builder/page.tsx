@@ -21,7 +21,7 @@ import {
 } from "@/app/actions/builder";
 import { RESEARCH_DEPTHS } from "@/lib/canvas/builder-const";
 
-// MU-05 — Script Builder Classic. 10-step alternative to Canvas (FR-SB-01..12).
+// MU-05 — Script Builder Classic. 10-step alternative to Canvas (..12).
 
 const STEPS = [
   { n: 1,  label: "Research",  icon: Search },
@@ -146,7 +146,7 @@ function StepResearch({ scriptId, state }: { scriptId: string; state: BuilderSta
       <p className="text-sm text-[var(--mute)]">Attach research and pick a depth. Research depth caps how much external context the AI consults during the draft.</p>
 
       <form action={setBuilderResearchDepthAction} className="card">
-        <h3 className="font-mono text-xs uppercase tracking-wider text-[var(--mute)] mb-2">Research depth (FR-RES-03)</h3>
+        <h3 className="font-mono text-xs uppercase tracking-wider text-[var(--mute)] mb-2">Research depth</h3>
         <input type="hidden" name="scriptId" value={scriptId} />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {Object.entries(RESEARCH_DEPTHS).map(([k, v]) => (
@@ -218,7 +218,7 @@ function FormField({ name, label, defaultValue, placeholder }: { name: string; l
 function StepTitle({ scriptId, state, fallback }: { scriptId: string; state: BuilderState; fallback: string }) {
   return (
     <div className="flex flex-col gap-4 max-w-2xl">
-      <p className="text-sm text-[var(--mute)]">Pick a title (FR-SB-04). Generate variants or write your own.</p>
+      <p className="text-sm text-[var(--mute)]">Pick a title. Generate variants or write your own.</p>
 
       <form action={pickBuilderTitleAction} className="card flex flex-col gap-2">
         <input type="hidden" name="scriptId" value={scriptId} />
@@ -257,7 +257,7 @@ function StepTitle({ scriptId, state, fallback }: { scriptId: string; state: Bui
 function StepThumbnail({ scriptId: _, thumbnails }: { scriptId: string; thumbnails: { id: string; title: string | null; renderUrl: string | null; concepts: string }[] }) {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-sm text-[var(--mute)]">Build a thumbnail in the Thumbnail Studio, then come back. (FR-SB-05 / FR-THUMB)</p>
+      <p className="text-sm text-[var(--mute)]">Build a thumbnail in the Thumbnail Studio, then come back.</p>
       <Link href="/thumbnails" className="btn primary sm w-fit">Open Thumbnail Studio →</Link>
       {thumbnails.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
@@ -281,7 +281,7 @@ function StepThumbnail({ scriptId: _, thumbnails }: { scriptId: string; thumbnai
 function StepHook({ scriptId, state }: { scriptId: string; state: BuilderState }) {
   return (
     <div className="flex flex-col gap-4 max-w-2xl">
-      <p className="text-sm text-[var(--mute)]">Pick an opening hook that delivers on the title (FR-SB-06).</p>
+      <p className="text-sm text-[var(--mute)]">Pick an opening hook that delivers on the title.</p>
 
       <form action={pickBuilderHookAction} className="card flex flex-col gap-2">
         <input type="hidden" name="scriptId" value={scriptId} />
@@ -321,7 +321,7 @@ function StepPayoffs({ scriptId, state }: { scriptId: string; state: BuilderStat
   return (
     <form action={setBuilderPayoffsAction} className="flex flex-col gap-3 max-w-2xl">
       <input type="hidden" name="scriptId" value={scriptId} />
-      <p className="text-sm text-[var(--mute)]">List the 3-8 key information payoffs your video will deliver, in order (FR-SB-07).</p>
+      <p className="text-sm text-[var(--mute)]">List the 3-8 key information payoffs your video will deliver, in order.</p>
       <textarea name="payoffs" rows={10} defaultValue={state.payoffs.join("\n")} placeholder="One payoff per line, e.g.\nWhy this approach typically fails\nThe 80/20 of what works\nA simple test you can run today" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
       <div className="flex justify-end"><button type="submit" className="btn primary sm">Save payoffs</button></div>
     </form>
@@ -332,7 +332,7 @@ function StepPayoffs({ scriptId, state }: { scriptId: string; state: BuilderStat
 function StepDraft({ scriptId, state }: { scriptId: string; state: BuilderState }) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-[var(--mute)]">Generate the full script section-by-section. Regenerate any section without affecting the others (FR-SB-08).</p>
+      <p className="text-sm text-[var(--mute)]">Generate the full script section-by-section. Regenerate any section without affecting the others.</p>
       <form action={generateBuilderDraftAction}>
         <input type="hidden" name="scriptId" value={scriptId} />
         <button type="submit" className="btn primary">{state.sections.length > 0 ? "Regenerate full draft" : "Generate full draft"}</button>
@@ -360,7 +360,7 @@ function StepDraft({ scriptId, state }: { scriptId: string; state: BuilderState 
 function StepEdit({ scriptId }: { scriptId: string }) {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-sm text-[var(--mute)]">Polish the draft with the standard Canvas tools — Highlight-and-Improve, Humanize, autosave (FR-SB-09).</p>
+      <p className="text-sm text-[var(--mute)]">Polish the draft with the standard Canvas tools — Highlight-and-Improve, Humanize, autosave.</p>
       <Link href={`/scripts/${scriptId}?tab=script`} className="btn primary w-fit">Open Canvas editor →</Link>
     </div>
   );
@@ -370,7 +370,7 @@ function StepEdit({ scriptId }: { scriptId: string }) {
 function StepExport({ scriptId, body }: { scriptId: string; body: string }) {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-sm text-[var(--mute)]">Export the finished script (FR-SB-10).</p>
+      <p className="text-sm text-[var(--mute)]">Export the finished script.</p>
       <div className="flex flex-wrap gap-2">
         <CopyButton text={body} label="Copy to clipboard" />
         <a href={`/api/scripts/${scriptId}/export?format=docx`} className="btn">Download .docx</a>
@@ -385,7 +385,7 @@ function StepExport({ scriptId, body }: { scriptId: string; body: string }) {
 function StepPublish({ scriptId, state }: { scriptId: string; state: BuilderState }) {
   return (
     <div className="flex flex-col gap-3 max-w-2xl">
-      <p className="text-sm text-[var(--mute)]">Generate YouTube tags, description, and metadata (FR-SB-11).</p>
+      <p className="text-sm text-[var(--mute)]">Generate YouTube tags, description, and metadata.</p>
       <form action={generateBuilderPublishAction}>
         <input type="hidden" name="scriptId" value={scriptId} />
         <button type="submit" className="btn primary">{state.publish?.description ? "Regenerate" : "Generate description, tags & metadata"}</button>

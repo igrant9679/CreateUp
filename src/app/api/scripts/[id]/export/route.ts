@@ -4,7 +4,7 @@ import PDFDocument from "pdfkit";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 
-// FR-PUB-01 — Export script as Word (.docx) or PDF.
+// Export script as Word (.docx) or PDF.
 // GET /api/scripts/[id]/export?format=docx|pdf
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

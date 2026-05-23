@@ -7,8 +7,8 @@ import { toggleBookmarkAction } from "@/app/actions/bookmarks";
 import { autoIndexHandleAction } from "@/app/actions/intel";
 
 // MU-02 — Intel dashboard. Implements:
-//   FR-INTEL-01 NL search · FR-INTEL-03 explicit filters · FR-INTEL-04 velocity tag
-//   FR-INTEL-05 outlier severity bands · FR-INTEL-11 bookmark · FR-INTEL-13 curated modules
+//   NL search · explicit filters · velocity tag
+//   outlier severity bands · bookmark · curated modules
 
 export default async function IntelPage({ searchParams }: { searchParams: Promise<{ q?: string; subsMin?: string; subsMax?: string; velocityMin?: string; format?: string; language?: string }> }) {
   const { workspace } = await requireMembership();
@@ -32,13 +32,13 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
       take: 6,
       include: { intelChannel: true },
     }),
-    // FR-INTEL-13 — Hot new channels (high velocity, smaller subs)
+    // Hot new channels (high velocity, smaller subs)
     db.intelChannel.findMany({
       where: { velocityScore: { gte: 5 } },
       orderBy: { velocityScore: "desc" },
       take: 4,
     }),
-    // FR-INTEL-13 — Trending niches (category counts)
+    // Trending niches (category counts)
     db.intelChannel.groupBy({
       by: ["category"],
       _count: { _all: true },
@@ -89,7 +89,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
         <button type="submit" className="btn primary">Search</button>
       </form>
 
-      {/* Curated dashboard modules (FR-INTEL-13) */}
+      {/* Curated dashboard modules */}
       {!params.q && (
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 mb-5">
           {trending.length > 0 && (
@@ -217,7 +217,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
           {params.q?.trim().startsWith("@") && (
             <form action={autoIndexHandleAction} className="flex items-center gap-2 justify-center">
               <input type="hidden" name="handle" value={params.q} />
-              <button type="submit" className="btn primary sm">Auto-index <code className="font-mono">{params.q}</code> now (FR-INTEL-12)</button>
+              <button type="submit" className="btn primary sm">Auto-index <code className="font-mono">{params.q}</code> now</button>
             </form>
           )}
         </div>

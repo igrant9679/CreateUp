@@ -3,8 +3,8 @@ import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { deepResearchAction, starResearchAction, deleteResearchAction } from "@/app/actions/research";
 
-// MU — Research library. FR-CHAT-06 deep tool, FR-RES-01..05 manage sources,
-// FR-CHAT-09 starred research persists across all scripts.
+// MU — Research library. deep tool,..05 manage sources,
+// starred research persists across all scripts.
 
 export default async function ChannelResearchPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ focus?: string }> }) {
   const { id } = await params;
@@ -26,7 +26,7 @@ export default async function ChannelResearchPage({ params, searchParams }: { pa
         </span>
         <div>
           <h2 className="font-mono font-bold text-lg leading-tight">Research</h2>
-          <p className="text-xs text-[var(--mute)]">Deep multi-source research synthesized into saved reports. Star items to persist them across every script (FR-CHAT-09).</p>
+          <p className="text-xs text-[var(--mute)]">Deep multi-source research synthesized into saved reports. Star items to persist them across every script.</p>
         </div>
       </div>
 
@@ -91,7 +91,7 @@ export default async function ChannelResearchPage({ params, searchParams }: { pa
                   <button type="submit" className="btn sm" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button>
                 </form>
               </div>
-              <div className="text-xs text-[var(--mute)] mb-3">{new Date(focused.createdAt).toLocaleString()} · {focused.wordCount.toLocaleString()} words {focused.starred && " · ★ pinned across all scripts (FR-CHAT-09)"}</div>
+              <div className="text-xs text-[var(--mute)] mb-3">{new Date(focused.createdAt).toLocaleString()} · {focused.wordCount.toLocaleString()} words {focused.starred && " · ★ pinned across all scripts"}</div>
               <pre className="text-sm whitespace-pre-wrap font-sans leading-[1.6]">{focused.content ?? "(empty)"}</pre>
             </article>
           ) : (

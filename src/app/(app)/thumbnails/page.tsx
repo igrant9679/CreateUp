@@ -85,7 +85,7 @@ export default async function ThumbnailsPage({ searchParams }: { searchParams: P
         </form>
       )}
 
-      {/* History (FR-THUMB-05) */}
+      {/* History */}
       <section className="card">
         <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><History className="w-4 h-4" style={{ color: "#DB2777" }} /> History <span className="text-xs text-[var(--mute)] font-normal">({history.length})</span></h2>
         {history.length === 0 ? (

@@ -1,4 +1,4 @@
-// FR-CHAT-08 — Prompt Library: categorized, ready-made prompts insertable into
+// Prompt Library: categorized, ready-made prompts insertable into
 // chat and editing. Kept as a flat data file so the UI is purely client-side.
 
 export type PromptEntry = {

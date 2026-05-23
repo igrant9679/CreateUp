@@ -1,7 +1,7 @@
 import { Zap, Gauge, FileText } from "lucide-react";
 import type { ModelDescriptor } from "@/lib/llm";
 
-// FR-MODEL-05 — Surface model characteristics (speed, length adherence, style)
+// Surface model characteristics (speed, length adherence, style)
 // next to each option so creators can pick the right one for the job.
 
 const SPEED_COLOR: Record<ModelDescriptor["speed"], string> = {
@@ -29,7 +29,7 @@ export function ModelChip({ model }: { model: ModelDescriptor }) {
   );
 }
 
-// FR-MODEL-06 — image-gen guidance hint (used on the Thumbnail Studio header).
+// image-gen guidance hint (used on the Thumbnail Studio header).
 export function ImageGenHint() {
   return (
     <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded" style={{ background: "#FBE2EF", color: "#DB2777" }}>

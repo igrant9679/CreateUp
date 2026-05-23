@@ -8,11 +8,11 @@ import { generatePromoAction } from "@/app/actions/publish";
 import { generateChapterMarkersAction } from "@/app/actions/growth";
 import { CopyButton } from "@/components/CopyButton";
 
-// MU (publish surface) — FR-PUB-01 Export, FR-PUB-02 Teleprompter, FR-PUB-03 Promo, FR-PUB-04 Titles/Tags.
+// MU (publish surface) — Export, Teleprompter, Promo, Titles/Tags.
 
 const PROMO_GROUPS = [
   {
-    label: "Titles & metadata (FR-PUB-04)",
+    label: "Titles & metadata",
     items: [
       { kind: "titles", title: "Title variations", color: "#E5482F" },
       { kind: "hooks", title: "Hook variations", color: "#D97706" },
@@ -21,7 +21,7 @@ const PROMO_GROUPS = [
     ],
   },
   {
-    label: "Promo / cross-post (FR-PUB-03)",
+    label: "Promo / cross-post",
     items: [
       { kind: "social_twitter", title: "Twitter / X thread", color: "#0891B2" },
       { kind: "social_linkedin", title: "LinkedIn post", color: "#4F46E5" },
@@ -60,7 +60,7 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
 
       {/* Export & Teleprompter row */}
       <section className="card mb-5">
-        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Download className="w-4 h-4" style={{ color: "#15924B" }} /> Export (FR-PUB-01)</h2>
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Download className="w-4 h-4" style={{ color: "#15924B" }} /> Export</h2>
         <div className="flex flex-wrap gap-2">
           <CopyButton text={script.body ?? ""} label="Copy to clipboard" />
           <a href={`/api/scripts/${id}/export?format=docx`} className="btn flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Download .docx</a>
@@ -69,9 +69,9 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
         </div>
       </section>
 
-      {/* Chapter markers (FR-CHAP-01) */}
+      {/* Chapter markers */}
       <section className="card mb-5">
-        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2">YouTube chapter markers (FR-CHAP-01)</h2>
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2">YouTube chapter markers</h2>
         <div className="flex items-center gap-2 mb-2">
           {publish.chapters && <CopyButton text={publish.chapters} />}
           <form action={generateChapterMarkersAction}>

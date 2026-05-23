@@ -7,10 +7,10 @@ import { nanoid } from "nanoid";
 import { env } from "@/lib/env";
 
 // MU-14 — Users & Roles (Admin). Implements:
-//   FR-ADMIN-01 (Users page: list + add/edit role/deactivate/remove)
-//   FR-AUTH-04 (invite by email, choose role)
-//   FR-AUTH-08 (change role + revoke; revoked members lose access immediately)
-//   FR-AUTH-05 (workspace scoping of all data)
+//   (Users page: list + add/edit role/deactivate/remove)
+//   (invite by email, choose role)
+//   (change role + revoke; revoked members lose access immediately)
+//   (workspace scoping of all data)
 
 const inviteSchema = z.object({
   email: z.string().email().transform((s) => s.toLowerCase()),

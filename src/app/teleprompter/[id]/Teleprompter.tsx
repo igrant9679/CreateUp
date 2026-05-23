@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Play, Pause, Minus, Plus, RotateCcw } from "lucide-react";
 
-// FR-PUB-02 — Full-screen large-text teleprompter. Auto-scroll + speed control.
+// Full-screen large-text teleprompter. Auto-scroll + speed control.
 
 export function Teleprompter({ body }: { body: string }) {
   const [scrollSpeed, setScrollSpeed] = useState(40);   // pixels / second

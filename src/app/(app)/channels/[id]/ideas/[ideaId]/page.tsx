@@ -7,7 +7,7 @@ import { outlierBand, formatNum } from "@/lib/intel";
 import { writeIdeaToCanvasAction, updateIdeaStatusAction } from "@/app/actions/ideas";
 import { setIdeaMeritAction } from "@/app/actions/growth";
 
-// FR-IDEA-02 — Idea detail with all required fields + Write action (FR-IDEA-07).
+// Idea detail with all required fields + Write action.
 
 export default async function IdeaDetailPage({ params }: { params: Promise<{ id: string; ideaId: string }> }) {
   const { id, ideaId } = await params;
@@ -57,7 +57,7 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ id:
         </div>
       )}
 
-      {/* FR-MERIT-01 — idea merit tag */}
+      {/* idea merit tag */}
       <form action={setIdeaMeritAction} className="card mb-4 flex items-end gap-2 max-w-md">
         <input type="hidden" name="ideaId" value={idea.id} />
         <label className="flex flex-col gap-1 flex-1">

@@ -36,7 +36,7 @@
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
-/* FR-SET-01 — Dark mode. Triggered by [data-theme="dark"] OR by prefers-color-scheme
+/* Dark mode. Triggered by [data-theme="dark"] OR by prefers-color-scheme
  * if [data-theme="auto"]. Light is the default; the :root tokens above are light. */
 html[data-theme="dark"] {
   --ink: #ECEEF2; --slate: #C8CCD4; --mute: #8A93A0;
@@ -76,6 +76,17 @@ html[data-theme="dark"] body {
     background-image: none;
     color: var(--ink);
   }
+}
+
+/* Left rail + app header — light defaults, dark overrides below. Defined here so
+   theme switching works without Tailwind utility classes baking in hex colors. */
+.left-rail   { background: linear-gradient(to bottom, #ffffff, #fafbfc); }
+.app-header  { background-color: #ffffff; }
+html[data-theme="dark"] .left-rail,
+html[data-theme="dark"] .app-header { background: var(--bg) !important; background-image: none !important; }
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] .left-rail,
+  html[data-theme="auto"] .app-header { background: var(--bg) !important; background-image: none !important; }
 }
 
 /* Dark-mode swaps for the high-traffic surfaces */

@@ -1,4 +1,4 @@
-// Seeds: built-in templates (FR-TMPL-01/02), a demo workspace + admin user,
+// Seeds: built-in templates, a demo workspace + admin user,
 // a sample channel with voice/audience/ideas so the app shows real data on first run.
 
 import { PrismaClient } from "@prisma/client";

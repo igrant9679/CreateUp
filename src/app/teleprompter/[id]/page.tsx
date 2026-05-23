@@ -4,7 +4,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { Teleprompter } from "./Teleprompter";
 
-// FR-PUB-02 — Teleprompter view, full-screen large text.
+// Teleprompter view, full-screen large text.
 
 export default async function TeleprompterPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

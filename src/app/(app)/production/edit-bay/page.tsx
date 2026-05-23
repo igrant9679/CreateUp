@@ -4,7 +4,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { setProjectEditStatusAction, setProjectStatusAction } from "@/app/actions/production";
 
-// FR-PIPE-04 — Edit Bay: kanban on EditStatus.
+// Edit Bay: kanban on EditStatus.
 
 const COLUMNS = [
   { key: "assembly",    label: "Assembly",     color: "#D97706", soft: "#FBEED5" },

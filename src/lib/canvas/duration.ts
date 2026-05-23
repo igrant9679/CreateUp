@@ -1,4 +1,4 @@
-// FR-CANV-13 — Live word count and estimated spoken duration.
+// Live word count and estimated spoken duration.
 // 150 spoken words per minute is the YouTube-narrator midpoint.
 
 export const WORDS_PER_MINUTE = 150;

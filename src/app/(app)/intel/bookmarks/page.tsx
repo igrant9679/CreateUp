@@ -6,7 +6,7 @@ import { readJson } from "@/lib/db/json";
 import { outlierBand, formatNum } from "@/lib/intel";
 import { toggleBookmarkAction, updateBookmarkAction } from "@/app/actions/bookmarks";
 
-// FR-INTEL-11 — Bookmarks page. Team-shared per-workspace.
+// Bookmarks page. Team-shared per-workspace.
 
 export default async function BookmarksPage() {
   const { workspace } = await requireMembership();

@@ -3,7 +3,7 @@ import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { formatNum } from "@/lib/intel";
 
-// FR-ADMIN-04 — Usage dashboard: generations, active users, scripts created, soft-limit progress.
+// Usage dashboard: generations, active users, scripts created, soft-limit progress.
 
 export default async function AdminUsagePage() {
   const { workspace } = await requireRole("ADMIN");

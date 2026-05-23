@@ -139,7 +139,7 @@ const diffSchema = z.object({
   differentiation: z.string().min(20).max(1000),
 });
 
-/** Step 4 — differentiation. Triggers background jobs for voice/audience/ideas (FR-ONB-09). */
+/** Step 4 — differentiation. Triggers background jobs for voice/audience/ideas. */
 export async function differentiationAction(formData: FormData) {
   const parsed = diffSchema.safeParse({
     channelId: formData.get("channelId"),
@@ -153,7 +153,7 @@ export async function differentiationAction(formData: FormData) {
     data: { differentiation: parsed.data.differentiation },
   });
 
-  // Kick off the background generation jobs (FR-ONB-09). They run independently;
+  // Kick off the background generation jobs. They run independently;
   // the wizard's final step polls their status, but users can also leave and come back.
   await jobs.enqueue("onboarding.voice", { channelId: channel.id });
   await jobs.enqueue("onboarding.audience", { channelId: channel.id });

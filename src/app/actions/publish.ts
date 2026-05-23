@@ -7,16 +7,16 @@ import { llm } from "@/lib/llm";
 import { readJson, writeJson } from "@/lib/db/json";
 
 type PromoKind =
-  | "titles"           // FR-PUB-04 — title variants
-  | "hooks"            // FR-PUB-04 — opening hook variants
-  | "description"      // FR-PUB-03 — SEO video description
-  | "tags"             // FR-PUB-04 — YouTube tags
+  | "titles"           // title variants
+  | "hooks"            // opening hook variants
+  | "description"      // SEO video description
+  | "tags"             // YouTube tags
   | "social_twitter"
   | "social_linkedin"
   | "social_instagram"
   | "newsletter"
   | "blog"
-  | "shotlist";        // FR-PUB-03 — shot list / B-roll
+  | "shotlist";        // shot list / B-roll
 
 const PROMPTS: Record<PromoKind, string> = {
   titles: "Generate 6 title variations for this YouTube video. Each: <= 70 chars, distinct angle (curiosity, contrarian, specific, listicle, question, big-claim). One per line.",

@@ -56,7 +56,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   const keywords = readJson<string[]>(project.keywords, []);
 
-  // FR-TASK-02 — task grouping under projects with progress rollup
+  // task grouping under projects with progress rollup
   const tasksDone = project.tasks.filter((t) => t.status === "done").length;
   const tasksProgress = project.tasks.length > 0 ? Math.round((tasksDone / project.tasks.length) * 100) : 0;
 
@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <section className="card">
           <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Tag className="w-4 h-4" style={{ color: "#6D28D9" }} /> Strategy tags</h2>
 
-          {/* FR-MERIT */}
+          {/* */}
           <form action={setProjectMeritAction} className="flex items-end gap-2 mb-3">
             <input type="hidden" name="id" value={project.id} />
             <label className="flex flex-col gap-1 flex-1">
@@ -137,7 +137,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             </span>
           )}
 
-          {/* FR-KW */}
+          {/* */}
           <form action={setProjectKeywordsAction} className="flex flex-col gap-2">
             <input type="hidden" name="id" value={project.id} />
             <label className="flex flex-col gap-1">
@@ -150,7 +150,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
         {/* Performance */}
         <section className="card">
-          <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><BarChart3 className="w-4 h-4" style={{ color: "#2563EB" }} /> Performance (FR-PERF-01)</h2>
+          <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><BarChart3 className="w-4 h-4" style={{ color: "#2563EB" }} /> Performance</h2>
           {stat ? (
             <div className="grid grid-cols-3 gap-3 mb-3">
               <Metric label="Views" value={formatNum(stat.views)} color="#2563EB" />
@@ -167,7 +167,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           {stat && <p className="text-[10px] font-mono text-[var(--mute)] mt-2">Last synced {new Date(stat.capturedAt).toLocaleString()}</p>}
         </section>
 
-        {/* Task progress rollup (FR-TASK-02) */}
+        {/* Task progress rollup */}
         {project.tasks.length > 0 && (
           <section className="card">
             <h2 className="font-mono font-bold text-[14px] mb-3">Tasks ({tasksDone}/{project.tasks.length} done)</h2>
@@ -186,10 +186,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           </section>
         )}
 
-        {/* FR-WIKI-03 — Attach an SOP checklist as project tasks */}
+        {/* Attach an SOP checklist as project tasks */}
         {wikiDocs.length > 0 && (
           <section className="card">
-            <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><BookOpen className="w-4 h-4" style={{ color: "#4F46E5" }} /> Attach SOP checklist (FR-WIKI-03)</h2>
+            <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><BookOpen className="w-4 h-4" style={{ color: "#4F46E5" }} /> Attach SOP checklist</h2>
             <form action={attachChecklistAction} className="flex items-end gap-2">
               <input type="hidden" name="contentProjectId" value={project.id} />
               <label className="flex flex-col gap-1 flex-1">
@@ -206,7 +206,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
         {/* Repurposing */}
         <section className="card">
-          <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><GitBranch className="w-4 h-4" style={{ color: "#0D9488" }} /> Repurpose (FR-REPURP-01)</h2>
+          <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><GitBranch className="w-4 h-4" style={{ color: "#0D9488" }} /> Repurpose</h2>
           <form action={repurposeProjectAction} className="flex items-end gap-2 mb-3">
             <input type="hidden" name="parentId" value={project.id} />
             <label className="flex flex-col gap-1 flex-1">

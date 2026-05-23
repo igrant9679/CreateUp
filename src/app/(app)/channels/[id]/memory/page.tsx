@@ -3,7 +3,7 @@ import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { addMemoryEntryAction, removeMemoryEntryAction } from "@/app/actions/memory";
 
-// MU — Channel Memory. FR-CHAN-06.
+// MU — Channel Memory..
 
 export default async function ChannelMemoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

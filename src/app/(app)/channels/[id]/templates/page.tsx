@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { readJson } from "@/lib/db/json";
 import { cloneTemplateAction, deleteTemplateAction } from "@/app/actions/templates";
 
-// FR-TMPL — Templates manager. Lists built-in + custom; clone-from-video.
+// Templates manager. Lists built-in + custom; clone-from-video.
 
 export default async function ChannelTemplatesPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ focus?: string }> }) {
   const { id } = await params;
@@ -34,7 +34,7 @@ export default async function ChannelTemplatesPage({ params, searchParams }: { p
 
       {/* Clone from video(s) */}
       <form action={cloneTemplateAction} className="card mb-5">
-        <h3 className="font-mono font-bold text-[14px] mb-2 flex items-center gap-2"><Sparkles className="w-4 h-4" style={{ color: "#4F46E5" }} /> Clone a template from a video (FR-TMPL-03/04)</h3>
+        <h3 className="font-mono font-bold text-[14px] mb-2 flex items-center gap-2"><Sparkles className="w-4 h-4" style={{ color: "#4F46E5" }} /> Clone a template from a video</h3>
         <p className="text-xs text-[var(--mute)] mb-3">Paste 1 YouTube URL/handle to clone its structure, or 2-3 to synthesize a hybrid template.</p>
         <input type="hidden" name="channelId" value={id} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">

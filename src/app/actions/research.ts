@@ -7,7 +7,7 @@ import { llm } from "@/lib/llm";
 import { search } from "@/lib/search";
 import { youtube } from "@/lib/youtube";
 
-// FR-CHAT-06 / FR-RES-02..04 — Deep AI Research tool.
+// /..04 — Deep AI Research tool.
 // Multi-source: web search + (optionally) competitor YT channels + LLM synthesis.
 // Saves a referenceable report into the channel's research library.
 

@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import type { Prisma } from "@prisma/client";
 
-// FR-INTEL-05 severity bands.
+// severity bands.
 export function outlierBand(score: number | null | undefined): { color: string; soft: string; label: string } {
   const s = score ?? 0;
   if (s >= 5)  return { color: "#E5482F", soft: "#FDE7E1", label: "exceptional" };
@@ -10,12 +10,12 @@ export function outlierBand(score: number | null | undefined): { color: string; 
   return { color: "#6B7280", soft: "#F5F7FA", label: "under" };
 }
 
-// FR-INTEL-04 — flag fast-growing channels.
+// flag fast-growing channels.
 export function isFastGrowing(velocityScore: number | null | undefined): boolean {
   return (velocityScore ?? 0) >= 5;
 }
 
-// FR-INTEL-06 — views/sub high indicator.
+// views/sub high indicator.
 export function viewsPerSubBand(ratio: number | null | undefined): { color: string; soft: string; label: string } | null {
   const r = ratio ?? 0;
   if (r >= 0.5) return { color: "#15924B", soft: "#E0F2E8", label: "high" };
@@ -33,7 +33,7 @@ export type IntelSearchParams = {
 };
 
 /**
- * FR-INTEL-02 — Parse advanced query syntax embedded in the free-text q:
+ * Parse advanced query syntax embedded in the free-text q:
  *   subs:>100k  subs:<1m  velocity:>5  engagement:>0.05  views:>1m
  *   format:short  format:long  lang:en
  * Returns the cleaned text (with the tokens stripped) plus the extracted filters.
@@ -77,7 +77,7 @@ export function parseAdvancedQuery(raw: string): { cleaned: string; extra: Parti
   return { cleaned: cleaned.replace(/\s+/g, " ").trim(), extra };
 }
 
-// FR-INTEL-01/02 — natural-language search. Free text + parsed advanced tokens combine.
+// natural-language search. Free text + parsed advanced tokens combine.
 // Keywords 'channel'/'niche' bias toward channel results; otherwise videos.
 export async function searchIntel(params: IntelSearchParams) {
   // Apply advanced-syntax tokens lifted from q

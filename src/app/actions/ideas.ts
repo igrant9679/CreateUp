@@ -8,7 +8,7 @@ import { registerOnboardingJobs } from "@/lib/jobs/onboarding";
 
 registerOnboardingJobs();
 
-/** FR-IDEA-09 — On-demand regeneration of the idea pipeline. */
+/** On-demand regeneration of the idea pipeline. */
 export async function regenerateIdeasAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const { workspace } = await requireRole("EDITOR");
@@ -18,7 +18,7 @@ export async function regenerateIdeasAction(formData: FormData) {
   revalidatePath(`/channels/${channelId}/ideas`);
 }
 
-/** FR-IDEA-07 — Write action: create a Script with the idea's context pre-loaded; open Canvas. */
+/** Write action: create a Script with the idea's context pre-loaded; open Canvas. */
 export async function writeIdeaToCanvasAction(formData: FormData) {
   const ideaId = String(formData.get("ideaId"));
   const { user, workspace } = await requireRole("EDITOR");
@@ -39,7 +39,7 @@ export async function writeIdeaToCanvasAction(formData: FormData) {
       model: idea.channel.defaultModel,
     },
   });
-  // Linked Canvas chat (FR-CANV-01 — one-chat-one-script).
+  // Linked Canvas chat ( — one-chat-one-script).
   await db.chat.create({
     data: {
       channelId: idea.channelId,

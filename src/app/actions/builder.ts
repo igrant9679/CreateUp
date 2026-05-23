@@ -9,7 +9,7 @@ import { systemForScript } from "@/lib/canvas/prompts";
 import { countWords, durationSeconds, MAX_WORDS } from "@/lib/canvas/duration";
 import { RESEARCH_DEPTHS } from "@/lib/canvas/builder-const";
 
-// FR-SB-01..12 — Script Builder Classic. 10-step alternative workflow:
+//..12 — Script Builder Classic. 10-step alternative workflow:
 //   1 Research · 2 Frame · 3 Title · 4 Thumbnail · 5 Hook · 6 Payoffs · 7 Draft · 8 Edit · 9 Export · 10 Publish.
 // Each step's state lives in Script.builderSteps (JSON):
 //   { step: number, research: {depth, items: []}, frame: {…}, title: "", titleVariants: [],

@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 
-// Web search (FR-CHAT-05 quick search; FR-CHAT-06/FR-RES-02 deep AI research uses
+// Web search ( quick search;/ deep AI research uses
 // this plus the LLM router). Mock returns plausible canned results.
 
 export type SearchResult = {

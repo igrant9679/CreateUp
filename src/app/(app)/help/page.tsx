@@ -3,7 +3,7 @@ import { HelpCircle, Keyboard, Palette, Sparkles, ExternalLink } from "lucide-re
 import { setThemeAction, getTheme } from "@/app/actions/theme";
 import { HelpClient } from "./HelpClient";
 
-// FR-SET-03 — User Guide / Help center. Searchable FAQ + per-role quick starts
+// User Guide / Help center. Searchable FAQ + per-role quick starts
 // + appearance + shortcuts in one place.
 
 const QUICK_START = [
@@ -52,7 +52,7 @@ export default async function HelpPage() {
       {/* Appearance + shortcuts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         <section className="card">
-          <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Palette className="w-4 h-4" style={{ color: "#6D28D9" }} /> Appearance (FR-SET-01)</h2>
+          <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Palette className="w-4 h-4" style={{ color: "#6D28D9" }} /> Appearance</h2>
           <form action={setThemeAction} className="flex flex-col sm:flex-row gap-2 items-stretch">
             <input type="hidden" name="return" value="/help" />
             {(["light", "dark", "auto"] as const).map((t) => (

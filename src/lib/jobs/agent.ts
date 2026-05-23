@@ -7,10 +7,10 @@ import { countWords, durationSeconds, MAX_WORDS } from "@/lib/canvas/duration";
 import { systemForOutline, systemForScript, HUMANIZE_SYSTEM } from "@/lib/canvas/prompts";
 import { env } from "@/lib/env";
 
-// FR-AGENT-01..04, 06 — automated pipeline:
+//..04, 06 — automated pipeline:
 //   Research → Outline → Script → QA (retention + humanize + repetition cleanup) → VO prep.
 // Output lands in the same Script row, so all editing tools (Highlight-and-Improve,
-// Humanize, chat, version history) work on it (FR-AGENT-06).
+// Humanize, chat, version history) work on it.
 
 type Payload = { runId: string; scriptId: string };
 
@@ -196,7 +196,7 @@ export function registerAgentJobs() {
         where: { id: runId },
         data: { status: state, endedAt: new Date(), progress: state === "succeeded" ? 1 : run!.progress },
       });
-      // FR-AGENT-02 — email on completion (mocked in dev).
+      // email on completion (mocked in dev).
       if (state === "succeeded") {
         const sc = await db.script.findUnique({ where: { id: scriptId }, include: { channel: true, author: true } });
         if (sc?.author?.email) {

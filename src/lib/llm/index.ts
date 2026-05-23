@@ -6,7 +6,7 @@ import { createGoogleProvider } from "./google";
 import { MODELS, getModel } from "./models";
 import { getApiKey, invalidateKeyCache } from "./keys";
 
-// Routing layer (FR-MODEL-04). Application code uses llm.complete() / llm.stream()
+// Routing layer. Application code uses llm.complete() / llm.stream()
 // and never imports a concrete provider. Real providers are wrapped so a network /
 // auth / quota / timeout failure transparently falls back to the mock — the app keeps
 // working even when an upstream LLM is misconfigured.

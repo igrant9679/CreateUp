@@ -10,7 +10,7 @@ import { readJson, writeJson } from "@/lib/db/json";
 
 type Concept = { id: string; label: string; description: string; url: string };
 
-/** FR-THUMB-01 — Brainstorm: 4 concept sketches from title (+ optional topic). */
+/** Brainstorm: 4 concept sketches from title (+ optional topic). */
 export async function brainstormThumbnailsAction(formData: FormData) {
   const { workspace, user } = await requireRole("EDITOR");
   const channelId = String(formData.get("channelId"));
@@ -72,7 +72,7 @@ LABELs should cover 4 proven formats: 1) Face + reaction, 2) Object + tight crop
   redirect(`/thumbnails/${thumb.id}`);
 }
 
-/** FR-THUMB-02 — Render a publish-ready thumbnail from a selected concept. */
+/** Render a publish-ready thumbnail from a selected concept. */
 export async function renderThumbnailAction(formData: FormData) {
   const thumbId = String(formData.get("thumbnailId"));
   const conceptId = String(formData.get("conceptId"));
@@ -105,7 +105,7 @@ const cloneSchema = z.object({
   referenceUrl: z.string().min(1).max(2000),
 });
 
-/** FR-THUMB-03 — Clone/Remix: analyze a reference and render in that style. */
+/** Clone/Remix: analyze a reference and render in that style. */
 export async function cloneThumbnailAction(formData: FormData) {
   const parsed = cloneSchema.safeParse({
     channelId: formData.get("channelId"),

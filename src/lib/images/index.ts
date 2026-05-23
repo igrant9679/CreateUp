@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 
-// Image generation interface. Used for FR-THUMB (thumbnails) and FR-AUD-03
+// Image generation interface. Used for (thumbnails) and
 // (audience photos). Mock mode returns a deterministic placeholder URL.
 
 export type ImageGenRequest = {

@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import type { Role } from "@prisma/client";
 
-// Per FR-AUTH-05 / FR-AUTH-08 / NFR-SEC-01: enforce role + workspace scoping
+// Per / / N: enforce role + workspace scoping
 // server-side on every endpoint. Helpers below are the only way the app
 // resolves "who is the current user, what workspace, what role."
 

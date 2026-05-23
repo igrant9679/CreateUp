@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { storage } from "@/lib/storage";
 import { llm } from "@/lib/llm";
 
-// FR-CHAT-07 / FR-CANV-08 — Upload a file (≤ 10MB) and add it as research / context.
+// / — Upload a file (≤ 10MB) and add it as research / context.
 // Accepts PDF, Word (.doc/.docx), text (.txt/.md/.json/.csv) and images (.jpg/.png/.gif/.webp).
 
 const MAX_BYTES = 10 * 1024 * 1024;
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
   }
   if (!channelId) return NextResponse.json({ error: "no channel context" }, { status: 400 });
 
-  // Persist as a ResearchSource (FR-RES-01) and (optionally) attach to the chat context.
+  // Persist as a ResearchSource and (optionally) attach to the chat context.
   const research = await db.researchSource.create({
     data: {
       channelId,

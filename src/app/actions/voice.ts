@@ -8,7 +8,7 @@ import { readJson, writeJson } from "@/lib/db/json";
 import { llm } from "@/lib/llm";
 import { youtube } from "@/lib/youtube";
 
-// ── FR-VOICE-05 — Writing samples ──────────────────────────────────────
+// ── — Writing samples ──────────────────────────────────────
 
 const MAX_SAMPLE_CHARS = 50_000;
 
@@ -45,7 +45,7 @@ export async function removeVoiceSampleAction(formData: FormData) {
   revalidatePath(`/channels/${profile.channelId}/voice`);
 }
 
-// ── FR-VOICE-06 — Borrow-a-voice from another channel ──────────────────
+// ── — Borrow-a-voice from another channel ──────────────────
 
 export async function borrowVoiceAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
@@ -96,7 +96,7 @@ export async function borrowVoiceAction(formData: FormData) {
   redirect(`/channels/${channelId}/voice?profile=${profile.id}`);
 }
 
-// ── FR-VOICE-07 — Multiple voice profiles per channel ──────────────────
+// ── — Multiple voice profiles per channel ──────────────────
 
 export async function createVoiceProfileAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
@@ -161,7 +161,7 @@ export async function setScriptVoiceAction(formData: FormData) {
   revalidatePath(`/scripts/${scriptId}`);
 }
 
-/** FR-VOICE-03 — Simple mode: tweak the voice with natural-language instructions. */
+/** Simple mode: tweak the voice with natural-language instructions. */
 export async function refineVoiceSimpleAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const voiceId = String(formData.get("voiceId"));
@@ -193,7 +193,7 @@ export async function refineVoiceSimpleAction(formData: FormData) {
   revalidatePath(`/channels/${channelId}/voice`);
 }
 
-/** FR-VOICE-04 — Advanced mode: persist the full structured edit. */
+/** Advanced mode: persist the full structured edit. */
 export async function updateVoiceAdvancedAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const voiceId = String(formData.get("voiceId"));
@@ -215,7 +215,7 @@ export async function updateVoiceAdvancedAction(formData: FormData) {
   revalidatePath(`/channels/${channelId}/voice`);
 }
 
-/** FR-VOICE-08 — Instant, free voice preview. Stored on the profile so the page can show it. */
+/** Instant, free voice preview. Stored on the profile so the page can show it. */
 export async function generateVoicePreviewAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const voiceId = String(formData.get("voiceId"));

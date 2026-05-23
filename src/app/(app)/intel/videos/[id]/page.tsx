@@ -8,7 +8,7 @@ import { toggleBookmarkAction } from "@/app/actions/bookmarks";
 import { chatWithEntityAction } from "@/app/actions/intel";
 import { MessageCircle } from "lucide-react";
 
-// FR-INTEL-08 — Video detail view: views/engagement, outlier, views/sub, title, thumbnail.
+// Video detail view: views/engagement, outlier, views/sub, title, thumbnail.
 
 export default async function IntelVideoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -60,7 +60,7 @@ export default async function IntelVideoPage({ params }: { params: Promise<{ id:
           <Stat icon={<MessageSquare className="w-4 h-4" />} label="Comments" value={formatNum(video.comments)} color="#D97706" soft="#FBEED5" />
 
           <div className="card">
-            <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)] mb-1">Outlier score (FR-INTEL-05)</div>
+            <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)] mb-1">Outlier score</div>
             <div className="font-mono font-bold text-2xl flex items-center gap-2" style={{ color: band.color }}>
               {video.outlierScore?.toFixed(1)}x
               <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: band.soft, color: band.color }}>{band.label}</span>
@@ -89,7 +89,7 @@ export default async function IntelVideoPage({ params }: { params: Promise<{ id:
           <form action={chatWithEntityAction}>
             <input type="hidden" name="kind" value="video" />
             <input type="hidden" name="entityId" value={video.id} />
-            <button type="submit" className="btn w-full flex items-center justify-center gap-2" title="Open a chat scoped to this video (FR-INTEL-10)">
+            <button type="submit" className="btn w-full flex items-center justify-center gap-2" title="Open a chat scoped to this video">
               <MessageCircle className="w-4 h-4" /> Chat with video
             </button>
           </form>

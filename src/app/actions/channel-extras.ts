@@ -10,7 +10,7 @@ import { registerOnboardingJobs } from "@/lib/jobs/onboarding";
 
 registerOnboardingJobs();
 
-// FR-CHAN-05 — Relink / change the linked YouTube channel; re-trains voice + audience.
+// Relink / change the linked YouTube channel; re-trains voice + audience.
 export async function relinkYoutubeAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const handle = String(formData.get("handle") ?? "").trim();
@@ -38,7 +38,7 @@ export async function relinkYoutubeAction(formData: FormData) {
   revalidatePath(`/channels/${channelId}/audience`);
 }
 
-// FR-CHAN-08 — Mark channel as a business/brand channel.
+// Mark channel as a business/brand channel.
 export async function setBusinessChannelAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const business = String(formData.get("business") ?? "") === "1";

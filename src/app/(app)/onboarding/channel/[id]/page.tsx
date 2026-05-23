@@ -36,11 +36,11 @@ export default async function OnboardingChannelPage({
   redirect(`/onboarding/channel/${channel.id}?step=2`);
 }
 
-// ── Step 2 — YouTube path lookup (FR-ONB-04) ───────────────────────────────
+// ── Step 2 — YouTube path lookup ───────────────────────────────
 function StepTwoYouTube({ channelId, error }: { channelId: string; error?: string }) {
   return (
     <div className="max-w-2xl mx-auto">
-      <StepHeader step={2} total={5} title="Link your YouTube channel" subtitle="Paste your channel URL or @handle — no YouTube login needed. (FR-ONB-04)" />
+      <StepHeader step={2} total={5} title="Link your YouTube channel" subtitle="Paste your channel URL or @handle — no YouTube login needed." />
       <form action={lookupYoutubeAction} className="card flex flex-col gap-4 mt-5">
         <input type="hidden" name="channelId" value={channelId} />
         {error === "notfound" && <p className="text-sm text-[var(--brand)]">No channel found for that handle.</p>}
@@ -59,11 +59,11 @@ function StepTwoYouTube({ channelId, error }: { channelId: string; error?: strin
   );
 }
 
-// ── Step 2 — Custom path (FR-ONB-05) ───────────────────────────────────────
+// ── Step 2 — Custom path ───────────────────────────────────────
 function StepTwoCustom({ channelId, error }: { channelId: string; error?: string }) {
   return (
     <div className="max-w-2xl mx-auto">
-      <StepHeader step={2} total={5} title="Describe your new channel" subtitle="No videos yet? Give us a name and detailed niche description. (FR-ONB-05)" />
+      <StepHeader step={2} total={5} title="Describe your new channel" subtitle="No videos yet? Give us a name and detailed niche description." />
       <form action={customChannelAction} className="card flex flex-col gap-4 mt-5">
         <input type="hidden" name="channelId" value={channelId} />
         {error && <p className="text-sm text-[var(--brand)]">Name (2+ chars) and description (20+ chars) are required.</p>}
@@ -84,7 +84,7 @@ function StepTwoCustom({ channelId, error }: { channelId: string; error?: string
   );
 }
 
-// ── Step 3 — Competitors (FR-ONB-06 / FR-CHAN-07) ──────────────────────────
+// ── Step 3 — Competitors ──────────────────────────
 async function StepThreeCompetitors({ channel, path, error }: { channel: { id: string; nicheDescription: string | null }; path: string; error?: string }) {
   // AI-suggest a couple of competitor handles in the same niche (mock-friendly).
   const suggestions = await youtube.searchChannels(channel.nicheDescription?.split(/\s+/)[0] ?? "creator", 4);
@@ -92,7 +92,7 @@ async function StepThreeCompetitors({ channel, path, error }: { channel: { id: s
 
   return (
     <div className="max-w-2xl mx-auto">
-      <StepHeader step={3} total={5} title="Pick competitors & inspirations" subtitle="3–5 channels in your niche. Optional — you can skip and add later. (FR-ONB-06)" />
+      <StepHeader step={3} total={5} title="Pick competitors & inspirations" subtitle="3–5 channels in your niche. Optional — you can skip and add later." />
       <form action={saveCompetitorsAction} className="card flex flex-col gap-4 mt-5">
         <input type="hidden" name="channelId" value={channel.id} />
         <input type="hidden" name="path" value={path} />
@@ -118,11 +118,11 @@ async function StepThreeCompetitors({ channel, path, error }: { channel: { id: s
   );
 }
 
-// ── Step 4 — Differentiation (FR-ONB-07) ───────────────────────────────────
+// ── Step 4 — Differentiation ───────────────────────────────────
 function StepFourDifferentiation({ channelId, error }: { channelId: string; error?: string }) {
   return (
     <div className="max-w-2xl mx-auto">
-      <StepHeader step={4} total={5} title="What makes you different?" subtitle="A short differentiation statement (≥ 20 chars) shapes everything we generate next. (FR-ONB-07)" />
+      <StepHeader step={4} total={5} title="What makes you different?" subtitle="A short differentiation statement (≥ 20 chars) shapes everything we generate next." />
       <form action={differentiationAction} className="card flex flex-col gap-4 mt-5">
         <input type="hidden" name="channelId" value={channelId} />
         {error && <p className="text-sm text-[var(--brand)]">Must be at least 20 characters.</p>}
@@ -138,7 +138,7 @@ function StepFourDifferentiation({ channelId, error }: { channelId: string; erro
   );
 }
 
-// ── Step 5 — Preview + background generation status (FR-ONB-08/09/10) ──────
+// ── Step 5 — Preview + background generation status (/10) ──────
 async function StepFivePreview({ channelId }: { channelId: string }) {
   const channel = await db.channel.findUnique({
     where: { id: channelId },
@@ -157,7 +157,7 @@ async function StepFivePreview({ channelId }: { channelId: string }) {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <StepHeader step={5} total={5} title="Preview — and start scripting" subtitle="You can leave this page; generation continues in the background. (FR-ONB-09/10)" />
+      <StepHeader step={5} total={5} title="Preview — and start scripting" subtitle="You can leave this page; generation continues in the background." />
 
       <div className="grid grid-cols-3 gap-3 mt-5">
         <StatusCard label="Voice profile" ready={ready.voice} />
@@ -230,7 +230,7 @@ function StatusCard({ label, ready }: { label: string; ready: boolean }) {
 
 function RefreshScript({ ready }: { ready: boolean }) {
   if (ready) return null;
-  // Auto-refresh the page while jobs are running (FR-ONB-10), but cap at 90 seconds
+  // Auto-refresh the page while jobs are running, but cap at 90 seconds
   // so a stuck job can never trap the user in a refresh loop.
   return (
     <script

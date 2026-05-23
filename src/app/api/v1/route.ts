@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// FR-PLAT-01 — Minimal API surface so external clients (incl. MCP servers) can drive
+// Minimal API surface so external clients (incl. MCP servers) can drive
 // CreateUp. v1 is read-only and exposes channels/scripts/ideas for the authenticated workspace.
 // Authentication: pass `?token=<inviteToken>` where the token is bound to an admin invitation
 // of the workspace, OR rely on the session cookie when called from a browser.

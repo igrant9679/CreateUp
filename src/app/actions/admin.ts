@@ -5,7 +5,7 @@ import { z } from "zod";
 import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 
-// FR-ADMIN-02 — Workspace settings: name, default channel, default model/language.
+// Workspace settings: name, default channel, default model/language.
 const settingsSchema = z.object({
   name: z.string().min(1).max(120),
   defaultChannelId: z.string().max(80).optional(),
@@ -34,7 +34,7 @@ export async function updateWorkspaceSettingsAction(formData: FormData) {
   revalidatePath("/admin/settings");
 }
 
-// FR-ADMIN-03 — Optional soft usage limits (operational guards, never paid).
+// Optional soft usage limits (operational guards, never paid).
 const limitsSchema = z.object({
   scriptsPerUserMonth:    z.coerce.number().int().min(0).optional(),
   thumbnailsPerUserMonth: z.coerce.number().int().min(0).optional(),
@@ -64,7 +64,7 @@ export async function updateSoftLimitsAction(formData: FormData) {
   revalidatePath("/admin/limits");
 }
 
-// FR-ADMIN-05 — Reassign channel ownership across workspaces? In this build all channels
+// Reassign channel ownership across workspaces? In this build all channels
 // live inside the admin's workspace, so "reassign" reads as transfer to another active member
 // (records who created it via the most recent script author). We expose a simple "set channel
 // default model/language" surface here as an admin-only mass action.

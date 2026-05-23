@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // FR-SET-01 — Light/Dark/Auto theme. The cookie-set value drives a class on <html>;
+  // Light/Dark/Auto theme. The cookie-set value drives a class on <html>;
   // CSS handles the actual palette swap in globals.css.
   const theme = await getTheme();
   return (

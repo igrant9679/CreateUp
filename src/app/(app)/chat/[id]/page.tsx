@@ -7,7 +7,7 @@ import { postMessageAction, addChatContextAction } from "@/app/actions/chat";
 import { UploadButton } from "@/components/UploadButton";
 import { PromptLibrary } from "@/components/PromptLibrary";
 
-// Chat thread (MU-07). FR-CHAT-02/03/11 — messages with channel context.
+// Chat thread (MU-07)./11 — messages with channel context.
 
 export default async function ChatThreadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -106,7 +106,7 @@ export default async function ChatThreadPage({ params }: { params: Promise<{ id:
           </h2>
 
           {chat.contextItems.length === 0 && (
-            <p className="text-xs text-[var(--mute)] mb-3">Attach YouTube URLs, web pages, or pasted text — they condition every reply (FR-CHAT-02/03).</p>
+            <p className="text-xs text-[var(--mute)] mb-3">Attach YouTube URLs, web pages, or pasted text — they condition every reply.</p>
           )}
 
           <ul className="m-0 p-0 mb-3">
@@ -136,7 +136,7 @@ export default async function ChatThreadPage({ params }: { params: Promise<{ id:
 
         <section className="card">
           <h2 className="font-mono text-[14px] font-bold mb-2">Tip</h2>
-          <p className="text-xs text-[var(--mute)]">Type <span className="font-mono bg-[var(--zebra)] px-1 rounded">turn this into a script</span> to spin up a Canvas with the conversation as context (FR-CHAT-10).</p>
+          <p className="text-xs text-[var(--mute)]">Type <span className="font-mono bg-[var(--zebra)] px-1 rounded">turn this into a script</span> to spin up a Canvas with the conversation as context.</p>
         </section>
       </aside>
     </div>

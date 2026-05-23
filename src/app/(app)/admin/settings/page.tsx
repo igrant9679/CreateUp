@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { MODELS } from "@/lib/llm/models";
 import { updateWorkspaceSettingsAction } from "@/app/actions/admin";
 
-// FR-ADMIN-02 — Workspace settings: name, default channel, default AI model/language.
+// Workspace settings: name, default channel, default AI model/language.
 
 const LANGS = ["en", "es", "fr", "de", "it", "pt", "nl", "sv", "da", "fi", "no", "pl", "cs", "ro", "tr", "el", "ru", "uk", "ar", "hi", "bn", "ja", "ko", "zh", "th", "vi", "id", "ms"];
 
@@ -46,7 +46,7 @@ export default async function AdminSettingsPage() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Default language (FR-I18N-01)</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Default language (18N-01)</span>
           <select name="defaultLanguage" defaultValue={workspace.defaultLanguage ?? "en"} className="border border-[var(--line-2)] rounded-lg p-2 text-sm">
             {LANGS.map((l) => (<option key={l} value={l}>{l}</option>))}
           </select>

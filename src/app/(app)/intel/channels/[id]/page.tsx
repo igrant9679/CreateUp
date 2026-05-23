@@ -8,7 +8,7 @@ import { toggleBookmarkAction } from "@/app/actions/bookmarks";
 import { findSimilarChannelsAction, chatWithEntityAction } from "@/app/actions/intel";
 import { MessageCircle, GitBranch } from "lucide-react";
 
-// FR-INTEL-07 — Channel detail view: subscriber/growth trends, total & average views,
+// Channel detail view: subscriber/growth trends, total & average views,
 // upload frequency/consistency, top videos sortable by views/outlier, and outlier list.
 
 export default async function IntelChannelPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ sort?: string }> }) {
@@ -62,13 +62,13 @@ export default async function IntelChannelPage({ params, searchParams }: { param
           <form action={chatWithEntityAction}>
             <input type="hidden" name="kind" value="channel" />
             <input type="hidden" name="entityId" value={channel.id} />
-            <button type="submit" className="btn flex items-center gap-2" title="Open a chat scoped to this channel (FR-INTEL-10)">
+            <button type="submit" className="btn flex items-center gap-2" title="Open a chat scoped to this channel">
               <MessageCircle className="w-4 h-4" /> Chat with channel
             </button>
           </form>
           <form action={findSimilarChannelsAction}>
             <input type="hidden" name="intelChannelId" value={channel.id} />
-            <button type="submit" className="btn flex items-center gap-2" title="Find similar channels in this niche (FR-INTEL-09)">
+            <button type="submit" className="btn flex items-center gap-2" title="Find similar channels in this niche">
               <GitBranch className="w-4 h-4" /> Find similar
             </button>
           </form>

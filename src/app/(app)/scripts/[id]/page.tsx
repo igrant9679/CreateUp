@@ -21,7 +21,7 @@ import {
   updateScriptSettingsAction,
 } from "@/app/actions/canvas";
 
-// MU-04 — Script Canvas. Implements FR-CANV-01..15 (15 [Must] items).
+// MU-04 — Script Canvas. Implements..15 (15 [Must] items).
 
 export default async function CanvasPage({
   params,
@@ -56,7 +56,7 @@ export default async function CanvasPage({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-4 h-[calc(100vh-120px)]">
-      {/* LEFT: Chat pane (FR-CANV-02) */}
+      {/* LEFT: Chat pane */}
       <aside className="card flex flex-col p-0 overflow-hidden h-full">
         <div className="px-4 py-3 border-b border-[var(--line)] flex items-center gap-2">
           <span className="w-7 h-7 rounded-lg grid place-items-center" style={{ background: "#EDE7FB", color: "#6D28D9" }}><MessageCircle className="w-4 h-4" /></span>
@@ -90,9 +90,9 @@ export default async function CanvasPage({
         <div className="px-5 py-3 border-b border-[var(--line)] flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <Link href={`/channels/${script.channelId}/scripts`} className="text-xs font-mono text-[var(--mute)] hover:text-[var(--accent)] flex items-center gap-1"><ArrowLeft className="w-3 h-3" /> {script.channel.name}</Link>
-            <Link href={`/scripts/${script.id}/builder`} className="text-xs font-mono text-[var(--mute)] hover:text-[var(--accent)] flex items-center gap-1" title="Switch to the 10-step Script Builder (FR-SB)">Builder mode →</Link>
+            <Link href={`/scripts/${script.id}/builder`} className="text-xs font-mono text-[var(--mute)] hover:text-[var(--accent)] flex items-center gap-1" title="Switch to the 10-step Script Builder">Builder mode →</Link>
             <span className="flex-1" />
-            {/* FR-AGENT-01 — Launch agent. Disabled while a run is in flight. */}
+            {/* Launch agent. Disabled while a run is in flight. */}
             {(() => {
               const latest = script.agentRuns[0];
               const inFlight = latest && (latest.status === "queued" || latest.status === "running");
@@ -111,23 +111,23 @@ export default async function CanvasPage({
                 Publish →
               </Link>
             )}
-            {/* FR-AGENT-05 — Optional video production add-on (TTS/avatar/render). Mock until provider keys are wired. */}
+            {/* Optional video production add-on (TTS/avatar/render). Mock until provider keys are wired. */}
             {script.body && (
               <form action={launchVideoProductionAction} title="Optional video production pipeline (TTS + avatar + render)">
                 <input type="hidden" name="scriptId" value={script.id} />
                 <button type="submit" className="btn sm">▶ Produce video</button>
               </form>
             )}
-            {/* FR-PIPE-01 — promote into a tracked Content Project */}
+            {/* promote into a tracked Content Project */}
             <form action={promoteScriptAction}>
               <input type="hidden" name="scriptId" value={script.id} />
               <button type="submit" className="btn sm" title="Track this script in the production pipeline">Track in production →</button>
             </form>
-            {/* FR-CANV-12 — Start Over with warning */}
+            {/* Start Over with warning */}
             <StartOverButton scriptId={script.id} hasBody={!!script.body} />
           </div>
 
-          {/* Title + model + template (FR-CANV-06/07) */}
+          {/* Title + model + template */}
           <form action={updateScriptSettingsAction} className="flex flex-wrap items-center gap-2">
             <input type="hidden" name="scriptId" value={script.id} />
             <Type className="w-4 h-4 text-[var(--mute)]" />
@@ -163,7 +163,7 @@ export default async function CanvasPage({
             <button type="submit" className="btn sm">Save</button>
           </form>
 
-          {/* Tabs (FR-CANV-05) */}
+          {/* Tabs */}
           <div className="flex items-center gap-1 mt-1">
             <TabLink href={`/scripts/${script.id}?tab=plan`} active={activeTab === "plan"} icon={<ListTree className="w-3.5 h-3.5" />}>Plan</TabLink>
             <TabLink href={`/scripts/${script.id}?tab=script`} active={activeTab === "script"} icon={<FileText className="w-3.5 h-3.5" />}>Script</TabLink>
@@ -192,7 +192,7 @@ export default async function CanvasPage({
           )}
         </div>
 
-        {/* Versions footer (FR-CANV-14 partial) */}
+        {/* Versions footer ( partial) */}
         {script.versions.length > 0 && (
           <details className="border-t border-[var(--line)] px-5 py-2">
             <summary className="text-xs font-mono text-[var(--mute)] cursor-pointer flex items-center gap-1.5"><History className="w-3.5 h-3.5" /> Version snapshots ({script.versions.length})</summary>
@@ -227,7 +227,7 @@ function TabLink({ href, active, icon, children }: { href: string; active: boole
 function PlanTab({ script }: { script: { id: string; outline: { questions?: Record<string, string>; markdown?: string } } }) {
   return (
     <div className="flex flex-col gap-4 max-w-3xl">
-      {/* Planning questions (FR-CANV-03) */}
+      {/* Planning questions */}
       <form action={savePlanQuestionsAction} className="card">
         <h3 className="font-mono font-bold text-[15px] mb-3 flex items-center gap-2"><ListTree className="w-4 h-4" style={{ color: "var(--accent)" }} /> Planning questions</h3>
         <input type="hidden" name="scriptId" value={script.id} />

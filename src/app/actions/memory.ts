@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 
-// FR-CHAN-06 — Channel Memory: durable facts/preferences the AI auto-applies
+// Channel Memory: durable facts/preferences the AI auto-applies
 // across every script in the channel.
 
 export async function addMemoryEntryAction(formData: FormData) {

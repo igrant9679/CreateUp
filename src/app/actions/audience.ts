@@ -10,7 +10,7 @@ import { images } from "@/lib/images";
 
 registerOnboardingJobs();
 
-/** FR-AUD-04 — Edit any section of the avatar manually. */
+/** Edit any section of the avatar manually. */
 export async function updateAudienceSectionAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const section = String(formData.get("section"));
@@ -37,7 +37,7 @@ export async function updateAudienceSectionAction(formData: FormData) {
   revalidatePath(`/channels/${channelId}/audience`);
 }
 
-/** FR-AUD-04 — Fully refresh from latest YouTube data (overwrite, with confirmation). */
+/** Fully refresh from latest YouTube data (overwrite, with confirmation). */
 export async function refreshAudienceAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const { workspace } = await requireRole("EDITOR");
@@ -47,7 +47,7 @@ export async function refreshAudienceAction(formData: FormData) {
   revalidatePath(`/channels/${channelId}/audience`);
 }
 
-/** FR-AUD-03 — Generate a representative audience photo. */
+/** Generate a representative audience photo. */
 export async function generateAudiencePhotoAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
   const { workspace } = await requireRole("EDITOR");

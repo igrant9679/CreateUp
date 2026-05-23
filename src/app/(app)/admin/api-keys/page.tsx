@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { KeyRound, CheckCircle2, AlertCircle, ExternalLink } from "lucide-react";
+import { KeyRound, CheckCircle2, ExternalLink } from "lucide-react";
 import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { saveApiKeyAction } from "@/app/actions/api-keys";
 
-// FR-MODEL-01 — In-app API key management. Admins can paste provider keys here
+// In-app API key management. Admins can paste provider keys here
 // instead of editing Railway env vars. DB-stored keys override env vars; env vars
 // remain the fallback so existing deployments keep working.
 
@@ -69,7 +69,7 @@ export default async function ApiKeysPage({ searchParams }: { searchParams: Prom
       {ROWS.map((row) => {
         const dbVal = byKey.get(`api_key:${row.provider}`) ?? "";
         const resolved = dbVal || row.envValue;
-        const source = dbVal ? "db" : row.envValue ? "env" : "none";
+        const hasKey = Boolean(resolved);
         return (
           <form key={row.provider} action={saveApiKeyAction} className="card mb-3">
             <input type="hidden" name="provider" value={row.provider} />
@@ -77,9 +77,11 @@ export default async function ApiKeysPage({ searchParams }: { searchParams: Prom
               <div className="flex-1">
                 <div className="font-mono font-bold text-sm flex items-center gap-2">
                   {row.label}
-                  {source === "db"   && <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: "var(--green-soft)", color: "var(--green)" }}>DB</span>}
-                  {source === "env"  && <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: "var(--zebra)", color: "var(--mute)" }}>ENV</span>}
-                  {source === "none" && <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded flex items-center gap-1" style={{ background: "#FEF3C7", color: "#D97706" }}><AlertCircle className="w-3 h-3" /> mock</span>}
+                  {hasKey && (
+                    <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded flex items-center gap-1" style={{ background: "var(--green-soft)", color: "var(--green)" }}>
+                      <CheckCircle2 className="w-3 h-3" /> active
+                    </span>
+                  )}
                 </div>
                 <div className="text-[11px] text-[var(--mute)] font-mono mt-0.5">{row.envVar}</div>
                 {resolved && <div className="text-[11px] font-mono text-[var(--mute)] mt-0.5">Current: {mask(resolved)}</div>}

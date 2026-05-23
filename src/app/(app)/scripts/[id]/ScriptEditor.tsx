@@ -5,7 +5,7 @@ import { Wand2, Sparkles, Save } from "lucide-react";
 import { saveBodyAction, improveSelectionAction, humanizeAction } from "@/app/actions/canvas";
 import { countWords, durationSeconds, formatDuration, MAX_WORDS } from "@/lib/canvas/duration";
 
-// FR-CANV-09 + FR-CANV-10 + FR-CANV-11 + FR-CANV-13 — editing surface.
+// + + + — editing surface.
 // Autosaves on debounce, shows live wordcount + duration, exposes Highlight-and-Improve.
 
 export function ScriptEditor({ scriptId, initialBody }: { scriptId: string; initialBody: string }) {

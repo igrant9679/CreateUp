@@ -6,7 +6,7 @@ import { readJson, writeJson } from "@/lib/db/json";
 import { countWords, durationSeconds, MAX_WORDS } from "@/lib/canvas/duration";
 import { systemForOutline, systemForScript } from "@/lib/canvas/prompts";
 
-// FR-CANV-04 — streaming script (or outline) generation via Server-Sent Events.
+// streaming script (or outline) generation via Server-Sent Events.
 // GET /api/scripts/[id]/generate?stage=outline|script
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

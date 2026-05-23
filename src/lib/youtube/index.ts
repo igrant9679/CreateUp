@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 
-// YouTube data interface. Used by Intel, onboarding (FR-ONB-04), voice training,
+// YouTube data interface. Used by Intel, onboarding, voice training,
 // chat URL analysis, etc. Mock mode returns plausible fake channels/videos.
 
 export type YTChannelSummary = {

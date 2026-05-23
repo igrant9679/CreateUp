@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { createAssetAction, toggleAssetFavoriteAction } from "@/app/actions/production";
 import { importMarkersAction } from "@/app/actions/final-pass";
 
-// FR-ASSET-01/03 — centralized B-roll/shot list library; favorites; channel scope.
+// centralized B-roll/shot list library; favorites; channel scope.
 
 export default async function AssetsPage({ searchParams }: { searchParams: Promise<{ q?: string; favs?: string; channelId?: string }> }) {
   const { workspace } = await requireMembership();
@@ -49,9 +49,9 @@ export default async function AssetsPage({ searchParams }: { searchParams: Promi
         <button type="submit" className="btn sm">Filter</button>
       </form>
 
-      {/* FR-ASSET-02 — import markers from external tools */}
+      {/* import markers from external tools */}
       <details className="card mb-3">
-        <summary className="text-sm font-mono uppercase tracking-wider text-[var(--mute)] cursor-pointer flex items-center gap-2"><Upload className="w-3.5 h-3.5" /> Import shot list / markers (FR-ASSET-02)</summary>
+        <summary className="text-sm font-mono uppercase tracking-wider text-[var(--mute)] cursor-pointer flex items-center gap-2"><Upload className="w-3.5 h-3.5" /> Import shot list / markers</summary>
         <form action={importMarkersAction} className="flex flex-col gap-2 mt-3">
           <div className="flex items-end gap-2">
             <label className="flex flex-col gap-1">

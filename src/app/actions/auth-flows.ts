@@ -8,7 +8,7 @@ import { db } from "@/lib/db";
 import { email } from "@/lib/email";
 import { env } from "@/lib/env";
 
-// FR-AUTH-09 — Password reset, email verification, secure session management,
+// Password reset, email verification, secure session management,
 // per-user activity attribution.
 //
 // We piggyback on the VerificationToken table that Auth.js already provisions.

@@ -4,7 +4,7 @@ import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { transferChannelOwnershipAction } from "@/app/actions/admin";
 
-// FR-ADMIN-05 — Admins can reassign / manage channels. v1: tweak accent color, see
+// Admins can reassign / manage channels. v1: tweak accent color, see
 // linkage to scripts / projects / submissions. Full ownership transfer (between workspaces)
 // is out of scope since channels are workspace-scoped by design.
 

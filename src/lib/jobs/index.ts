@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 
-// Background-job interface (FR-AGENT, FR-ONB-09, FR-INTEL-12 indexing).
+// Background-job interface (agents, onboarding, indexing).
 // In-memory implementation for local dev. Swap to BullMQ+Redis when
 // JOB_BACKEND=redis and REDIS_URL is provided.
 

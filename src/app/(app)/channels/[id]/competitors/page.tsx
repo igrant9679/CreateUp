@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { readJson } from "@/lib/db/json";
 import { addCompetitorAction, removeCompetitorAction } from "@/app/actions/competitors";
 
-// FR-CHAN-07 — Add/search/remove tracked competitor channels.
+// Add/search/remove tracked competitor channels.
 
 export default async function ChannelCompetitorsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

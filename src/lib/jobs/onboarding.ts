@@ -4,10 +4,10 @@ import { youtube } from "@/lib/youtube";
 import { llm } from "@/lib/llm";
 import { writeJson } from "@/lib/db/json";
 
-// Onboarding background jobs (FR-ONB-09).
-//   • voice    — trains a VoiceProfile from the channel's top videos (FR-VOICE-01/02).
-//   • audience — generates an AudienceAvatar (FR-AUD-01/02).
-//   • ideas    — produces 10 starter ideas based on outlier competitor videos (FR-IDEA-01).
+// Onboarding background jobs.
+//   • voice    — trains a VoiceProfile from the channel's top videos.
+//   • audience — generates an AudienceAvatar.
+//   • ideas    — produces 10 starter ideas based on outlier competitor videos.
 //
 // In mock mode these all run in-process within ~2-3 seconds and use the mock LLM/YouTube
 // providers, which behave like the real thing from the app's POV. With real providers wired
@@ -129,7 +129,7 @@ export function registerOnboardingJobs() {
     });
     if (!channel) return;
 
-    // FR-PERF-02 — surface own-channel perf trends into idea generation.
+    // surface own-channel perf trends into idea generation.
     let perfHint = "";
     if (channel.channelStats.length > 0) {
       const top = channel.channelStats.slice(0, 5);

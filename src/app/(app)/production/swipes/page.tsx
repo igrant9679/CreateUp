@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { createSwipeAction, removeSwipeAction } from "@/app/actions/production";
 import { clipSwipeAction } from "@/app/actions/final-pass";
 
-// FR-SWIPE-01 — Visual swipe library (thumbnails / set design / landing pages).
+// Visual swipe library (thumbnails / set design / landing pages).
 
 export default async function SwipesPage({ searchParams }: { searchParams: Promise<{ kind?: string }> }) {
   const { workspace } = await requireMembership();
@@ -33,11 +33,11 @@ export default async function SwipesPage({ searchParams }: { searchParams: Promi
         ))}
       </div>
 
-      {/* FR-SWIPE-02 — Clipper: paste any URL, we extract the image. FR-SWIPE-03 — YouTube thumbnails auto-captured. */}
+      {/* Clipper: paste any URL, we extract the image. — YouTube thumbnails auto-captured. */}
       <form action={clipSwipeAction} className="card flex items-end gap-2 mb-3">
         <LinkIcon className="w-4 h-4" style={{ color: "#DB2777" }} />
         <label className="flex-1 flex flex-col gap-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Clip a URL (FR-SWIPE-02/03)</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Clip a URL</span>
           <input name="url" required placeholder="https://youtube.com/watch?v=… or any image/page URL" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
         </label>
         <select name="channelId" className="border border-[var(--line-2)] rounded-lg p-2 text-sm">

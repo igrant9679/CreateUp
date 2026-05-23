@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { submitAudienceTopicAction } from "@/app/actions/growth";
 
-// FR-SUB-01 — Public audience submission form. No authentication required.
+// Public audience submission form. No authentication required.
 // Lives outside the (app) group so the workspace chrome doesn't load.
 
 export default async function PublicSubmitPage({

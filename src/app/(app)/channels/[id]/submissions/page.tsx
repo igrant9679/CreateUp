@@ -6,7 +6,7 @@ import { reviewSubmissionAction, promoteSubmissionAction } from "@/app/actions/g
 import { env } from "@/lib/env";
 import { CopyButton } from "@/components/CopyButton";
 
-// FR-SUB-01 — Reviewable queue for incoming audience submissions; promote to Ideas.
+// Reviewable queue for incoming audience submissions; promote to Ideas.
 
 export default async function SubmissionsPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ status?: string }> }) {
   const { id } = await params;

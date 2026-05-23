@@ -7,8 +7,8 @@ import { llm } from "@/lib/llm";
 import { youtube } from "@/lib/youtube";
 import { writeJson } from "@/lib/db/json";
 
-// FR-TMPL-03 — Custom template by cloning a single video.
-// FR-TMPL-04 — Combine 2–3 videos into one synthesized custom template.
+// Custom template by cloning a single video.
+// Combine 2–3 videos into one synthesized custom template.
 
 const MAX_REFERENCES = 3;
 

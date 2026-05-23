@@ -4,7 +4,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { setProjectStatusAction, createProjectAction } from "@/app/actions/production";
 
-// FR-PIPE-06 — Configurable Production Board: all content by status, with click-to-advance.
+// Configurable Production Board: all content by status, with click-to-advance.
 // Drag-and-drop is omitted v1; the forward arrow is the supported way to advance a stage.
 
 const STATUSES = [

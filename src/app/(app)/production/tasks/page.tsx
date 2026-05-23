@@ -4,7 +4,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { createTaskAction, setTaskStatusAction } from "@/app/actions/production";
 
-// FR-TASK-01 — Tasks with assignee, due date, status, optional project link; per-user task list.
+// Tasks with assignee, due date, status, optional project link; per-user task list.
 
 export default async function TasksPage({ searchParams }: { searchParams: Promise<{ mine?: string }> }) {
   const { workspace, user } = await requireMembership();

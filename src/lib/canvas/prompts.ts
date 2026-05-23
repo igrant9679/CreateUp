@@ -3,7 +3,7 @@
 
 function memoryBlock(memory?: string[]): string {
   if (!memory || memory.length === 0) return "";
-  return `\nChannel Memory (durable facts to ALWAYS apply, FR-CHAN-06):\n${memory.map((m) => `- ${m}`).join("\n")}\n`;
+  return `\nChannel Memory (durable facts to ALWAYS apply,):\n${memory.map((m) => `- ${m}`).join("\n")}\n`;
 }
 
 export function systemForOutline(args: { channelName: string; niche: string; differentiation: string; audienceKQ: string[]; voice: string; template: string; memory?: string[] }) {

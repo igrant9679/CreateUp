@@ -3,7 +3,7 @@ import { BookOpen, Plus } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 
-// FR-WIKI-01 — Wiki of process docs, SOPs, reference guides.
+// Wiki of process docs, SOPs, reference guides.
 
 export default async function WikiPage({ searchParams }: { searchParams: Promise<{ channelId?: string }> }) {
   const { workspace } = await requireMembership();

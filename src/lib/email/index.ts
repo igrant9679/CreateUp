@@ -1,7 +1,7 @@
 import { env } from "@/lib/env";
 
-// Email interface. Used for invitations (FR-AUTH-04) and completion notices
-// (FR-AGENT-02). Mock logs to console.
+// Email interface. Used for invitations and completion notices
+//. Mock logs to console.
 
 export type EmailMessage = {
   to: string;

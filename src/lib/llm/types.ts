@@ -1,4 +1,4 @@
-// LLM provider abstraction (FR-MODEL-04). Every provider — real or mock —
+// LLM provider abstraction. Every provider — real or mock —
 // implements this interface so the router can swap them transparently.
 
 export type LLMMessage = {
@@ -39,7 +39,7 @@ export type ModelDescriptor = {
   provider: string;      // provider id
   label: string;         // for UI
   family: string;        // claude | gpt | gemini | deepseek | grok | kimi | minimax | mock
-  // FR-MODEL-05 selection guidance
+  // selection guidance
   speed: "fast" | "balanced" | "slow";
   lengthAdherence: "loose" | "medium" | "strict";
   style: string;         // short human-readable note

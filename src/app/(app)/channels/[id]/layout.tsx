@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { requireChannel } from "@/lib/channel";
 
-// FR-CHAN-03 — Channel navigation: Ideas, Scripts, Audience, Competitors + Settings menu.
+// Channel navigation: Ideas, Scripts, Audience, Competitors + Settings menu.
 
 const SUBNAV = [
   { href: "", label: "Home" },

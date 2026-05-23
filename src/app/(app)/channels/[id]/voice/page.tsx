@@ -15,7 +15,7 @@ import {
   deleteVoiceProfileAction,
 } from "@/app/actions/voice";
 
-// MU-03 — Voice editor. Implements FR-VOICE-01..08:
+// MU-03 — Voice editor. Implements..08:
 //   01 auto-train · 02 baseline · 03 Simple · 04 Advanced · 05 samples ·
 //   06 borrow-a-voice · 07 multiple profiles per channel · 08 instant preview.
 
@@ -91,7 +91,7 @@ export default async function ChannelVoicePage({
         </form>
 
         <form action={borrowVoiceAction} className="border-t border-[var(--line)] pt-3 mt-3 flex flex-col gap-2">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Borrow a voice (FR-VOICE-06)</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Borrow a voice</span>
           <input type="hidden" name="channelId" value={id} />
           <input name="handle" required placeholder="@another-creator" className="border border-[var(--line-2)] rounded-md p-1.5 text-xs font-mono" />
           <input name="label" placeholder="Label (optional)" className="border border-[var(--line-2)] rounded-md p-1.5 text-xs" />
@@ -127,7 +127,7 @@ export default async function ChannelVoicePage({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Simple mode */}
           <section className="card">
-            <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2"><Sparkles className="w-4 h-4" style={{ color: "var(--accent)" }} /> Simple mode (FR-VOICE-03)</h2>
+            <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2"><Sparkles className="w-4 h-4" style={{ color: "var(--accent)" }} /> Simple mode</h2>
             <p className="text-xs text-[var(--mute)] mb-3">Refine your voice with plain-language instructions.</p>
             <form action={refineVoiceSimpleAction} className="flex flex-col gap-2">
               <input type="hidden" name="channelId" value={id} />
@@ -145,7 +145,7 @@ export default async function ChannelVoicePage({
             <form action={generateVoicePreviewAction} className="mt-4">
               <input type="hidden" name="channelId" value={id} />
               <input type="hidden" name="voiceId" value={active.id} />
-              <button type="submit" className="btn">Generate preview (FR-VOICE-08)</button>
+              <button type="submit" className="btn">Generate preview</button>
             </form>
             {data._preview && (
               <div className="mt-3 text-sm bg-[var(--zebra)] rounded-md p-3 whitespace-pre-wrap">{data._preview}</div>
@@ -154,7 +154,7 @@ export default async function ChannelVoicePage({
 
           {/* Advanced mode */}
           <section className="card">
-            <h2 className="font-mono text-[14px] font-bold mb-3">Advanced mode (FR-VOICE-04)</h2>
+            <h2 className="font-mono text-[14px] font-bold mb-3">Advanced mode</h2>
             <p className="text-xs text-[var(--mute)] mb-3">Edit the structured voice payload directly.</p>
             <form action={updateVoiceAdvancedAction} className="flex flex-col gap-2">
               <input type="hidden" name="channelId" value={id} />
@@ -170,9 +170,9 @@ export default async function ChannelVoicePage({
           </section>
         </div>
 
-        {/* Writing samples (FR-VOICE-05) */}
+        {/* Writing samples */}
         <section className="card">
-          <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2"><FileText className="w-4 h-4" style={{ color: "#2563EB" }} /> Writing samples (FR-VOICE-05) <span className="text-xs text-[var(--mute)] font-normal">— up to 50,000 chars each</span></h2>
+          <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2"><FileText className="w-4 h-4" style={{ color: "#2563EB" }} /> Writing samples <span className="text-xs text-[var(--mute)] font-normal">— up to 50,000 chars each</span></h2>
           <p className="text-xs text-[var(--mute)] mb-3">Paste blog posts, threads, transcripts, or other scripts you've written. More samples = better voice match.</p>
 
           <form action={addVoiceSampleAction} className="flex flex-col gap-2 mb-4">

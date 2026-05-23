@@ -5,7 +5,7 @@ import { Sparkles, X } from "lucide-react";
 import { PROMPT_LIBRARY, PROMPT_SHORTCUT } from "@/lib/prompt-library";
 
 /**
- * FR-CHAT-08 — Prompt Library. A floating panel of categorized prompts that
+ * Prompt Library. A floating panel of categorized prompts that
  * inserts the selected one into the target textarea (#composer-textarea by
  * default). Toggled with Ctrl+/ from anywhere on the page.
  */

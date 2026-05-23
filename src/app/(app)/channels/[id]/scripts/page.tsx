@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 
-// Channel-scoped scripts list (FR-CANV-15 surface, per-channel slice).
+// Channel-scoped scripts list ( surface, per-channel slice).
 
 export default async function ChannelScriptsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

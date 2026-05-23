@@ -1,6 +1,6 @@
 import type { ModelDescriptor } from "./types";
 
-// Canonical model registry. Surfaces FR-MODEL-05 selection guidance.
+// Canonical model registry. Surfaces selection guidance.
 // IDs are stable across the app; renaming an underlying provider model
 // only requires changing the mapping inside the provider implementation.
 

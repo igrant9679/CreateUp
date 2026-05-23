@@ -1,22 +1,23 @@
 import Link from "next/link";
-import { Home, Layers, Telescope, Sparkles, PenLine, MessageCircle, Image as ImageIcon, KanbanSquare, Settings, LogOut, HelpCircle, ChevronDown, User } from "lucide-react";
+import { LogOut, ChevronDown, Layers, User } from "lucide-react";
 import { signOut } from "@/auth";
 import { getActiveChannel } from "@/lib/channel";
 import { setActiveChannelAction } from "@/app/actions/channel";
+import { LeftRailNav, type LeftRailItem } from "@/components/LeftRailNav";
 
 // Each nav item carries its own brand color so the rail reads as a vibrant chip strip
 // (mirrors the CreateUp_Mockups.html per-module accent palette).
-const NAV = [
-  { href: "/dashboard",   label: "Home",        icon: Home,         color: "#E5482F", soft: "#FDE7E1" },
-  { href: "/channels",    label: "Channels",    icon: Layers,       color: "#7C3AED", soft: "#EEE7FC" },
-  { href: "/intel",       label: "Intel",       icon: Telescope,    color: "#2563EB", soft: "#E5EDFD" },
-  { href: "/ideas",       label: "Ideas",       icon: Sparkles,     color: "#D97706", soft: "#FBEED5" },
-  { href: "/scripts",     label: "Scripts",     icon: PenLine,      color: "#15924B", soft: "#E0F2E8" },
-  { href: "/chat",        label: "Chat",        icon: MessageCircle, color: "#6D28D9", soft: "#EDE7FB" },
-  { href: "/thumbnails",  label: "Thumbnails",  icon: ImageIcon,    color: "#DB2777", soft: "#FBE2EF" },
-  { href: "/production",  label: "Production",  icon: KanbanSquare, color: "#0D9488", soft: "#D7F1ED" },
-  { href: "/help",        label: "Help",        icon: HelpCircle,   color: "#0891B2", soft: "#D8EFF5" },
-  { href: "/admin",       label: "Admin",       icon: Settings,     color: "#4F46E5", soft: "#E7E6FB", adminOnly: true },
+const NAV: (LeftRailItem & { adminOnly?: boolean })[] = [
+  { href: "/dashboard",   label: "Home",        icon: "Home",          color: "#E5482F", soft: "#FDE7E1" },
+  { href: "/channels",    label: "Channels",    icon: "Layers",        color: "#7C3AED", soft: "#EEE7FC" },
+  { href: "/intel",       label: "Intel",       icon: "Telescope",     color: "#2563EB", soft: "#E5EDFD" },
+  { href: "/ideas",       label: "Ideas",       icon: "Sparkles",      color: "#D97706", soft: "#FBEED5" },
+  { href: "/scripts",     label: "Scripts",     icon: "PenLine",       color: "#15924B", soft: "#E0F2E8" },
+  { href: "/chat",        label: "Chat",        icon: "MessageCircle", color: "#6D28D9", soft: "#EDE7FB" },
+  { href: "/thumbnails",  label: "Thumbnails",  icon: "ImageIcon",     color: "#DB2777", soft: "#FBE2EF" },
+  { href: "/production",  label: "Production",  icon: "KanbanSquare",  color: "#0D9488", soft: "#D7F1ED" },
+  { href: "/help",        label: "Help",        icon: "HelpCircle",    color: "#0891B2", soft: "#D8EFF5" },
+  { href: "/admin",       label: "Admin",       icon: "Settings",      color: "#4F46E5", soft: "#E7E6FB", adminOnly: true },
 ];
 
 async function signOutAction() {
@@ -26,12 +27,11 @@ async function signOutAction() {
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, workspace, membership, channels, active } = await getActiveChannel();
-  const initials = (user.name ?? user.email).slice(0, 2).toUpperCase();
   const userLabel = user.name ?? user.email.split("@")[0];
 
   return (
     <div className="flex-1 flex min-h-screen">
-      <aside className="w-[78px] bg-gradient-to-b from-white to-[#fafbfc] border-r border-[var(--line)] flex flex-col items-center gap-2.5 py-5 flex-shrink-0">
+      <aside className="w-[78px] left-rail border-r border-[var(--line)] flex flex-col items-center gap-2.5 py-5 flex-shrink-0 relative z-40">
         <Link
           href="/dashboard"
           className="w-11 h-11 rounded-2xl text-white grid place-items-center mb-3 font-mono font-bold text-lg shadow-lg shadow-[#E5482F]/30"
@@ -41,26 +41,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           ▲
         </Link>
 
-        {NAV.filter((n) => !n.adminOnly || membership.role === "ADMIN").map((n) => {
-          const Icon = n.icon;
-          return (
-            <Link
-              key={n.href}
-              href={n.href}
-              title={n.label}
-              className="group relative w-11 h-11 rounded-2xl grid place-items-center transition-all duration-150 hover:scale-105"
-              style={{ background: n.soft, color: n.color }}
-            >
-              <Icon className="w-[22px] h-[22px]" strokeWidth={2.25} />
-              <span
-                className="absolute left-[58px] top-1/2 -translate-y-1/2 whitespace-nowrap text-[12px] font-semibold font-mono px-2.5 py-1 rounded-md text-white shadow-lg opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition pointer-events-none z-30"
-                style={{ background: n.color }}
-              >
-                {n.label}
-              </span>
-            </Link>
-          );
-        })}
+        <LeftRailNav items={NAV.filter((n) => !n.adminOnly || membership.role === "ADMIN")} />
 
         {/* Profile + sign out — now with a clearer label */}
         <div className="mt-auto flex flex-col items-center gap-2">
@@ -90,7 +71,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       </aside>
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="min-h-[60px] border-b border-[var(--line)] bg-white flex items-center gap-3 px-6 py-2 flex-shrink-0">
+        <header className="min-h-[60px] border-b border-[var(--line)] app-header flex items-center gap-3 px-6 py-2 flex-shrink-0">
           <Link href="/channels" className="font-mono font-bold text-[15px] tracking-tight hover:text-[var(--accent)] transition" title="Manage workspace channels">
             {workspace.name}
           </Link>

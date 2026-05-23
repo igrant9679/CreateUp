@@ -2,7 +2,7 @@ import { Gauge } from "lucide-react";
 import { requireRole } from "@/lib/acl";
 import { updateSoftLimitsAction } from "@/app/actions/admin";
 
-// FR-ADMIN-03 — Optional soft usage limits. Disabled by default; never tied to payment.
+// Optional soft usage limits. Disabled by default; never tied to payment.
 
 export default async function AdminLimitsPage() {
   const { workspace } = await requireRole("ADMIN");

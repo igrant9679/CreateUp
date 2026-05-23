@@ -46,7 +46,7 @@ const planSchema = z.object({
   action: z.string().max(1000).optional(),
 });
 
-/** FR-CANV-03 — Save the planning answers (one-takeaway, concerns, points, action). */
+/** Save the planning answers (one-takeaway, concerns, points, action). */
 export async function savePlanQuestionsAction(formData: FormData) {
   const parsed = planSchema.safeParse({
     scriptId: formData.get("scriptId"),
@@ -69,7 +69,7 @@ export async function savePlanQuestionsAction(formData: FormData) {
   revalidatePath(`/scripts/${script.id}`);
 }
 
-/** FR-CANV-03 — Generate (or regenerate) the outline using planning answers. */
+/** Generate (or regenerate) the outline using planning answers. */
 export async function generateOutlineAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
   const { script } = await load(scriptId);
@@ -127,7 +127,7 @@ export async function saveOutlineAction(formData: FormData) {
 
 // ── Script body ───────────────────────────────────────────────────────────
 
-/** FR-CANV-04 — Expand the approved outline into full prose. */
+/** Expand the approved outline into full prose. */
 export async function generateScriptAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
   const { script } = await load(scriptId);
@@ -168,7 +168,7 @@ export async function generateScriptAction(formData: FormData) {
   revalidatePath(`/scripts/${script.id}`);
 }
 
-/** FR-CANV-09 — Autosave the body. Called from the client editor on debounce. */
+/** Autosave the body. Called from the client editor on debounce. */
 export async function saveBodyAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
   const body = String(formData.get("body") ?? "");
@@ -187,7 +187,7 @@ export async function saveBodyAction(formData: FormData) {
 
 // ── Humanize / Improve ────────────────────────────────────────────────────
 
-/** FR-CANV-11 — Humanize: rewrite to strip AI patterns, ~6-7th grade, AI-VO friendly. */
+/** Humanize: rewrite to strip AI patterns, ~6-7th grade, AI-VO friendly. */
 export async function humanizeAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
   const { script } = await load(scriptId);
@@ -217,7 +217,7 @@ export async function humanizeAction(formData: FormData) {
   revalidatePath(`/scripts/${script.id}`);
 }
 
-/** FR-CANV-10 — Highlight-and-Improve. Replaces the supplied selection range in the body. */
+/** Highlight-and-Improve. Replaces the supplied selection range in the body. */
 export async function improveSelectionAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
   const start = Number(formData.get("start"));
@@ -251,7 +251,7 @@ export async function improveSelectionAction(formData: FormData) {
 
 // ── Misc ──────────────────────────────────────────────────────────────────
 
-/** FR-CANV-12 — Start over (same topic). Wipes outline + body but keeps title/channel. */
+/** Start over (same topic). Wipes outline + body but keeps title/channel. */
 export async function startOverAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
   const { script } = await load(scriptId);
@@ -275,7 +275,7 @@ const settingsSchema = z.object({
   voiceProfileId: z.string().max(80).optional(),
 });
 
-/** FR-CANV-06/07 + FR-VOICE-07 — Title + model + template + voice (switchable mid-script). */
+/** + — Title + model + template + voice (switchable mid-script). */
 export async function updateScriptSettingsAction(formData: FormData) {
   const parsed = settingsSchema.safeParse({
     scriptId: formData.get("scriptId"),

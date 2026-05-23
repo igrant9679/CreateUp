@@ -4,7 +4,7 @@ import { getActiveChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { createChatAction } from "@/app/actions/chat";
 
-// MU-07 — Ideation chat. FR-CHAT-01 channel-scoped, FR-CHAT-12 grouped history (this/last week).
+// MU-07 — Ideation chat. channel-scoped, grouped history (this/last week).
 
 export default async function ChatListPage() {
   const { workspace, active } = await getActiveChannel();
@@ -16,7 +16,7 @@ export default async function ChatListPage() {
           <MessageCircle className="w-6 h-6" />
         </span>
         <h1 className="font-mono font-bold text-lg mb-2">Pick a channel first</h1>
-        <p className="text-sm text-[var(--mute)] mb-4">Chat is channel-scoped (FR-CHAT-01) — voice and audience condition every reply.</p>
+        <p className="text-sm text-[var(--mute)] mb-4">Chat is channel-scoped — voice and audience condition every reply.</p>
         <Link href="/onboarding/channel/new" className="btn primary">Create a channel</Link>
       </div>
     );

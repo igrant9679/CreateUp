@@ -7,7 +7,7 @@ import {
   generateAudiencePhotoAction,
 } from "@/app/actions/audience";
 
-// MU-13 — Audience Avatar. FR-AUD-01/02/03/04/05.
+// MU-13 — Audience Avatar./03/04/05.
 
 const SECTIONS = [
   { key: "demographics", label: "Demographics" },

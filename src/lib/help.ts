@@ -1,4 +1,4 @@
-// FR-SET-03 — Searchable Help / FAQ content.
+// Searchable Help / FAQ content.
 // Plain data so the UI is purely client-side searchable.
 
 export type FaqEntry = {
@@ -60,7 +60,7 @@ export const HELP_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "What's Channel Memory?",
-        a: "Durable facts the AI applies to **every** script in a channel without you re-explaining (FR-CHAN-06). Example entries: \"Always cite original papers, not blog summaries.\" \"Avoid the word 'literally'.\" \"My audience already knows what compounding is.\" Open Channels → pick a channel → **Memory** tab.",
+        a: "Durable facts the AI applies to **every** script in a channel without you re-explaining. Example entries: \"Always cite original papers, not blog summaries.\" \"Avoid the word 'literally'.\" \"My audience already knows what compounding is.\" Open Channels → pick a channel → **Memory** tab.",
         tags: ["memory", "durable facts"],
       },
       {
@@ -83,7 +83,7 @@ export const HELP_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "Can I borrow another creator's voice?",
-        a: "Yes (FR-VOICE-06). Channels → Voice → **Borrow a voice** sidebar. Paste any `@handle` — we train a new profile from their transcripts and save it as a separate voice you can pick per script.",
+        a: "Yes. Channels → Voice → **Borrow a voice** sidebar. Paste any `@handle` — we train a new profile from their transcripts and save it as a separate voice you can pick per script.",
         tags: ["borrow", "voice"],
       },
       {
@@ -139,7 +139,7 @@ export const HELP_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "Can I use advanced search syntax?",
-        a: "Yes (FR-INTEL-02). Paste tokens like `subs:>100k subs:<1m velocity:>5 engagement:>0.05 views:>1m format:short lang:en` directly in the search box. Tokens are extracted and merged with the visible filter inputs.",
+        a: "Yes. Paste tokens like `subs:>100k subs:<1m velocity:>5 engagement:>0.05 views:>1m format:short lang:en` directly in the search box. Tokens are extracted and merged with the visible filter inputs.",
         tags: ["search", "advanced", "syntax"],
       },
       {

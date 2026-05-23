@@ -9,7 +9,7 @@ import { readJson, writeJson } from "@/lib/db/json";
 
 // Closes the last batch of [Could] FRs.
 
-// ── FR-THUMB-04 — CTR scoring ───────────────────────────────────────────
+// ── — CTR scoring ───────────────────────────────────────────
 
 export async function scoreThumbnailAction(formData: FormData) {
   const thumbId = String(formData.get("thumbnailId"));
@@ -48,7 +48,7 @@ score=<0-100>; contrast=<low|medium|high>; readability=<poor|ok|strong>; oneline
   revalidatePath(`/thumbnails/${thumb.id}`);
 }
 
-// ── FR-THUMB-06 — Brand-asset settings per channel ──────────────────────
+// ── — Brand-asset settings per channel ──────────────────────
 
 export async function updateThumbnailConfigAction(formData: FormData) {
   const channelId = String(formData.get("channelId"));
@@ -74,7 +74,7 @@ export async function updateThumbnailConfigAction(formData: FormData) {
   revalidatePath(`/thumbnails`);
 }
 
-// ── FR-ASSET-02 — Import shot list / markers from external tools ────────
+// ── — Import shot list / markers from external tools ────────
 
 export async function importMarkersAction(formData: FormData) {
   const channelId = formData.get("channelId") ? String(formData.get("channelId")) : null;
@@ -111,7 +111,7 @@ export async function importMarkersAction(formData: FormData) {
   redirect(`/production/assets?imported=${imported}`);
 }
 
-// ── FR-SWIPE-02/03 — Clip a URL into a Swipe (incl. YouTube auto-thumbnail) ─
+// ── — Clip a URL into a Swipe (incl. YouTube auto-thumbnail) ─
 
 export async function clipSwipeAction(formData: FormData) {
   const url = String(formData.get("url") ?? "").trim();
@@ -120,7 +120,7 @@ export async function clipSwipeAction(formData: FormData) {
 
   const { workspace } = await requireRole("EDITOR");
 
-  // FR-SWIPE-03 — Auto-capture YouTube thumbnail
+  // Auto-capture YouTube thumbnail
   const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([A-Za-z0-9_-]{6,})/);
   let imageUrl = url;
   let title = url;
@@ -155,7 +155,7 @@ export async function clipSwipeAction(formData: FormData) {
   revalidatePath("/production/swipes");
 }
 
-// ── FR-WIKI-03 — Attach a wiki page's checklist to a content project ────
+// ── — Attach a wiki page's checklist to a content project ────
 
 export async function attachChecklistAction(formData: FormData) {
   const wikiDocId = String(formData.get("wikiDocId"));
@@ -193,7 +193,7 @@ export async function attachChecklistAction(formData: FormData) {
   revalidatePath(`/production/projects/${contentProjectId}`);
 }
 
-// ── FR-AGENT-05 — Optional video production add-on (TTS + avatar + render) ─
+// ── — Optional video production add-on (TTS + avatar + render) ─
 
 export async function launchVideoProductionAction(formData: FormData) {
   const scriptId = String(formData.get("scriptId"));
@@ -211,7 +211,7 @@ export async function launchVideoProductionAction(formData: FormData) {
   const run = await db.agentRun.create({
     data: { scriptId: script.id, status: "queued" },
   });
-  // The standard agent pipeline already ends with a "voiceover" step (FR-AGENT pipeline).
+  // The standard agent pipeline already ends with a "voiceover" step ( pipeline).
   // For real TTS/avatar/render integration, wire env.USE_MOCK_PRODUCTION=false and supply
   // the provider keys; the existing job is the single place that branches.
   await jobs.enqueue("agent.run", { runId: run.id, scriptId: script.id });

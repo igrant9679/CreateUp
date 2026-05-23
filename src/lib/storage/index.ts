@@ -3,7 +3,7 @@ import path from "node:path";
 import { nanoid } from "nanoid";
 import { env } from "@/lib/env";
 
-// Storage interface (FR-CANV-08 uploads, FR-CHAT-07 file context, FR-RES-01).
+// Storage interface ( uploads, file context,).
 // Backends: local | s3 | gdrive. Local is the dev default.
 
 export type StoredFile = {

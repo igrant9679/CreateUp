@@ -3,9 +3,9 @@ import { startOnboardingAction } from "@/app/actions/onboarding";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 
 // MU-12 — Onboarding Wizard, step 1.
-// FR-ONB-01: capture niche/content description.
-// FR-ONB-02: presentation style — Personality (on-camera) vs Faceless.
-// FR-ONB-03: choose path — link existing YouTube channel or start a custom channel.
+// capture niche/content description.
+// presentation style — Personality (on-camera) vs Faceless.
+// choose path — link existing YouTube channel or start a custom channel.
 
 export default async function OnboardingStartPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   await requireRole("EDITOR");
@@ -19,12 +19,12 @@ export default async function OnboardingStartPage({ searchParams }: { searchPara
         {error && <p className="text-sm text-[var(--brand)]">Please fill in every field — at least 10 characters for the niche.</p>}
 
         <label className="flex flex-col gap-1">
-          <span className="text-xs font-mono uppercase text-[var(--mute)]">What's your channel about? (FR-ONB-01)</span>
+          <span className="text-xs font-mono uppercase text-[var(--mute)]">What's your channel about?</span>
           <textarea name="niche" required minLength={10} rows={4} placeholder="e.g. Evidence-based productivity for knowledge workers. Less hustle, more systems." className="border border-[var(--line-2)] rounded-lg p-3 text-sm" />
         </label>
 
         <fieldset className="flex flex-col gap-1">
-          <span className="text-xs font-mono uppercase text-[var(--mute)]">Presentation style (FR-ONB-02)</span>
+          <span className="text-xs font-mono uppercase text-[var(--mute)]">Presentation style</span>
           <div className="grid grid-cols-2 gap-3 mt-1">
             <label className="card cursor-pointer flex items-start gap-3 has-[input:checked]:border-[var(--accent)] has-[input:checked]:bg-[var(--accent-soft)]">
               <input type="radio" name="style" value="personality" defaultChecked className="mt-1" />
@@ -44,7 +44,7 @@ export default async function OnboardingStartPage({ searchParams }: { searchPara
         </fieldset>
 
         <fieldset className="flex flex-col gap-1">
-          <span className="text-xs font-mono uppercase text-[var(--mute)]">Path (FR-ONB-03)</span>
+          <span className="text-xs font-mono uppercase text-[var(--mute)]">Path</span>
           <div className="grid grid-cols-2 gap-3 mt-1">
             <label className="card cursor-pointer flex items-start gap-3 has-[input:checked]:border-[var(--accent)] has-[input:checked]:bg-[var(--accent-soft)]">
               <input type="radio" name="path" value="youtube" defaultChecked className="mt-1" />

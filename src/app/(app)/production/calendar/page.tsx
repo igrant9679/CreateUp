@@ -3,7 +3,7 @@ import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 
-// FR-CAL-01/02 — Content Calendar: month view of content by publish date, colored by status.
+// Content Calendar: month view of content by publish date, colored by status.
 
 const STATUS_COLOR: Record<string, string> = {
   idea: "#D97706",

@@ -5,7 +5,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { writeJson } from "@/lib/db/json";
 
-/** FR-INTEL-11 — Bookmark a channel or video with optional tags + notes. */
+/** Bookmark a channel or video with optional tags + notes. */
 export async function toggleBookmarkAction(formData: FormData) {
   const { workspace } = await requireMembership();
   const intelChannelId = formData.get("intelChannelId") ? String(formData.get("intelChannelId")) : null;
