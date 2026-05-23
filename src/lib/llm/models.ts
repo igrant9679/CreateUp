@@ -1,0 +1,24 @@
+import type { ModelDescriptor } from "./types";
+
+// Canonical model registry. Surfaces FR-MODEL-05 selection guidance.
+// IDs are stable across the app; renaming an underlying provider model
+// only requires changing the mapping inside the provider implementation.
+
+export const MODELS: ModelDescriptor[] = [
+  { id: "claude-sonnet",  provider: "anthropic", label: "Claude Sonnet",  family: "claude",   speed: "balanced", lengthAdherence: "strict",  style: "Strong narrative voice; great for long-form." },
+  { id: "claude-opus",    provider: "anthropic", label: "Claude Opus",    family: "claude",   speed: "slow",     lengthAdherence: "strict",  style: "Best quality; use for hero scripts." },
+  { id: "claude-haiku",   provider: "anthropic", label: "Claude Haiku",   family: "claude",   speed: "fast",     lengthAdherence: "medium",  style: "Fast edits & quick rewrites." },
+  { id: "gpt-4o",         provider: "openai",    label: "GPT-4o",         family: "gpt",      speed: "balanced", lengthAdherence: "medium",  style: "Versatile; good for chat & ideation." },
+  { id: "gpt-4o-mini",    provider: "openai",    label: "GPT-4o mini",    family: "gpt",      speed: "fast",     lengthAdherence: "loose",   style: "Cheap & fast utility model." },
+  { id: "gemini-1.5-pro", provider: "google",    label: "Gemini 1.5 Pro", family: "gemini",   speed: "balanced", lengthAdherence: "medium",  style: "Huge context; useful for transcripts." },
+  { id: "deepseek-chat",  provider: "deepseek",  label: "DeepSeek Chat",  family: "deepseek", speed: "balanced", lengthAdherence: "medium",  style: "Cost-effective writing." },
+  { id: "grok-2",         provider: "xai",       label: "Grok 2",         family: "grok",     speed: "balanced", lengthAdherence: "medium",  style: "Edgy/punchy voice." },
+  { id: "kimi-k1",        provider: "moonshot",  label: "Kimi K1",        family: "kimi",     speed: "balanced", lengthAdherence: "medium",  style: "Long-context Chinese & English." },
+  { id: "minimax-abab",   provider: "minimax",   label: "MiniMax abab",   family: "minimax",  speed: "balanced", lengthAdherence: "medium",  style: "Alternative provider." },
+  // Mock — always available
+  { id: "mock-fast",      provider: "mock",      label: "Mock (fast)",    family: "mock",     speed: "fast",     lengthAdherence: "loose",   style: "Stand-in. Used when USE_MOCK_LLM=true." },
+];
+
+export function getModel(id: string): ModelDescriptor | undefined {
+  return MODELS.find((m) => m.id === id);
+}

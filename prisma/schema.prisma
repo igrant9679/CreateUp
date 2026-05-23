@@ -1,0 +1,598 @@
+// CreateUp — data model. Mirrors §10 "Conceptual Data Model" of the spec.
+//
+// Local dev uses SQLite (see DECISIONS.md §1). For Railway/Postgres, change:
+//   provider = "sqlite"  →  provider = "postgresql"
+// and regenerate migrations. JSON-shaped fields are stored as String (serialized)
+// for SQLite portability; helpers in src/lib/db/json.ts handle parse/stringify.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Auth / workspace / users (FR-AUTH-*, FR-ADMIN-*)
+// ──────────────────────────────────────────────────────────────────────────
+
+model Workspace {
+  id              String   @id @default(cuid())
+  name            String
+  // Defaults for new channels
+  defaultChannelId String? @unique
+  defaultModel    String?  // e.g. "claude-sonnet"
+  defaultLanguage String   @default("en")
+  // FR-ADMIN-03 optional soft limits — null/0 = unlimited
+  limitScriptsPerUserMonth     Int?
+  limitThumbnailsPerUserMonth  Int?
+  limitAgentRunsPerUserMonth   Int?
+  limitChannels                Int?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  memberships     Membership[]
+  channels        Channel[]
+  invitations     Invitation[]
+  bookmarks       Bookmark[]
+  usageLogs       UsageLog[]
+  tasks           Task[]
+  swipes          Swipe[]
+  wikiDocs        WikiDoc[]
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  // Credentials (email/password)
+  passwordHash  String?
+  createdAt     DateTime      @default(now())
+  lastActivityAt DateTime?
+
+  memberships   Membership[]
+  accounts      Account[]
+  sessions      Session[]
+  authoredChats Chat[]
+  authoredScripts Script[]
+  assignedTasks Task[]        @relation("TaskAssignee")
+}
+
+model Membership {
+  id          String    @id @default(cuid())
+  userId      String
+  workspaceId String
+  role        Role      @default(EDITOR)
+  status      String    @default("active") // active | revoked
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+model Invitation {
+  id          String    @id @default(cuid())
+  workspaceId String
+  email       String
+  role        Role      @default(EDITOR)
+  token       String    @unique
+  invitedById String?
+  acceptedAt  DateTime?
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+// Auth.js core tables (Account / Session / VerificationToken)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Channels & creator-modeling (FR-CHAN-*, FR-VOICE-*, FR-AUD-*)
+// ──────────────────────────────────────────────────────────────────────────
+
+model Channel {
+  id                 String   @id @default(cuid())
+  workspaceId        String
+  name               String
+  nicheDescription   String?
+  presentationStyle  String?  // "personality" | "faceless"
+  linkedYoutubeId    String?
+  linkedYoutubeHandle String?
+  differentiation    String?
+  defaultModel       String?
+  defaultLanguage    String   @default("en")
+  defaultTemplateId  String?
+  accentColor        String?  // matches mockup per-module accent
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  workspace          Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  voiceProfiles      VoiceProfile[]
+  audience           AudienceAvatar?
+  competitors        Competitor[]
+  memory             ChannelMemoryEntry[]
+  ideas              Idea[]
+  scripts            Script[]
+  chats              Chat[]
+  research           ResearchSource[]
+  templates          Template[]
+  contentProjects    ContentProject[]
+  submissions        AudienceSubmission[]
+  channelStats       ChannelStat[]
+  thumbnails         Thumbnail[]
+}
+
+model VoiceProfile {
+  id          String   @id @default(cuid())
+  channelId   String
+  label       String
+  isDefault   Boolean  @default(false)
+  // Per FR-VOICE-04: archetype, delivery, rhetoric, diction, additional settings
+  data        String   // JSON
+  samples     String   @default("[]") // JSON array of writing samples
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  channel     Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}
+
+model AudienceAvatar {
+  id              String   @id @default(cuid())
+  channelId       String   @unique
+  demographics    String   @default("{}")
+  psychographics  String   @default("{}")
+  onlineBehavior  String   @default("{}")
+  offlineBehavior String   @default("{}")
+  keyQuestions    String   @default("[]")
+  photoUrl        String?
+  updatedAt       DateTime @updatedAt
+
+  channel         Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}
+
+model Competitor {
+  id              String   @id @default(cuid())
+  channelId       String
+  intelChannelId  String?
+  youtubeHandle   String?
+  youtubeId       String?
+  metricsSnapshot String   @default("{}") // JSON
+  createdAt       DateTime @default(now())
+
+  channel         Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  intelChannel    IntelChannel? @relation(fields: [intelChannelId], references: [id])
+}
+
+model ChannelMemoryEntry {
+  id        String   @id @default(cuid())
+  channelId String
+  body      String
+  createdAt DateTime @default(now())
+
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Intel / research database (FR-INTEL-*)
+// ──────────────────────────────────────────────────────────────────────────
+
+model IntelChannel {
+  id              String   @id @default(cuid())
+  youtubeId       String   @unique
+  handle          String?
+  name            String?
+  subscribers     Int?
+  totalViews      BigInt?
+  videoCount      Int?
+  uploadFrequency Float?   // videos per week
+  velocityScore   Float?
+  language        String?
+  category        String?
+  thumbnailUrl    String?
+  lastIndexedAt   DateTime?
+  createdAt       DateTime @default(now())
+
+  videos          IntelVideo[]
+  competitorRefs  Competitor[]
+  bookmarks       Bookmark[]
+}
+
+model IntelVideo {
+  id              String   @id @default(cuid())
+  intelChannelId  String
+  youtubeId       String   @unique
+  title           String
+  description     String?
+  publishedAt     DateTime?
+  durationSeconds Int?
+  views           BigInt?
+  likes           Int?
+  comments        Int?
+  thumbnailUrl    String?
+  transcript      String?  // may be large
+  outlierScore    Float?
+  viewsPerSub     Float?
+  format          String?  // "short" | "long"
+  createdAt       DateTime @default(now())
+
+  intelChannel    IntelChannel @relation(fields: [intelChannelId], references: [id], onDelete: Cascade)
+  bookmarks       Bookmark[]
+  sourcedIdeas    Idea[]
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Ideas, chat, scripts, templates (FR-IDEA, FR-CHAT, FR-CANV, FR-SB, FR-TMPL)
+// ──────────────────────────────────────────────────────────────────────────
+
+model Idea {
+  id             String   @id @default(cuid())
+  channelId      String
+  title          String
+  topic          String?
+  strategy       String?  // the hook / why it works
+  sourceVideoId  String?
+  outlierScore   Float?
+  suggestedLength String?
+  status         String   @default("new") // new | in_progress | scripted | archived
+  merit          String?  // pillar | trending | experiment
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  channel        Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  sourceVideo    IntelVideo? @relation(fields: [sourceVideoId], references: [id])
+  scripts        Script[]
+}
+
+model Chat {
+  id          String   @id @default(cuid())
+  channelId   String
+  userId      String
+  type        String   @default("ideation") // ideation | canvas
+  title       String?
+  scriptId    String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  channel     Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
+  messages    ChatMessage[]
+  contextItems ChatContext[]
+  script      Script?  @relation(fields: [scriptId], references: [id])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  chatId    String
+  role      String   // "user" | "assistant" | "system"
+  content   String
+  model     String?
+  createdAt DateTime @default(now())
+
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+}
+
+model ChatContext {
+  id        String   @id @default(cuid())
+  chatId    String
+  kind      String   // youtube_url | web_url | upload | text
+  ref       String   // url or upload id
+  metadata  String   @default("{}")
+  createdAt DateTime @default(now())
+
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+}
+
+model Script {
+  id             String   @id @default(cuid())
+  channelId      String
+  authorId       String?
+  ideaId         String?
+  title          String
+  workflow       String   @default("canvas") // canvas | builder
+  templateId     String?
+  voiceProfileId String?
+  model          String?  // model used for last gen
+  language       String   @default("en")
+  status         String   @default("draft")
+  outline        String?  // JSON plan
+  builderSteps   String?  // JSON for classic builder
+  body           String?  // current rich text / markdown
+  wordCount      Int      @default(0)
+  durationSeconds Int     @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  channel        Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  author         User?    @relation(fields: [authorId], references: [id])
+  idea           Idea?    @relation(fields: [ideaId], references: [id])
+  template       Template? @relation(fields: [templateId], references: [id])
+  versions       ScriptVersion[]
+  research       ResearchSource[]
+  thumbnails     Thumbnail[]
+  agentRuns      AgentRun[]
+  chat           Chat?
+  contentProject ContentProject?
+}
+
+model ScriptVersion {
+  id        String   @id @default(cuid())
+  scriptId  String
+  label     String?  // "outline approved" | "post-humanize" etc.
+  body      String?
+  outline   String?
+  wordCount Int      @default(0)
+  createdAt DateTime @default(now())
+
+  script    Script   @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  channelId String?  // null = built-in/global
+  name      String
+  kind      String   // "long" | "short"
+  source    String   @default("built-in") // built-in | cloned | custom
+  structure String   // JSON: sections, pacing, transitions
+  createdAt DateTime @default(now())
+
+  channel   Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  scripts   Script[]
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Research, thumbnails, agent runs, bookmarks, usage (FR-RES, FR-THUMB, FR-AGENT)
+// ──────────────────────────────────────────────────────────────────────────
+
+model ResearchSource {
+  id          String   @id @default(cuid())
+  channelId   String
+  scriptId    String?
+  kind        String   // youtube | web | pdf | word | text | image
+  ref         String   // URL or upload key
+  title       String?
+  content     String?  // extracted text / transcript
+  wordCount   Int      @default(0)
+  starred     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  channel     Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  script      Script?  @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+}
+
+model Thumbnail {
+  id        String   @id @default(cuid())
+  channelId String
+  scriptId  String?
+  ideaId    String?
+  title     String?
+  mode      String   // brainstorm | clone
+  concepts  String   @default("[]") // JSON
+  renderUrl String?
+  ctrScore  Float?
+  createdAt DateTime @default(now())
+
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  script    Script?  @relation(fields: [scriptId], references: [id])
+}
+
+model AgentRun {
+  id        String   @id @default(cuid())
+  scriptId  String
+  status    String   @default("queued") // queued | running | succeeded | failed | cancelled
+  steps     String   @default("[]") // JSON pipeline state
+  progress  Float    @default(0)
+  retries   Int      @default(0)
+  startedAt DateTime?
+  endedAt   DateTime?
+  error     String?
+
+  script    Script   @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+}
+
+model Bookmark {
+  id              String   @id @default(cuid())
+  workspaceId     String
+  intelChannelId  String?
+  intelVideoId    String?
+  tags            String   @default("[]")
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  intelChannel    IntelChannel? @relation(fields: [intelChannelId], references: [id])
+  intelVideo      IntelVideo?   @relation(fields: [intelVideoId], references: [id])
+}
+
+model UsageLog {
+  id          String   @id @default(cuid())
+  workspaceId String
+  actorId     String?  // userId
+  action      String   // script.generate | thumbnail.generate | agent.run | chat.message
+  model       String?
+  tokens      Int?
+  words       Int?
+  createdAt   DateTime @default(now())
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Production pipeline, tasks, calendar, assets (FR-PIPE, FR-TASK, FR-CAL, FR-ASSET, FR-SWIPE, FR-WIKI)
+// ──────────────────────────────────────────────────────────────────────────
+
+model ContentProject {
+  id             String   @id @default(cuid())
+  channelId      String
+  scriptId       String?  @unique
+  parentId       String?  // for repurposing
+  title          String
+  format         String?  // long | short | repurpose
+  status         String   @default("idea") // idea | research_writing | recording | editing | scheduled | published
+  editStatus     String?  // assembly | rough_cut | vfx | sound_music | color
+  publishDate    DateTime?
+  ideaMerit      String?
+  keywords       String   @default("[]")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  channel        Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  script         Script?  @relation(fields: [scriptId], references: [id])
+  parent         ContentProject? @relation("Repurposed", fields: [parentId], references: [id])
+  derivatives    ContentProject[] @relation("Repurposed")
+  assignees      ProjectAssignee[]
+  tasks          Task[]
+  assetLinks     AssetLink[]
+}
+
+model ProjectAssignee {
+  id              String   @id @default(cuid())
+  contentProjectId String
+  userId          String
+  role            String?  // writer | host | editor
+
+  contentProject  ContentProject @relation(fields: [contentProjectId], references: [id], onDelete: Cascade)
+
+  @@unique([contentProjectId, userId, role])
+}
+
+model Task {
+  id              String   @id @default(cuid())
+  workspaceId     String
+  contentProjectId String?
+  title           String
+  description     String?
+  assigneeId      String?
+  dueDate         DateTime?
+  status          String   @default("todo") // todo | in_progress | done
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  contentProject  ContentProject? @relation(fields: [contentProjectId], references: [id])
+  assignee        User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
+}
+
+model Asset {
+  id          String   @id @default(cuid())
+  channelId   String?  // optional channel scope
+  kind        String   // broll | stock | animation | upload | link
+  name        String
+  url         String?
+  uploadKey   String?
+  favorite    Boolean  @default(false)
+  tags        String   @default("[]")
+  source      String?  // "premiere_marker" | "frameio" | "upload"
+  createdAt   DateTime @default(now())
+
+  links       AssetLink[]
+}
+
+model AssetLink {
+  id              String @id @default(cuid())
+  assetId         String
+  contentProjectId String
+
+  asset           Asset           @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  contentProject  ContentProject  @relation(fields: [contentProjectId], references: [id], onDelete: Cascade)
+
+  @@unique([assetId, contentProjectId])
+}
+
+model Swipe {
+  id          String   @id @default(cuid())
+  workspaceId String
+  channelId   String?
+  imageUrl    String
+  title       String?
+  sourceUrl   String?
+  tags        String   @default("[]")
+  kind        String?  // thumbnail | set | landing
+  createdAt   DateTime @default(now())
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model WikiDoc {
+  id          String   @id @default(cuid())
+  workspaceId String
+  channelId   String?
+  title       String
+  body        String
+  checklist   String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Growth loop (FR-PERF, FR-SUB)
+// ──────────────────────────────────────────────────────────────────────────
+
+model AudienceSubmission {
+  id          String   @id @default(cuid())
+  channelId   String
+  submitter   String?
+  topic       String
+  notes       String?
+  status      String   @default("new") // new | reviewed | promoted | rejected
+  createdAt   DateTime @default(now())
+
+  channel     Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}
+
+model ChannelStat {
+  id          String   @id @default(cuid())
+  channelId   String
+  videoYoutubeId String?
+  views       BigInt?
+  retentionProxy Float?
+  engagement  Float?
+  capturedAt  DateTime @default(now())
+
+  channel     Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}

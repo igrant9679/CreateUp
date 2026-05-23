@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* CreateUp design tokens — pulled from CreateUp_Mockups.html */
+:root {
+  --brand: #E5482F; --brand-2: #B5371F; --brand-soft: #FDE7E1;
+  --violet: #6D28D9; --violet-soft: #EDE7FB;
+  --blue: #2563EB; --blue-soft: #E5EDFD;
+  --teal: #0D9488; --teal-soft: #D7F1ED;
+  --amber: #D97706; --amber-soft: #FBEED5;
+  --pink: #DB2777; --pink-soft: #FBE2EF;
+  --indigo: #4F46E5; --indigo-soft: #E7E6FB;
+  --green: #15924B; --green-soft: #E0F2E8;
+  --cyan: #0891B2; --cyan-soft: #D8EFF5;
+  --purple: #7C3AED; --purple-soft: #EEE7FC;
+  --rose: #E11D48; --rose-soft: #FBDFE6;
+  --ink: #15181D; --slate: #2B3440; --mute: #6B7280;
+  --line: #E7E9EE; --line-2: #D6D9DF;
+  --bg: #FFFFFF; --panel: #F5F7FA; --zebra: #FAFBFC;
+  --accent: var(--brand); --accent-soft: var(--brand-soft);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+  --color-mute: var(--mute);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-panel: var(--panel);
+  --color-zebra: var(--zebra);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: #E7EAF0;
+  background-image:
+    radial-gradient(circle at 8% -8%, #fbe0d8 0, transparent 38%),
+    radial-gradient(circle at 100% -5%, #e3e0fb 0, transparent 42%),
+    radial-gradient(circle at 50% 120%, #d8f0ec 0, transparent 45%);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reusable mockup-derived utility classes */
+.font-mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+.btn { font-weight: 600; font-size: 13px; border-radius: 9px; padding: 8px 13px; border: 1px solid var(--line-2); background: #fff; cursor: pointer; color: var(--slate); transition: .15s; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 5px 14px -4px var(--accent); }
+.btn.primary:hover { filter: brightness(.95); }
+.btn.sm { padding: 5px 10px; font-size: 12px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+.tag { font-size: 11px; font-family: 'IBM Plex Mono', monospace; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.pill { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; }

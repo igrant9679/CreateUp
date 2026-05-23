@@ -1,0 +1,2235 @@
+﻿
+
+
+
+▲ CreateUp
+
+AI-Powered YouTube Research & Scriptwriting Platform
+
+Product Requirements & Functional Specification
+
+
+A complete reproduction blueprint modeled on Subscribr
+
+Version 1.0  ·  Draft for Engineering & Design
+
+Status: For Review
+
+
+
+
+Contents
+TOC \h \o "1-2"
+
+
+
+
+
+1. Document Control
+Field
+Detail
+Product name
+CreateUp
+Document type
+Product Requirements Document (PRD) + Functional Specification
+Reference product
+Subscribr (subscribr.ai) — feature parity target
+Audience
+Product, Engineering, Design, QA, Go-to-market
+Sources analyzed
+Subscribr help center, AppSumo listing, product screenshots, marketing pages
+Version
+1.0 (Draft)
+Priority scale
+Must = MVP-blocking · Should = high value, fast-follow · Could = later phase
+
+
+
+Requirement IDs use a module prefix (e.g. FR-CANVAS-03). Stories use US-<MODULE>-NN. These IDs are stable handles for traceability into design, tickets, and test cases.
+
+
+
+
+2. Executive Summary
+
+CreateUp is an AI-powered platform that takes a YouTube creator from a raw idea to a ready-to-film, long-form script in roughly twelve minutes. It combines three pillars that most competing tools treat as separate products: (1) a competitive-intelligence database of indexed YouTube channels and videos, (2) a conversational ideation and research workspace wired directly into YouTube data, and (3) a structured, voice-aware script-writing canvas that produces scripts up to three hours / 30,000 words long.
+
+Unlike generic AI chatbots that produce short, generic copy, CreateUp is built around proven YouTube storytelling frameworks — hooks, curiosity gaps, retention structures, and outlier-driven idea generation. Every script is shaped by a per-channel Voice Profile and Audience Avatar so output sounds like the creator, not a robot.
+
+This document specifies the full feature set required to reproduce and ship CreateUp: onboarding, channels, voice and audience modeling, the Intel research database, outlier-based idea generation, ideation chat, the script canvas, an automated Agent Mode pipeline, AI thumbnail generation, templates, research management, team collaboration, role-based multi-user access, multi-model AI routing, and optional API/MCP access.
+
+
+North-star metric: median time from idea to exported first-draft script ≤ 12 minutes, at ≥ 50% projected viewer-retention quality.
+
+Beyond research and scripting, CreateUp also manages the downstream workflow: moving each piece of content through writing, filming and editing stages; tracking tasks, assignments and a publishing calendar; organizing B-roll and visual inspiration; documenting repeatable team processes (SOPs); collecting audience-submitted ideas; and closing the loop with published-video performance. The result is a single workspace for the whole content lifecycle — not just the script.
+
+
+
+3. Product Vision & Goals
+
+
+3.1 Vision
+
+Become the operating system for YouTube content creation — where creators (and teams) research what works, generate validated ideas, and produce on-brand scripts and packaging (titles, thumbnails) without leaving one workspace.
+
+
+3.2 Goals
+
+
+Speed: Compress the idea→script cycle from hours/days to minutes.
+
+
+Quality: Produce scripts that apply storytelling structure and the creator’s authentic voice, requiring light human polish rather than rewriting.
+
+
+Validation: Ground every idea in real performance data (outlier videos) instead of guesswork.
+
+
+Breadth: Cover the whole pre-production workflow: research, ideation, scripting, packaging, and export.
+
+
+Scale: Support solo creators through multi-client agencies via channels, multi-user workspaces, and roles.
+
+
+3.3 Non-Goals (v1)
+
+
+Video editing / NLE: we track editing stages (Edit Bay) but do not edit footage or replace a video editor.
+
+
+Auto-publishing: we sync published stats and export metadata/chapter markers, but do not auto-upload to YouTube.
+
+
+Auto-scheduling/posting: we provide a planning content calendar and generate promo copy, but do not auto-post to social platforms.
+
+
+Native mobile apps (responsive web is sufficient for v1).
+
+
+Sponsor / brand-deal pipeline and multi-format course/book production are deferred (see Section 17).
+
+
+
+4. Personas
+Persona
+Profile
+Primary needs
+Solo Creator (Maya)
+Part-time creator, 1k–50k subs, writes own scripts, time-poor.
+Fast scripts in her voice; validated ideas; cheap research.
+Faceless Operator (Devon)
+Runs 1–3 faceless/documentary channels with freelancers.
+Consistent output at volume; templates; outsource scripting to AI; production pipeline.
+Agency / Team Lead (Bryan)
+Manages scripting for multiple client channels.
+Multiple channels, roles & permissions, shared resources, consistent quality, export.
+Established Creator (Ali)
+100k+ subs, strong brand voice, hires editors.
+Voice fidelity, advanced voice controls, research depth, packaging (titles/thumbnails).
+Researcher / Strategist
+Studies niches and competitors to plan content.
+Intel search, outlier discovery, similar channels, bookmarks, chat-with-channel.
+
+
+
+Account context: Personas operate inside a shared Workspace (even a workspace of one). Each member signs in with their own individual login and holds a Role (Admin, Editor, Viewer), and works inside one or more Channels. There is no billing — access is governed by roles and optional admin-set limits, not by paid plans or credits.
+
+
+
+5. Glossary & Domain Concepts
+Term
+Definition
+Channel
+A project workspace holding one creator/series’ voice, audience, competitors, scripts, ideas, research and settings. A user may own several.
+Voice Profile
+A structured model of how a channel’s scripts should sound, trained from top videos and editable in Simple or Advanced mode.
+Audience Avatar
+A detailed profile of the ideal viewer (demographics, psychographics, behaviors, key questions) plus a representative photo.
+Intel
+The competitive-intelligence database of 100,000+ indexed YouTube channels/videos with search, filters and analytics.
+Outlier Score
+Ratio of a video’s views to the average of up to 10 surrounding videos on the same channel (e.g. 5x = five times the channel norm).
+Velocity Score
+Proprietary momentum metric flagging channels growing rapidly relative to their size.
+Views/Sub Ratio
+How far a video reached beyond its channel’s subscriber base; high = strong discovery.
+Idea
+A generated video concept: title, topic, strategy (the hook/why-it-works), source outlier video, and suggested length.
+Canvas
+The split-panel script workspace: chat on the left, Plan/Script editor on the right.
+Template
+A structure/pacing framework (e.g. Educational, Documentary) applied when generating a script.
+Agent Mode
+An automated pipeline that researches, outlines, writes and QA-checks a full script unattended.
+Script Builder (Classic)
+An alternative, structured step-by-step scripting workflow (Research → Frame → Title → Thumbnail → Hook → Payoffs → Draft → Edit → Export → Publish) with section-level regeneration.
+AI Research
+A deep, multi-source research tool (distinct from a quick web search) that synthesizes a referenceable report into the research library.
+Workspace
+The shared container for a set of users, channels and resources. Members sign in individually and hold a Role. (No billing/credits.)
+Channel Memory
+Persisted facts/preferences the AI should remember and reuse across scripts in a channel.
+Content Project
+A single piece of content (video, etc.) tracked from idea through publish, with a Status and Edit Status.
+Production Pipeline
+Stage-focused work queues — Writer’s Room (research/writing), Film Queue (recording), Edit Bay (editing) — that filter content by its current stage.
+Edit Status
+Post-production sub-stage of a project: Assembly, Rough cut, VFX, Sound & music, Color grading.
+B-Roll / Shotlist
+A reusable library of shots, stock, animations and assets, importable from editor markers and linkable to projects.
+Swipe File
+A library of visual inspiration (thumbnails, set design, landing pages) captured via a web clipper or upload.
+Wiki / SOP
+Human-facing process documentation, standard operating procedures and checklists, optionally scoped per channel.
+Content Calendar
+A scheduled view of planned and in-progress content by publish date.
+Idea Merit
+A tag classifying an idea’s strategic role (e.g. Content Pillar, Trending Topic, Experiment).
+Audience Submission
+A topic/idea suggested by a viewer via a public intake form.
+
+
+
+
+6. System Overview
+
+CreateUp is organized into the functional modules below. Each module has its own user stories and numbered requirements in Sections 8–9. The screen mockups (delivered separately) visualize the key surfaces of these modules.
+Module
+Purpose
+Key surfaces
+Accounts & Workspaces
+Individual logins, roles, invitations, shared resources.
+Login/SSO, workspace settings, member list
+Dashboard
+Home overview across channels.
+Dashboard home
+Onboarding Wizard
+Create a channel and bootstrap voice/audience/ideas.
+7-step wizard
+Channels
+Workspace + settings, competitors, memory.
+Channel dashboard, settings
+Voice
+Train & edit voice profiles.
+Voice (Simple/Advanced), previews
+Audience
+Generate & edit audience avatars.
+Audience page
+Intel
+Research database & analytics.
+Intel dashboard, channel/video detail, bookmarks
+Ideas
+Outlier-driven idea generation & library.
+Ideas library, idea detail
+Chat / Ideation
+Brainstorm, research, plan.
+Chat thread, prompt library, research sidebar
+Canvas (Scripts)
+Chat-based Plan → write → edit → export.
+Split-panel canvas, scripts list
+Script Builder (Classic)
+Structured step-by-step scripting.
+Step sidebar, section editor
+Agent Mode
+Automated end-to-end script (and optional video) pipeline.
+Progress panel
+Thumbnails
+AI thumbnail brainstorm/clone + scoring.
+Thumbnail studio, history
+Templates
+Built-in + custom structures.
+Templates manager
+Research
+Sources, transcripts, AI Research, starred research.
+Research panel/library
+Administration
+Users, roles, invitations, usage & limits (no billing).
+Workspace/Users admin
+Production Pipeline
+Stage-based work queues & post-production tracking.
+Writer’s Room, Film Queue, Edit Bay
+Tasks & Calendar
+Tasks, assignments, and a content calendar.
+Tasks board, calendar
+Assets & Inspiration
+B-roll/shotlist library + visual swipe file.
+B-roll library, Swipes board
+Knowledge & SOPs
+Team docs, processes, checklists.
+Wiki
+Growth Loop
+Own-channel stats, audience submissions, keywords.
+Channel analytics, submissions
+Platform/API
+MCP & API access, languages, settings.
+API settings, integrations
+
+
+
+
+7. Epics
+
+The product decomposes into the following epics. Each maps to one or more modules and is detailed by the user stories and requirements that follow.
+Epic ID
+Epic
+Outcome
+E1
+Onboard a creator & model their channel
+A configured channel with trained voice, audience and starter ideas.
+E2
+Research the niche
+Find competitors, outliers and opportunities in Intel.
+E3
+Generate validated ideas
+A managed pipeline of data-backed video ideas.
+E4
+Ideate & plan a video
+A developed concept ready to script, with research attached.
+E5
+Write the script
+A voice-accurate, structured, exportable long-form script (Canvas or Classic Script Builder).
+E6
+Automate production
+Hands-off draft (and optional voiceover/video) via Agent Mode.
+E7
+Package the video
+Click-worthy titles and thumbnails; promo assets.
+E8
+Collaborate as a team
+Shared channels, roles, and research across individually-logged-in members.
+E9
+Administer the workspace
+Manage users, roles, invitations, access and optional usage limits — no billing.
+E10
+Manage production
+Move content through writing, filming and editing stages with assignments and a calendar.
+E11
+Organize assets & knowledge
+Reusable B-roll, a visual swipe file, and team SOPs/checklists.
+E12
+Close the growth loop
+Sync own-channel performance, collect audience ideas, and track keywords.
+
+
+
+
+8. User Stories
+
+Stories are grouped by epic/module. They describe intent; the corresponding Section 9 requirements define the testable behavior.
+
+
+8.1 Onboarding & Channels (E1)
+ID
+User Story
+US-ONB-01
+
+As a new creator, I want to describe my content and presentation style (on-camera vs faceless) so that the system positions ideas and scripts appropriately for me.
+US-ONB-02
+
+As a creator with a channel, I want to link my YouTube channel by URL or @handle without logging into YouTube so that the tool can analyze my existing content automatically.
+US-ONB-03
+
+As a creator starting fresh, I want to provide a custom title and description instead of a channel so that I can plan before I have any videos.
+US-ONB-04
+
+As a creator, I want to pick 3–5 competitor/inspiration channels (AI-suggested or searched) so that the system has reference points in my niche.
+US-ONB-05
+
+As a creator, I want to state how I differ from competitors so that generated content reflects my unique positioning.
+US-ONB-06
+
+As a creator, I want to see my audience avatar, voice profile and 10 starter ideas generate in the background so that I can start working immediately without waiting.
+US-CHAN-01
+
+As a multi-channel creator, I want to create and switch between separate channels so that each series keeps its own voice, audience and ideas.
+US-CHAN-02
+
+As a creator, I want to relink or change the YouTube channel later so that my voice/audience re-train on updated data.
+US-CHAN-03
+
+As a creator, I want to record durable facts in Channel Memory so that the AI reuses them across every script without re-explaining.
+US-CHAN-04
+
+As a creator, I want to add, remove and track competitor channels after setup so that my research base stays current.
+
+
+8.2 Voice & Audience (E1)
+ID
+User Story
+US-VOICE-01
+
+As a creator, I want my voice trained from my top videos automatically so that scripts sound like me from day one.
+US-VOICE-02
+
+As a creator, I want to refine my voice with plain-language instructions (Simple mode) so that I can tune tone without learning settings.
+US-VOICE-03
+
+As a power user, I want granular control over archetype, delivery, rhetoric and diction (Advanced mode) so that I can precisely engineer my voice.
+US-VOICE-04
+
+As a creator, I want to add writing samples (transcripts, blogs, threads) so that voice training improves with more representative material.
+US-VOICE-05
+
+As a creator, I want to train a voice from another creator’s public transcripts so that I can borrow a style I admire and apply it to my topics.
+US-VOICE-06
+
+As a creator, I want to keep multiple voice profiles and pick one per script so that different content types can sound different.
+US-VOICE-07
+
+As a creator, I want to generate a short preview of my voice so that I can iterate freely before committing.
+US-AUD-01
+
+As a creator, I want an avatar covering demographics, psychographics, online/offline behavior and key questions so that scripts speak to real viewer needs.
+US-AUD-02
+
+As a creator, I want to edit or fully refresh my avatar (and its photo) so that it stays accurate as my channel evolves.
+
+
+8.3 Intel — Research Database (E2)
+ID
+User Story
+US-INTEL-01
+
+As a strategist, I want to search 100,000+ channels/videos with natural-language queries and filters so that I can find exactly the channels and videos that matter.
+US-INTEL-02
+
+As a strategist, I want to filter by subscriber count, velocity, language, content type and engagement so that I can target my level and spot emerging creators.
+US-INTEL-03
+
+As a researcher, I want to see outlier videos and outlier scores for any channel so that I learn which topics/formats broke out.
+US-INTEL-04
+
+As a researcher, I want to find channels similar to a given channel so that I discover competitors and collaborations I didn’t know about.
+US-INTEL-05
+
+As a researcher, I want to chat with a channel or video so that I can ask focused questions about their patterns, hooks and gaps.
+US-INTEL-06
+
+As a team, I want to bookmark channels/videos with tags and notes shared across the team so that we build a common research library.
+US-INTEL-07
+
+As a researcher, I want an unindexed channel I search by @handle to be auto-added so that the database improves and I get my data.
+
+
+8.4 Ideas (E3)
+ID
+User Story
+US-IDEA-01
+
+As a creator, I want 10 ideas generated from outlier videos in my and adjacent niches so that I never run out of validated concepts.
+US-IDEA-02
+
+As a creator, I want each idea to show title, topic, strategy, source video and outlier score so that I understand why it should work before I commit.
+US-IDEA-03
+
+As a creator, I want to sort/filter ideas by outlier score, status and source so that I start with my highest-potential concepts.
+US-IDEA-04
+
+As a creator, I want to keep an idea’s proven hook but Change Topic so that I can apply a working format to a subject that fits me.
+US-IDEA-05
+
+As a creator, I want to generate title and thumbnail variations from an idea so that I can package it well.
+US-IDEA-06
+
+As a creator, I want to click Write on any idea to open the canvas pre-loaded so that I jump straight into scripting.
+US-IDEA-07
+
+As a creator, I want to regenerate ideas on demand (e.g. weekly) so that my pipeline reflects fresh outlier data.
+
+
+8.5 Chat / Ideation (E4)
+ID
+User Story
+US-CHAT-01
+
+As a creator, I want to brainstorm and research a concept in a channel-scoped chat so that responses use my voice and audience context.
+US-CHAT-02
+
+As a creator, I want to paste YouTube URLs to analyze videos/channels inside chat so that I can study and remix what works.
+US-CHAT-03
+
+As a creator, I want the AI to search the web and gather facts mid-conversation so that I don’t switch tabs to research.
+US-CHAT-04
+
+As a creator, I want a prompt library of ready-made prompts so that I get strong results without prompt-engineering.
+US-CHAT-05
+
+As a creator, I want research generated in chat to collect in a sidebar and be star-able so that I can reuse it across scripts.
+US-CHAT-06
+
+As a creator, I want to say ‘turn this into a script’ and have the canvas open so that I transition seamlessly from idea to writing.
+US-CHAT-07
+
+As a creator, I want to paste a YouTube channel URL and get its content strategy, top videos, outliers and posting patterns so that I can study a competitor in seconds.
+US-CHAT-08
+
+As a creator, I want to ask for a channel’s outliers in chat and filter them (long-form only, last 6 months, by topic) so that I find proven formats fast.
+US-CHAT-09
+
+As a creator, I want a deep ‘AI Research’ tool that explores many sources and writes a referenceable report so that I get thorough background, not just quick facts.
+US-CHAT-10
+
+As a creator, I want to upload PDFs, Word docs, text files and images (up to 10MB) as context so that the AI can use my own source material.
+
+
+8.6 Canvas / Script Creation (E5)
+ID
+User Story
+US-CANV-01
+
+As a creator, I want a split-panel canvas (chat + editor) I can resize/collapse so that writing feels like a collaborative session.
+US-CANV-02
+
+As a creator, I want to answer planning questions then generate an editable outline so that the script has a sound structure.
+US-CANV-03
+
+As a creator, I want to switch to Script mode and generate full prose in my voice so that I get a complete first draft.
+US-CANV-04
+
+As a creator, I want to pick and switch the AI model (and set a default) so that I optimize for speed, length adherence or style.
+US-CANV-05
+
+As a creator, I want to choose/switch a template so that the structure matches my video type.
+US-CANV-06
+
+As a creator, I want to add research context (YouTube, web, PDF, text) so that the script is grounded in source material.
+US-CANV-07
+
+As a creator, I want to highlight any passage and improve it with a custom instruction so that I fix one part without regenerating everything.
+US-CANV-08
+
+As a creator, I want a one-click Humanize pass so that AI patterns are stripped and the script reads aloud naturally.
+US-CANV-09
+
+As a creator, I want to Start Over within the same topic so that I can restart cleanly when a draft goes wrong.
+US-CANV-10
+
+As a creator, I want version history and autosave so that my edits are never lost and I can compare.
+US-CANV-11
+
+As a creator, I want to export to clipboard, Word, PDF and a teleprompter view so that I can record from any setup.
+US-CANV-12
+
+As a creator, I want to see live word count and estimated duration so that I hit my target length.
+
+
+8.7 Script Builder — Classic Structured Workflow (E5)
+ID
+User Story
+US-SB-01
+
+As a creator who prefers structure, I want a step-by-step builder (Research → Frame → Title → Thumbnail → Hook → Payoffs → Draft → Edit → Export → Publish) so that I make deliberate decisions at each stage.
+US-SB-02
+
+As a creator, I want to choose a research depth level (Basic → Exhaustive) that sets a word budget so that I control how much source material the AI uses.
+US-SB-03
+
+As a creator, I want to pick a framework, define my angle, and set viewer goals in the Frame step so that the structure fits my topic.
+US-SB-04
+
+As a creator, I want to review AI title and thumbnail suggestions (or write my own) and craft the hook and payoffs so that packaging and promise are decided before drafting.
+US-SB-05
+
+As a creator, I want to generate the draft and regenerate individual sections without touching the rest so that I fix one part cleanly.
+US-SB-06
+
+As a creator, I want to jump back to any completed step from the sidebar so that I can revise earlier decisions.
+US-SB-07
+
+As a creator, I want progress auto-saved and to work on several scripts at once so that I never lose work and can multitask.
+
+
+8.8 Agent Mode & Production (E6)
+ID
+User Story
+US-AGENT-01
+
+As a busy creator, I want to hand a topic to an agent that researches, outlines, writes and QA-checks unattended so that I get a strong first draft without step-by-step work.
+US-AGENT-02
+
+As a creator, I want to watch progress and get an email when it’s done so that I can leave and return.
+US-AGENT-03
+
+As a creator, I want free retries when the agent fails so that I’m never charged twice for the same work.
+US-AGENT-04
+
+As a faceless operator, I want optional automated voiceover, presenter avatar and rendered video so that I can move from script to video in one pipeline.
+US-AGENT-05
+
+As a creator, I want to cancel an in-progress run with no extra charge so that I stay in control.
+
+
+8.9 Thumbnails & Packaging (E7)
+ID
+User Story
+US-THUMB-01
+
+As a creator, I want to enter a title and get 4 concept sketches across proven formats so that I can compare creative directions.
+US-THUMB-02
+
+As a creator, I want to render a full-quality thumbnail from a chosen concept so that I get a publish-ready image.
+US-THUMB-03
+
+As a creator, I want to clone/remix a reference thumbnail (URL or upload) so that I match a look I already want.
+US-THUMB-04
+
+As a creator, I want automatic CTR scoring (contrast, readability) with one-click fixes so that weak spots are corrected.
+US-THUMB-05
+
+As a creator, I want a history of generated thumbnails I can re-download so that I never lose past work.
+
+
+8.10 Teams & Collaboration (E8)
+ID
+User Story
+US-TEAM-01
+
+As a team lead, I want to invite members by email and assign Admin/Editor/Viewer roles so that people have appropriate access.
+US-TEAM-02
+
+As a team, I want channels, scripts, research and bookmarks shared across members so that we collaborate on the same assets.
+US-TEAM-03
+
+As a team, I want channels, scripts, research and bookmarks shared across all members so that we collaborate on the same assets.
+US-TEAM-04
+
+As a viewer, I want read-only access to scripts/research so that stakeholders can review without editing.
+
+
+8.11 Administration & Platform (E9)
+ID
+User Story
+US-ADMIN-01
+
+As a workspace admin, I want to add and remove users, each with their own individual login so that my team can collaborate securely without sharing accounts.
+US-ADMIN-02
+
+As a admin, I want to assign and change roles (Admin/Editor/Viewer) so that people have exactly the access they need.
+US-ADMIN-03
+
+As a admin, I want to optionally set soft usage limits per user/workspace (e.g. monthly generations) so that I can manage shared infrastructure cost without charging anyone.
+US-ADMIN-04
+
+As a admin, I want to see workspace usage (generations, active users, scripts) so that I understand how the system is being used.
+US-API-01
+
+As a developer, I want API and MCP access to CreateUp from AI clients so that I can integrate scripting into my own tools.
+US-I18N-01
+
+As a international creator, I want scripts generated in many languages so that I serve non-English audiences.
+
+
+8.12 Production Pipeline (E10)
+ID
+User Story
+US-PIPE-01
+
+As a creator/team, I want to track each piece of content through Idea → Research/Writing → Recording → Editing → Published so that I always know what stage everything is in.
+US-PIPE-02
+
+As a writer, I want a Writer’s Room view showing only projects in research/writing (and what’s due soon) so that I focus on what I need to write.
+US-PIPE-03
+
+As a talent/production, I want a Film Queue showing only what needs recording so that on a shoot day I see just today’s shots.
+US-PIPE-04
+
+As a editor, I want an Edit Bay kanban with Edit Status (Assembly, Rough cut, VFX, Sound, Color) so that I manage post-production stages.
+US-PIPE-05
+
+As a team lead, I want to assign people to projects and filter to a person’s work so that everyone sees their own queue.
+
+
+8.13 Tasks & Content Calendar (E10)
+ID
+User Story
+US-TASK-01
+
+As a creator, I want to create tasks, assign them to people, and link them to a content project so that production work is tracked, not lost in my head.
+US-TASK-02
+
+As a creator, I want a calendar of planned/in-progress content by target publish date so that I can plan a consistent schedule.
+US-TASK-03
+
+As a creator, I want to set a publish date and see upcoming/overdue content on the dashboard so that nothing slips.
+
+
+8.14 Assets & Inspiration (E11)
+ID
+User Story
+US-ASSET-01
+
+As a creator, I want a central B-roll/shotlist library I can attach to any project so that I stop recreating shot lists per video.
+US-ASSET-02
+
+As a editor, I want to import shot lists / markers (e.g. Premiere, Frame.io) and link cloud assets so that editing references live in one place.
+US-ASSET-03
+
+As a creator, I want to favorite reusable B-roll and scope items to a channel so that recurring assets are easy to reuse.
+US-SWIPE-01
+
+As a creator, I want a visual Swipe File for thumbnails, set design and landing-page inspiration so that I have references when packaging content.
+US-SWIPE-02
+
+As a creator, I want to capture inspiration from the web (or upload it) with title and source auto-filled so that saving inspiration is one click.
+
+
+8.15 Knowledge & SOPs (E11)
+ID
+User Story
+US-WIKI-01
+
+As a team, I want a Wiki of processes, SOPs and reference guides so that the team works consistently.
+US-WIKI-02
+
+As a creator, I want to scope wiki pages and publishing checklists to a specific channel so that each channel has its own playbook.
+
+
+8.16 Growth Loop (E12)
+ID
+User Story
+US-PERF-01
+
+As a creator, I want my own published videos’ stats synced into CreateUp so that I can learn from what actually worked on my channel.
+US-SUB-01
+
+As a creator, I want a public form to collect topic ideas from my audience so that I plan content my viewers actually want.
+US-MERIT-01
+
+As a creator, I want to tag ideas with a merit/role (Content Pillar, Trending, Experiment) so that I balance my content mix.
+US-KW-01
+
+As a creator, I want to track target keywords per video so that I manage SEO across my catalog.
+US-REPURP-01
+
+As a creator, I want to spin off linked derivative projects (a Short from a long-form) so that I repurpose content systematically.
+
+
+
+
+9. Functional & Capability Requirements
+
+Requirements are grouped by module. Priority: Must (MVP), Should (fast-follow), Could (later). Each is independently testable.
+
+
+9.1 Accounts, Authentication & Workspaces
+Req ID
+Requirement
+
+Priority
+FR-AUTH-01
+Each user has an individual login: register and authenticate via email/password and at least one OAuth/SSO provider (e.g. Google). Accounts are never shared.
+
+Must
+FR-AUTH-02
+Every user belongs to at least one Workspace (a personal workspace is created on signup); a user may belong to several.
+
+Must
+FR-AUTH-03
+Roles are Admin (all features, user & workspace management), Editor (create/edit scripts, research, creative features), and Viewer (read-only).
+
+Must
+FR-AUTH-04
+Admins can invite members by email and assign a role; invitees receive an email invitation and join, with their own login, on acceptance.
+
+Must
+FR-AUTH-05
+Channels, scripts, research and bookmarks are shared and accessible to all members of the owning workspace, subject to role.
+
+Must
+FR-AUTH-06
+There is no billing or credit system. The platform is free to all invited users; AI usage is unmetered except for optional admin-set soft limits (FR-ADMIN-03).
+
+Must
+FR-AUTH-07
+Chat threads are per-user but referenceable by teammates.
+
+Should
+FR-AUTH-08
+Admins can change roles and revoke members; revoked members immediately lose access.
+
+Must
+FR-AUTH-09
+Support password reset, email verification, secure session management, and per-user activity attribution.
+
+Must
+
+
+9.2 Onboarding (Channel Creation Wizard)
+
+A guided 7-step wizard that creates a channel and triggers background generation of voice, audience and starter ideas. Typical completion 5–10 minutes.
+Req ID
+Requirement
+
+Priority
+FR-ONB-01
+Step 1 — capture a free-text description of the creator’s content/niche.
+
+Must
+FR-ONB-02
+Step 2 — choose presentation style: Personality (on-camera) or Faceless (topic/visual/voiceover).
+
+Must
+FR-ONB-03
+Step 3 — choose path: link an existing YouTube channel, or start a new (custom) channel.
+
+Must
+FR-ONB-04
+Step 4 (YouTube path) — find a channel by URL/@handle with no YouTube login; show subscriber count and video library for confirmation. If <3 videos, prompt for a channel description.
+
+Must
+FR-ONB-05
+Step 4 (Custom path) — capture channel name and a detailed niche/audience description.
+
+Must
+FR-ONB-06
+Step 5 — select competitors: AI-suggests channels by niche; user can add suggested, search by URL/@handle, or remove. Step is optional (skippable).
+
+Must
+FR-ONB-07
+Step 6 — capture differentiation statement (min 20 chars).
+
+Must
+FR-ONB-08
+Step 7 — show generated Audience Avatar preview and a stream of up to 10 starter Ideas; allow Write (open canvas) or Skip for Now.
+
+Must
+FR-ONB-09
+Background jobs generate Voice (from top videos ≥3 min), Audience Avatar, and Ideas; the wizard shows progress/checkmarks and continues even after the user leaves.
+
+Must
+FR-ONB-10
+Users can start scripting immediately while generation completes asynchronously (target minutes; up to ~1 hour under load).
+
+Must
+
+
+
+9.3 Channels & Settings
+Req ID
+Requirement
+
+Priority
+FR-CHAN-01
+Users can create multiple channels (subject to any optional admin limit) and switch the active channel via a selector visible across the app.
+
+Must
+FR-CHAN-02
+Each channel stores its own voice profile(s), audience avatar, competitors, scripts, ideas, research, templates and settings.
+
+Must
+FR-CHAN-03
+Channel navigation exposes: Ideas, Scripts, Audience, Competitors, plus a Settings menu (Channel Settings, Voice, Templates, Research).
+
+Must
+FR-CHAN-04
+Channel Settings include details, linked YouTube channel, and Script Defaults (default template, default Draft Writing Model, default language).
+
+Must
+FR-CHAN-05
+Users can relink/change the linked YouTube channel, which re-analyzes content and updates voice & audience.
+
+Should
+FR-CHAN-06
+Channel Memory: users store durable facts/preferences that the AI automatically applies across scripts in that channel; memory is viewable/editable.
+
+Should
+FR-CHAN-07
+Competitors: add/search/remove tracked competitor channels post-setup; competitors feed idea generation and research.
+
+Must
+FR-CHAN-08
+Business/brand channels are supported (channels representing a company/product rather than a person).
+
+Could
+
+
+9.4 Voice Profiles
+
+
+Voice is the single biggest driver of ‘sounds like me.’ Treat training quality and editability as first-class.
+Req ID
+Requirement
+
+Priority
+FR-VOICE-01
+Auto-train a voice profile during onboarding from the channel’s top 10 videos (5 most-viewed + 5 most-recent), using only videos ≥3 minutes with sufficient transcript.
+
+Must
+FR-VOICE-02
+When insufficient long videos exist, generate a baseline voice from available content/description and improve automatically as more videos publish.
+
+Must
+FR-VOICE-03
+Simple mode: refine the voice with natural-language instructions (e.g. ‘more casual’, ‘shorter sentences’); generate a preview and iterate on feedback.
+
+Must
+FR-VOICE-04
+Advanced mode: expose and edit all parameters across Speaker Archetype (age vibe, profession archetype, temperament, authority posture), Delivery Recipe (cadence, energy, pacing/emphasis), Rhetorical Toolkit (hooks, transitions, CTAs, analogy/evidence, humor/empathy), Diction & Syntax (vocabulary level, sentence shape, preferred constructions, words to avoid), and Additional Settings (phrase kit, jargon policy, formatting directives, do/don’t rules).
+
+Must
+FR-VOICE-05
+Add writing samples (up to 50,000 characters each: transcripts, blogs, threads, scripts) to enhance training.
+
+Should
+FR-VOICE-06
+Borrow a voice: train a profile from another public YouTube channel’s transcripts and apply it to the user’s topics.
+
+Should
+FR-VOICE-07
+Support multiple voice profiles per channel; set a channel default and override per script.
+
+Should
+FR-VOICE-08
+Generate Preview produces a short voice sample instantly and for free.
+
+Must
+
+
+
+9.5 Audience Avatar
+Req ID
+Requirement
+
+Priority
+FR-AUD-01
+Auto-generate an avatar during onboarding from the top 5 videos by views (linked) or the user’s description (custom).
+
+Must
+FR-AUD-02
+Avatar contains Demographics, Psychographics, Online Behavior, Offline Behavior and Key Questions.
+
+Must
+FR-AUD-03
+Generate a representative AI audience photo with a refresh control for an alternate image.
+
+Should
+FR-AUD-04
+Edit any section manually, or fully refresh the avatar from latest YouTube data (overwriting customizations, with confirmation).
+
+Must
+FR-AUD-05
+Audience context is injected into idea generation, chat and script writing.
+
+Must
+
+
+9.6 Intel — Competitive Intelligence
+
+A searchable database of 100,000+ YouTube channels/videos, updated daily, with analytics and AI chat.
+Req ID
+Requirement
+
+Priority
+FR-INTEL-01
+Search channels and videos via natural language; keywords like ‘channel’/‘niche’ bias toward channel results, otherwise video results.
+
+Must
+FR-INTEL-02
+Support advanced query syntax for subscriber ranges, velocity (e.g. ‘velocity > 2’), engagement (views/sub), creation date, video count, performance (views, outlier score), timeframe and format (shorts/longs), in combination.
+
+Must
+FR-INTEL-03
+Provide explicit filters: subscriber min/max, velocity score, language, content type (long/shorts/both).
+
+Must
+FR-INTEL-04
+Compute and display Velocity Score (momentum) and tag fast-growing channels.
+
+Must
+FR-INTEL-05
+Compute Outlier Score = video views ÷ average views of up to 10 surrounding videos on the same channel; display with severity bands (≥5x exceptional, 2–5x strong, 1–2x average, <1x under).
+
+Must
+FR-INTEL-06
+Compute and display Views/Sub ratio with a High indicator for strong beyond-subscriber reach.
+
+Should
+FR-INTEL-07
+Channel detail view: subscriber/growth trends, total & average views, upload frequency/consistency, top videos (sortable by views/outlier), and outlier videos.
+
+Must
+FR-INTEL-08
+Video detail view: views/engagement, outlier score, views/sub, title and thumbnail.
+
+Must
+FR-INTEL-09
+Find Similar Channels for any channel.
+
+Should
+FR-INTEL-10
+Chat with Channel / Chat with Video: open an AI conversation scoped to that entity.
+
+Should
+FR-INTEL-11
+Bookmark channels/videos with tags and notes; bookmarks are team-shared and have a dedicated page.
+
+Must
+FR-INTEL-12
+Searching an unindexed channel by @handle auto-queues it for indexing and adds it for all users.
+
+Should
+FR-INTEL-13
+Intel dashboard surfaces curated modules: Trending niches, Outlier videos this week, Hot new channels (with Velocity Score), and Growth insights.
+
+Should
+
+
+
+9.7 Ideas — Outlier-Driven Generation
+
+
+Core principle: borrow the hook, not the topic — ‘yoink and twist.’ Ground ideas in outlier evidence, including adjacent niches.
+Req ID
+Requirement
+
+Priority
+FR-IDEA-01
+Generate sets of (default 10) ideas by identifying outlier videos across the channel’s niche AND deliberately selected adjacent niches (based on category/keywords/competitors).
+
+Must
+FR-IDEA-02
+Each idea includes: Title (hook-bearing working title), Topic, Strategy (the psychological hook / why it works), Source video (with views & outlier score), and Suggested length.
+
+Must
+FR-IDEA-03
+Maintain an Ideas Library with sort (newest, highest outlier score) and filters (status, source).
+
+Must
+FR-IDEA-04
+Change Topic: preserve an idea’s proven hook structure while redirecting it to a new subject.
+
+Should
+FR-IDEA-05
+Generate Titles: produce title variations/angles for an idea.
+
+Should
+FR-IDEA-06
+Generate thumbnail concepts for an idea (links to Thumbnails module).
+
+Should
+FR-IDEA-07
+Write action opens the Canvas with the idea’s context (title, topic, strategy, source) pre-loaded.
+
+Must
+FR-IDEA-08
+Idea status workflow (e.g. new / in-progress / scripted / archived) for pipeline management.
+
+Should
+FR-IDEA-09
+On-demand regeneration to refresh the pipeline against the latest outlier data.
+
+Must
+
+
+
+9.8 Chat / Ideation
+Req ID
+Requirement
+
+Priority
+FR-CHAT-01
+Chat is channel-scoped: the selected channel’s voice and audience condition all responses; require a channel selection before chatting.
+
+Must
+FR-CHAT-02
+Accept plain-language questions, pasted YouTube video/channel URLs, and document uploads as context.
+
+Must
+FR-CHAT-03
+Analyze pasted YouTube videos (fetch metadata, transcript, structure) and channels (content strategy, top videos, outliers, posting patterns); support remixing into new angles.
+
+Must
+FR-CHAT-04
+Answer in-chat outlier requests with filters (e.g. ‘long-form outliers only’, ‘last 6 months’, ‘top 10 about <topic>’).
+
+Should
+FR-CHAT-05
+Perform quick web search for current information within the conversation.
+
+Should
+FR-CHAT-06
+AI Research: a deep, multi-source research tool (separate from quick search) that synthesizes findings into a saved, referenceable report in the research library.
+
+Should
+FR-CHAT-07
+Upload files as context — PDF, Word (.doc/.docx), text (.txt/.md/.json/.csv) and images (.jpg/.png/.gif/.webp), up to 10MB each.
+
+Must
+FR-CHAT-08
+Prompt Library: categorized, ready-made prompts insertable into chat and editing; openable via keyboard shortcut.
+
+Should
+FR-CHAT-09
+Research sidebar auto-collects AI-generated research; items can be starred (persist across all scripts) or deleted.
+
+Should
+FR-CHAT-10
+Intent like ‘turn this into a script’ creates a script project and opens the Canvas with context carried over.
+
+Must
+FR-CHAT-11
+Maintain full-conversation context awareness; chat is rate-limited (not credit-metered) with clear back-off messaging.
+
+Must
+FR-CHAT-12
+Maintain chat history grouped by recency (This Week / Last Week / older), searchable, scoped to channel.
+
+Should
+
+
+9.9 Canvas / Script Creation
+
+
+Workflow is intentionally sequential and one-chat = one-script: Idea → Plan/Outline → Script → Edit → Export.
+Req ID
+Requirement
+
+Priority
+FR-CANV-01
+Enforce a one-chat-one-script model: each thread develops a single video; provide Start Over (same topic) and direct users to a new thread for different topics.
+
+Must
+FR-CANV-02
+Split-panel UI: left chat, right editor; panels resizable via divider and individually collapsible.
+
+Must
+FR-CANV-03
+Plan mode: present optional planning questions (main takeaway, audience concerns, points to cover, desired viewer action) then generate an editable outline (hook/intro, sections with key points, transitions, conclusion + CTA).
+
+Must
+FR-CANV-04
+Script mode: expand the approved outline into full prose applying voice profile, audience and template; stream output section by section.
+
+Must
+FR-CANV-05
+Plan/Script tab toggle; users can return to Plan, restructure, and regenerate sections.
+
+Must
+FR-CANV-06
+Model selector per script with the ability to switch mid-script (e.g. one model for outline, a faster one for edits); honor channel default.
+
+Must
+FR-CANV-07
+Template selector with the ability to switch templates at any time during creation.
+
+Must
+FR-CANV-08
+Add Context: attach YouTube URLs (transcripts), web articles, uploaded PDFs/docs, and pasted custom text, within plan-based research word limits.
+
+Must
+FR-CANV-09
+Direct rich-text editing with autosave.
+
+Must
+FR-CANV-10
+Highlight-and-Improve: select text to reveal a toolbar of improvement options plus a custom-instruction field; the AI rewrites only the selection.
+
+Must
+FR-CANV-11
+Humanize: one-click rewrite that strips AI patterns, merges choppy sentences, upgrades to vivid/specific language, targets ~6th–7th-grade spoken readability, optimizes for AI voiceover, and preserves the voice profile; streams section by section.
+
+Must
+FR-CANV-12
+Provide unlimited free regenerations (Start Over and Humanize), since there is no credit system; warn before destructive Start Over.
+
+Must
+FR-CANV-13
+Live word count and estimated spoken duration; support scripts up to 30,000 words / ~3 hours.
+
+Must
+FR-CANV-14
+Version history: snapshot generations/major edits; allow review and restore.
+
+Should
+FR-CANV-15
+Scripts list per channel with metadata (title, length, status, updated).
+
+Must
+
+
+
+9.10 Script Builder — Classic Structured Workflow
+
+An alternative to the chat-based Canvas for users who prefer an explicit, guided sequence. Both workflows produce the same kind of voice-accurate script and share research, voice, audience and templates. The Canvas is the recommended default; the Script Builder is fully supported.
+Req ID
+Requirement
+
+Priority
+FR-SB-01
+Provide a 10-step builder with a left step sidebar: (1) Research, (2) Frame, (3) Title, (4) Thumbnail, (5) Hook, (6) Payoffs, (7) Draft, (8) Edit, (9) Export, (10) Publish, plus a Summary overview.
+
+Should
+FR-SB-02
+Research step: add documents (PDF/Word/text/images ≤10MB), links (URL extraction), YouTube videos (transcripts), and items from starred research; show research-depth Level with word budget — Basic 5,000 / Intermediate 15,000 / Comprehensive 45,000 / Exhaustive 90,000.
+
+Should
+FR-SB-03
+Frame step: choose a narrative framework (templates), define the specific angle, and set learning/emotional goals for viewers.
+
+Should
+FR-SB-04
+Title step: review AI title suggestions (from research + frame) or write a custom title.
+
+Should
+FR-SB-05
+Thumbnail step: review suggested thumbnail concepts that complement the title (links to Thumbnails module).
+
+Should
+FR-SB-06
+Hook step: review/select/customize an opening hook that delivers on the title’s promise.
+
+Should
+FR-SB-07
+Payoffs step: select and prioritize the key information payoffs the video will deliver, aligned to title and hook.
+
+Should
+FR-SB-08
+Draft step: generate the full script section-by-section using the voice profile; show each section’s plan and content; regenerate any individual section without affecting the others.
+
+Should
+FR-SB-09
+Edit step: AI-suggested edits for flow/engagement plus manual editing (shares the writing/Humanize tools).
+
+Should
+FR-SB-10
+Export step: copy to clipboard, download as a document, and optionally export research notes separately.
+
+Should
+FR-SB-11
+Publish step: generate YouTube tags, description and finalized metadata.
+
+Should
+FR-SB-12
+Navigation: Continue advances steps; clicking a completed step in the sidebar returns to it (later steps may flag for regeneration). Progress autosaves; multiple builder scripts can run simultaneously and appear in the channel scripts list.
+
+Should
+
+
+
+9.11 Agent Mode & Production Pipeline
+Req ID
+Requirement
+
+Priority
+FR-AGENT-01
+Launch from Canvas; run an automated pipeline: Research → Outline → Script → Quality checks (retention optimization, humanization, repetition cleanup) → Voiceover preparation.
+
+Should
+FR-AGENT-02
+Run in the background (5–15 min typical) with a live progress panel; user may close the tab and is emailed on completion.
+
+Should
+FR-AGENT-03
+Use the channel’s voice/audience and any attached research context; output appears in the Script tab with an outline in the Plan tab.
+
+Should
+FR-AGENT-04
+Retries on the same script are free and automatic on failure; cancellation is immediate. (No credits are involved.)
+
+Should
+FR-AGENT-05
+Optional, channel-enabled video production: AI voiceover from the script, presenter avatar video, shot-list planning and rendering, tracked in the same progress panel.
+
+Could
+FR-AGENT-06
+Output integrates with all standard editing tools (highlight-and-improve, Humanize, chat) for post-run refinement.
+
+Should
+
+
+9.12 Templates
+
+Templates define structure and pacing. Provide built-in long-form and shorts templates, plus custom templates cloned from videos.
+Req ID
+Requirement
+
+Priority
+FR-TMPL-01
+Ship built-in long-form templates: Flexible, Educational (WHY-WHAT-HOW), Documentary (3-act), Explainer, Commentary (Observation-Insight-Evidence), Review (Context-Finding-Verdict), Compilation, Fictional Story (3-act), VSL (Problem-Agitation-Solution), Listicle, Essay (thesis-driven), News (inverted pyramid), Experiment, Challenge.
+
+Must
+FR-TMPL-02
+Ship shorts templates: Shorts Educational, Shorts Review, Shorts Story, Shorts Viral, Shorts Ad.
+
+Should
+FR-TMPL-03
+Custom template by cloning a single video — capture section breakdown, pacing/timing, structural flow and transition patterns.
+
+Should
+FR-TMPL-04
+Combine 2–3 videos into one synthesized custom template; allow fine-tuning.
+
+Could
+FR-TMPL-05
+Provide guidance mapping content type → recommended template; templates are switchable mid-script.
+
+Should
+
+
+9.13 Research & Sources
+Req ID
+Requirement
+
+Priority
+FR-RES-01
+Add research from YouTube URLs (transcripts), web articles, uploaded PDFs/Word/text/image files (≤10MB each), and pasted text.
+
+Must
+FR-RES-02
+Provide a deep AI Research tool that explores multiple sources, synthesizes a detailed report, and saves it to the research library for reuse.
+
+Should
+FR-RES-03
+Apply a configurable research-depth word budget (e.g. Basic/Intermediate/Comprehensive/Exhaustive); all research is free (no credits/metering beyond optional admin limits).
+
+Should
+FR-RES-04
+Starred research persists and is available across all scripts in the channel, not just the current thread; irrelevant items can be deleted.
+
+Should
+FR-RES-05
+Research is referenceable by the AI during planning, writing and fact-checking.
+
+Must
+
+
+
+9.14 Thumbnails (AI Thumbnail Studio)
+
+
+Models trained on high-performing YouTube thumbnails. Available to Editor/Admin roles.
+Req ID
+Requirement
+
+Priority
+FR-THUMB-01
+Brainstorm mode: from a video title (+ optional topic), generate 4 concept sketches across proven formats (~60–90s); selecting one opens a detail panel.
+
+Should
+FR-THUMB-02
+Render a full-resolution, publish-ready thumbnail from a selected concept.
+
+Should
+FR-THUMB-03
+Clone/Remix mode: accept a reference via YouTube URL or image upload, analyze its style (colors, typography, composition, lighting), and render a new thumbnail in that style; goes directly to final render.
+
+Should
+FR-THUMB-04
+Score each thumbnail against CTR principles (contrast, readability) and offer one-click fixes for weak spots.
+
+Could
+FR-THUMB-05
+Maintain thumbnail history; allow re-download of any prior thumbnail at high resolution.
+
+Should
+FR-THUMB-06
+Thumbnail Settings: default brand assets and style preferences per channel.
+
+Could
+FR-THUMB-07
+Thumbnail generation is free; an admin may optionally set a soft monthly generation limit per user/workspace (no paid packs).
+
+Could
+
+
+9.15 Publishing, Promotion & Export
+Req ID
+Requirement
+
+Priority
+FR-PUB-01
+Export a finished script via Copy to Clipboard, Word (.docx) and PDF.
+
+Must
+FR-PUB-02
+Teleprompter view: full-screen, large-text reading mode launched from export.
+
+Should
+FR-PUB-03
+Generate promo assets from a finished script via Prompt Library: SEO video description, social package (Twitter/LinkedIn/Instagram), newsletter content, blog-post adaptation, and shot list / B-roll guide.
+
+Should
+FR-PUB-04
+Auto-generate optimized titles/hooks and description & tags.
+
+Should
+
+
+
+9.16 Workspace Administration
+
+
+No billing, plans, credits or payments anywhere in the system. Access is governed entirely by membership, roles, and optional admin-set soft limits.
+Req ID
+Requirement
+
+Priority
+FR-ADMIN-01
+Admin Users page: list members with role, status and last activity; add (invite), edit role, deactivate and remove users.
+
+Must
+FR-ADMIN-02
+Workspace settings: name, default channel, default AI model/language, and theme defaults.
+
+Should
+FR-ADMIN-03
+Optional soft usage limits set by an admin (e.g. monthly script generations and thumbnail generations per user or per workspace) to manage shared infrastructure cost — disabled by default, never tied to payment.
+
+Should
+FR-ADMIN-04
+Usage dashboard: generations, active users, scripts created, and (if enabled) progress against soft limits.
+
+Should
+FR-ADMIN-05
+Channels, scripts, research and bookmarks are visible to all members per role; admins can reassign channel ownership.
+
+Should
+FR-ADMIN-06
+All AI features (chat, ideas, research, scripts, thumbnails, agent mode) are available to every member at no cost, subject only to role and optional soft limits.
+
+Must
+
+
+9.17 Platform, API, Language & Preferences
+Req ID
+Requirement
+
+Priority
+FR-PLAT-01
+Provide API access and an MCP server so external AI clients/tools can drive CreateUp (available to all members; admin-toggleable).
+
+Could
+FR-I18N-01
+Generate scripts in 25+ languages (incl. Arabic, Bengali, Chinese (Simplified), Czech, Danish, Dutch, English, Finnish, French, German, Greek, Hindi, Indonesian, Italian, Japanese, Korean, Malay, Norwegian, Polish, Portuguese, Romanian, Russian, Spanish, Swedish, Thai, Turkish, Ukrainian, Vietnamese); UI is English in v1.
+
+Should
+FR-SET-01
+Light/Dark/Auto theme.
+
+Should
+FR-SET-02
+Keyboard shortcuts for common actions (e.g. open Prompt Library, navigate canvas).
+
+Could
+FR-SET-03
+User Guide / Help center and contextual help (‘?’) accessible in-app.
+
+Should
+FR-SET-04
+A Production Board (kanban) to track videos through stages (idea → scripting → packaging → ready), surfacing scripts, ideas and thumbnails.
+
+Could
+
+
+
+9.18 Production Pipeline & Workflow
+
+
+Production-management layer (inspired by Creator’s Companion). Turns finished scripts into tracked content moving through filming and editing — complements, not replaces, the AI scripting core.
+Req ID
+Requirement
+
+Priority
+FR-PIPE-01
+Promote any script/idea into a Content Project with a Status lifecycle: Idea → Research/Writing → Recording → Editing → Scheduled → Published.
+
+Should
+FR-PIPE-02
+Writer’s Room view: filter to projects in Research/Writing, with due-soon indicators and per-assignee filtering.
+
+Should
+FR-PIPE-03
+Film Queue view: filter to projects in Recording; group by shoot day; surface each project’s shot list.
+
+Should
+FR-PIPE-04
+Edit Bay: a kanban board keyed on an Edit Status property — Assembly, Rough cut, VFX, Sound & music, Color grading — for post-production tracking.
+
+Should
+FR-PIPE-05
+Assign one or more members to a project/role; provide a ‘my work’ filter across all pipeline views.
+
+Should
+FR-PIPE-06
+A configurable board/Production Board view of all content by status, with drag-to-advance between stages.
+
+Should
+
+
+9.19 Tasks & Content Calendar
+Req ID
+Requirement
+
+Priority
+FR-TASK-01
+Create tasks with assignee, due date, status and optional link to a Content Project; show a per-user task list.
+
+Should
+FR-TASK-02
+Group tasks under projects; show task progress on the related content project.
+
+Could
+FR-CAL-01
+Content Calendar: month/week views of content by target publish date, color-coded by status/channel.
+
+Should
+FR-CAL-02
+Set a publish date per project; surface upcoming and overdue content on the Dashboard.
+
+Should
+
+
+
+9.20 Assets & Inspiration
+Req ID
+Requirement
+
+Priority
+FR-ASSET-01
+A single, centralized B-roll/shotlist library (not one per project); items can be linked to one or more Content Projects and scoped to a Channel.
+
+Should
+FR-ASSET-02
+Import shot lists / markers from external tools (e.g. Premiere Pro markers, Frame.io comments via file/CSV) and attach to a project.
+
+Could
+FR-ASSET-03
+Favorite reusable B-roll items; store either uploaded assets or links to cloud storage; filter/search the library.
+
+Should
+FR-SWIPE-01
+A visual Swipe File library for inspiration (thumbnails, set/studio design, landing pages) with image previews, tags and source URL.
+
+Should
+FR-SWIPE-02
+Capture inspiration via web link (auto-extract image, title, source URL) or direct upload; one-click save from a browser clipper.
+
+Could
+FR-SWIPE-03
+Auto-capture YouTube thumbnails to Swipes with title and URL pre-filled; reference Swipes from the Thumbnail Studio.
+
+Could
+
+
+9.21 Knowledge & SOPs
+Req ID
+Requirement
+
+Priority
+FR-WIKI-01
+A Wiki of process docs, SOPs and reference guides, browsable in one place.
+
+Should
+FR-WIKI-02
+Scope wiki pages to a Channel; show a channel’s related docs (e.g. its publishing checklist) on the channel page.
+
+Could
+FR-WIKI-03
+Reusable checklists (e.g. pre-publish QA) attachable to content projects.
+
+Could
+
+
+
+9.22 Channel Performance & Growth Loop
+
+
+Closes the loop: learn from your own published performance, not just external Intel.
+Req ID
+Requirement
+
+Priority
+FR-PERF-01
+Sync the workspace’s own published YouTube video stats (views, retention proxies, engagement) into each Content Project, with periodic refresh.
+
+Should
+FR-PERF-02
+Surface own-channel performance trends and feed them into idea generation and voice/audience refinement.
+
+Could
+FR-SUB-01
+Provide a public Audience Submission form to collect topic ideas from viewers; submissions flow into a reviewable queue and can be promoted to Ideas.
+
+Should
+FR-MERIT-01
+Tag ideas/content with an Idea Merit (e.g. Content Pillar, Trending Topic, Experiment) for content-mix balancing and filtering.
+
+Should
+FR-KW-01
+Track target keywords per Content Project (a keyword list with optional notes/volume) for SEO management.
+
+Could
+FR-CHAP-01
+Auto-generate YouTube chapter markers/timestamps from a finished script or outline.
+
+Could
+FR-REPURP-01
+Create linked derivative Content Projects (e.g. a Short from a long-form video) that reference the parent for repurposing.
+
+Could
+
+
+
+
+10. Conceptual Data Model
+
+Primary entities and their salient attributes/relationships. (Logical model — not a physical schema.)
+Entity
+Key attributes
+Relationships
+Workspace
+name, default channel/model/language, optional soft-limit settings
+has many Users, Channels; owns Bookmarks
+User
+name, email, individual auth/SSO, role (per workspace), last activity
+belongs to Workspace(s); authors Chats/Scripts
+Channel
+name, niche desc, presentation style, linked YouTube id, differentiation, default model/template/language
+belongs to Workspace; has Voice(s), Audience, Competitors, Ideas, Scripts, Research, Templates, Memory
+VoiceProfile
+label, archetype, delivery, rhetoric, diction, phrase kit, rules, is_default, samples[]
+belongs to Channel
+AudienceAvatar
+demographics, psychographics, online/offline behavior, key questions, photo
+belongs to Channel
+Competitor
+youtube id, handle, metrics snapshot
+belongs to Channel; references IntelChannel
+ChannelMemory
+facts/preferences entries
+belongs to Channel
+IntelChannel
+youtube id, subs, views, velocity, upload cadence, language, category
+has IntelVideos; referenced by Competitor/Bookmark
+IntelVideo
+title, views, published, duration, outlier score, views/sub, thumbnail, transcript
+belongs to IntelChannel
+Idea
+title, topic, strategy, source video ref, outlier score, suggested length, status
+belongs to Channel; may spawn Script
+Chat
+messages, context items, channel ref, type (ideation/canvas)
+authored by User; may link to Script
+Script
+title, workflow (canvas/builder), plan/outline, builder steps[] (frame/title/thumbnail/hook/payoffs…), draft body, template, model, voice ref, language, word count, status, versions[]
+belongs to Channel
+ResearchSource
+type (yt/web/pdf/word/text/image), content/transcript, word count, starred
+belongs to Channel/Script
+Thumbnail
+title, mode (brainstorm/clone), concepts[], render url, CTR score
+belongs to Channel/Idea/Script
+Template
+name, structure, pacing, type (long/shorts), source (built-in/cloned)
+belongs to Channel (custom) or global
+AgentRun
+status, steps[], progress, retries
+belongs to Script
+Bookmark
+target (channel/video), tags, notes
+belongs to Workspace
+UsageLog
+actor, action, model, tokens/words, timestamp
+belongs to Workspace (for the optional usage dashboard/soft limits)
+ContentProject
+title, format, status (idea→published), edit_status, assignees[], publish_date, idea_merit, keywords[], script ref, parent ref (repurposing)
+wraps a Script; belongs to Channel; has Tasks, Assets, ChannelStats
+Task
+title, assignee, due date, status
+belongs to Workspace; may link to ContentProject
+Asset (B-roll)
+type, name, link/upload, favorite, channel scope, source markers
+library item; linked to ContentProject(s)
+Swipe
+image, title, source URL, tags, kind (thumbnail/set/landing)
+belongs to Workspace/Channel
+WikiDoc
+title, body, channel scope, checklist items
+belongs to Workspace; may scope to Channel
+AudienceSubmission
+submitter (optional), topic, notes, status
+belongs to Channel; promotable to Idea
+ChannelStat
+video ref, views, retention proxy, engagement, captured_at
+belongs to ContentProject/Channel
+
+
+
+
+11. AI Model & Provider Requirements
+Req ID
+Requirement
+
+Priority
+FR-MODEL-01
+Support multiple selectable text models from several providers (e.g. Anthropic Claude, OpenAI GPT, Google Gemini, DeepSeek, xAI Grok, Moonshot Kimi, MiniMax). Names track current stable versions.
+
+Must
+FR-MODEL-02
+Models are interchangeable for outline, full script and edits; users may mix models within one script.
+
+Must
+FR-MODEL-03
+All AI usage is free to members; model choice never incurs any charge. (Operational provider cost is borne by the operator, not passed to users.)
+
+Must
+FR-MODEL-04
+Provide a model-routing/abstraction layer so providers/versions can be added or swapped without UI/contract changes.
+
+Must
+FR-MODEL-05
+Surface model characteristics guidance (speed, length adherence, style) to help selection.
+
+Should
+FR-MODEL-06
+Use image-generation model(s) for thumbnails and audience photos; voice/avatar models for the production pipeline.
+
+Should
+
+
+
+12. Integrations & External Dependencies
+Integration
+Use
+Notes
+YouTube Data
+Channel/video metadata, search, transcripts, indexing for Intel.
+No end-user YouTube login required for analysis.
+LLM providers
+Script/idea/chat generation and analysis.
+Multi-provider; abstracted behind routing layer.
+Image generation
+Thumbnails, audience photos.
+Trained/tuned on high-performing thumbnails.
+Web search
+In-chat quick search and deep AI Research.
+Free to all members.
+TTS / Avatar / Render
+Optional production pipeline (voiceover, avatar, video).
+Phase 2; channel-enabled.
+Email
+Invitations, completion notifications.
+Transactional email provider.
+MCP / API
+External AI clients drive CreateUp.
+Admin-toggleable; no payment.
+
+
+
+
+13. Access & Administration Model
+
+
+CreateUp is not sold. There are no plans, tiers, credits or payments. Every invited member gets full access to the product; what they can do is governed by their Role, and optionally by soft limits an admin may choose to set.
+
+
+13.1 Roles & Permissions
+Capability
+Admin
+Editor
+Viewer
+Use chat, ideas, research, Intel
+✓
+✓
+View
+Create / edit scripts (Canvas & Builder)
+✓
+✓
+—
+Generate thumbnails
+✓
+✓
+—
+Run Agent Mode
+✓
+✓
+—
+Edit voice / audience / templates / memory
+✓
+✓
+—
+View scripts & research
+✓
+✓
+✓
+Create / manage channels
+✓
+✓
+—
+Invite / remove users, set roles
+✓
+—
+—
+Configure workspace & optional soft limits
+✓
+—
+—
+View usage dashboard
+✓
+—
+—
+
+
+
+Multi-user, individual logins: Every person signs in with their own credentials (email/password or SSO). Accounts are never shared. Channels, scripts and research are shared within the workspace and attributed to the member who created them.
+
+
+13.2 Optional Soft Limits (admin-set, non-paid)
+
+By default everything is unlimited. To manage shared infrastructure cost, an admin may optionally cap usage. These are operational guards, never a paywall.
+Limit (optional)
+Default
+Notes
+Script generations / user / month
+Unlimited
+Soft cap; admin sets a number if desired.
+Thumbnail generations / user / month
+Unlimited
+Soft cap; image generation is the costliest op.
+Agent Mode runs / user / month
+Unlimited
+Soft cap for the heaviest pipeline.
+Research depth (word budget)
+Comprehensive
+Per-script: Basic 5k / Intermediate 15k / Comprehensive 45k / Exhaustive 90k.
+Channels / workspace
+Unlimited
+Optional cap.
+
+
+13.3 Script Length Reference (for duration estimates)
+
+Retained as a useful reference for the live word-count / duration feature (FR-CANV-13). No cost is attached to any length.
+Script length
+Approx. spoken duration
+150–500 words
+1–3 min
+800–1,300 words
+5–8 min
+1,600 words
+10 min
+2,000–3,200 words
+12–20 min
+4,000–4,800 words
+25–30 min
+6,400 words
+40 min
+8,000 words
+50 min
+10,000 words
+60 min
+20,000 / 30,000 words
+120 / 180 min (max)
+
+
+
+
+14. Non-Functional Requirements
+
+
+14.1 Performance
+Req ID
+Requirement
+
+Priority
+NFR-PERF-01
+Median idea→exported first draft ≤ 12 minutes; full-script generation streams progressively (first content < 10s).
+
+Must
+NFR-PERF-02
+Intel search returns first results < 2s for typical queries over the indexed corpus.
+
+Must
+NFR-PERF-03
+Thumbnail concept generation ~60–90s; agent runs 5–15 min with accurate progress reporting.
+
+Should
+NFR-PERF-04
+Autosave persists edits within 2s; no user-visible data loss on disconnect.
+
+Must
+
+
+14.2 Scalability & Availability
+Req ID
+Requirement
+
+Priority
+NFR-SCALE-01
+Index and keep current 100,000+ channels with daily refresh; support on-demand channel ingestion.
+
+Must
+NFR-AVAIL-01
+99.9% monthly availability for core app; long-running generation is resilient to client disconnects (server-side jobs).
+
+Must
+NFR-SCALE-02
+Rate-limit chat and generation per user/workspace to protect shared capacity, with clear back-off messaging.
+
+Must
+
+
+14.3 Security, Privacy & Compliance
+Req ID
+Requirement
+
+Priority
+NFR-SEC-01
+Encrypt data in transit (TLS) and at rest; scope all data to the owning workspace with role-based access enforced server-side.
+
+Must
+NFR-SEC-02
+Store data in a defined region (US) and disclose sub-processors (LLM/image providers, YouTube).
+
+Must
+NFR-SEC-03
+Do not require users’ YouTube credentials; only use public data and provided URLs.
+
+Must
+NFR-SEC-04
+Provide account deletion and data export.
+
+Should
+NFR-SEC-05
+Audit logging for authentication, role changes, and user/admin actions.
+
+Should
+
+
+14.4 Usability & Accessibility
+Req ID
+Requirement
+
+Priority
+NFR-UX-01
+Responsive web (desktop-first; usable on tablet). Keyboard shortcuts for power users.
+
+Should
+NFR-UX-02
+WCAG 2.1 AA target: color contrast, focus states, keyboard navigation, screen-reader labels.
+
+Should
+NFR-UX-03
+Clear empty/loading/streaming states; progress for all long-running AI tasks.
+
+Must
+
+
+14.5 Observability
+Req ID
+Requirement
+
+Priority
+NFR-OBS-01
+Track generation latency, model usage, error rates and the idea→script funnel for product analytics and the admin usage dashboard.
+
+Should
+NFR-OBS-02
+Per-provider failover monitoring and alerting on the model-routing layer.
+
+Should
+
+
+
+
+15. Assumptions, Dependencies & Risks
+
+
+15.1 Assumptions
+
+
+Public YouTube data and transcripts are accessible at the scale required for Intel and voice/audience training.
+
+
+Third-party LLM/image/voice providers remain available with acceptable latency and cost.
+
+
+As the system is free to users, the operator absorbs AI/provider cost; optional admin soft limits (Section 13.2) keep that cost bounded.
+
+
+15.2 Key Risks & Mitigations
+Risk
+Impact
+Mitigation
+YouTube data access limits/ToS changes
+High
+Abstract ingestion; cache; respect ToS; community-sourced indexing on demand.
+LLM/image provider cost or latency volatility
+High
+Multi-provider routing; caching of research; optional admin soft limits to bound spend.
+Voice fidelity falls short
+High
+Robust training (top-10 videos), Simple+Advanced editing, sample uploads, previews.
+Outlier/velocity metrics misleading
+Med
+Transparent formulas, severity bands, validation checklist guidance.
+Generated content quality / AI ‘slop’
+Med
+Templates, Humanize, retention passes, highlight-and-improve.
+Shared/unmetered usage strains capacity
+Med
+Rate limits, per-user attribution, optional admin soft limits, monitoring.
+
+
+
+16. Acceptance Criteria Approach
+
+Each requirement is verified by acceptance tests written in Given/When/Then form, traced by Req ID. A feature is Done when its Must-priority requirements pass, telemetry is wired (NFR-OBS), and the relevant screen matches the approved mockup. Example:
+
+FR-CANV-11 (Humanize): Given a generated script, When the user clicks Humanize, Then the rewrite streams section-by-section, the voice profile is preserved, AI-pattern phrases are reduced, and readability targets ~6th–7th grade — at no cost and with no regeneration cap.
+
+
+
+17. Future / Phase 2+
+
+
+Autonomous channel agents: agents that proactively grow a channel (research, plan, draft, package) and ask for feedback at checkpoints.
+
+
+Full video production: end-to-end voiceover → avatar → rendered video from a finished script.
+
+
+Direct YouTube publishing & analytics loop: push exports and read back performance to refine ideas/voice.
+
+
+Native mobile apps and offline teleprompter.
+
+
+
+
+18. Feature Coverage Matrix (vs. Subscribr)
+
+Confirms that every documented Subscribr capability is represented in this specification. ‘Section’ points to where it is required.
+Subscribr feature area
+Covered?
+CreateUp section / IDs
+Channels (multi, settings)
+Yes
+9.3 FR-CHAN
+Onboarding wizard (7 steps)
+Yes
+9.2 FR-ONB
+Channel Voice (Simple + Advanced)
+Yes
+9.4 FR-VOICE
+Borrow-a-voice, samples, multiple profiles
+Yes
+FR-VOICE-05/06/07
+Audience Avatar (+ photo)
+Yes
+9.5 FR-AUD
+Channel Memory
+Yes
+FR-CHAN-06
+Tracking Competitors
+Yes
+FR-CHAN-07
+Business channels
+Yes
+FR-CHAN-08
+Intel: NL search + advanced syntax
+Yes
+9.6 FR-INTEL-01/02/03
+Velocity, Outlier, Views/Sub scores
+Yes
+FR-INTEL-04/05/06
+Channel/Video detail, Similar, Chat-with
+Yes
+FR-INTEL-07/08/09/10
+Bookmarks (tags/notes, team)
+Yes
+FR-INTEL-11
+Auto-index unindexed @handles
+Yes
+FR-INTEL-12
+Video Ideas (outlier theory, adjacent niches)
+Yes
+9.7 FR-IDEA
+Change Topic / Generate Titles / Thumbnails
+Yes
+FR-IDEA-04/05/06
+Ideation Chat (links, web, remix, context)
+Yes
+9.8 FR-CHAT
+Chat tools: channel analysis, outliers
+Yes
+FR-CHAT-03/04
+AI Research (deep) + file uploads
+Yes
+FR-CHAT-06/07
+Prompt Library
+Yes
+FR-CHAT-08
+Canvas (split-panel, Plan→Script)
+Yes
+9.9 FR-CANV
+Model selector (multi-model, switchable)
+Yes
+FR-CANV-06; 11 FR-MODEL
+Add Context, Highlight-and-Improve, Humanize
+Yes
+FR-CANV-08/10/11
+Start Over + free regenerations
+Yes
+FR-CANV-12
+Up to 30,000 words / 3 hrs; word & duration
+Yes
+FR-CANV-13
+Script Builder (Classic 10-step)
+Yes
+9.10 FR-SB
+Templates (14 long-form + 5 shorts + custom)
+Yes
+9.12 FR-TMPL
+Agent Mode (research→QA→voiceover)
+Yes
+9.11 FR-AGENT
+Optional video production (VO/avatar/render)
+Yes
+FR-AGENT-05
+Thumbnails (Brainstorm + Clone, CTR, history)
+Yes
+9.14 FR-THUMB
+Research & Sources, Starred research
+Yes
+9.13 FR-RES
+Export: clipboard/Word/PDF/teleprompter
+Yes
+9.15 FR-PUB
+Publishing: titles, description & tags
+Yes
+FR-PUB-04; FR-SB-11
+Teams: roles, invites, shared resources
+Yes
+9.1 FR-AUTH; 9.16 FR-ADMIN
+Multi-model AI providers & routing
+Yes
+11 FR-MODEL
+MCP / API access
+Yes
+9.17 FR-PLAT-01
+Language support (25+)
+Yes
+9.17 FR-I18N-01
+Keyboard shortcuts, Light/Dark/Auto, Help
+Yes
+9.17 FR-SET
+Production Board (kanban)
+Yes
+FR-SET-04
+Credits / plans / payments
+Removed
+Replaced by 13 Access & Administration (per your scope)
+Affiliates program
+Out of scope
+Not selling access; intentionally excluded
+
+
+18.1 Extensions Beyond Subscribr (Production & Operations)
+
+These modules go beyond Subscribr’s scope. They were added after reviewing Creator’s Companion 3.0 (Thomas Frank), which is a production/operations system rather than an AI scripting tool. They give CreateUp the ‘run the channel’ layer that sits after scripting.
+Capability (from Creator’s Companion)
+Added as
+Section / IDs
+Writer’s Room / Film Queue / Edit Bay; Edit Status
+Production Pipeline
+9.18 FR-PIPE
+Per-person assignment & ‘my work’ queues
+Production Pipeline
+FR-PIPE-05
+Tasks, assignments
+Tasks
+9.19 FR-TASK
+Content calendar / scheduled content
+Content Calendar
+9.19 FR-CAL
+Centralized B-roll / shotlist; marker import
+Assets
+9.20 FR-ASSET
+Swipes visual inspiration + web clipper
+Inspiration
+9.20 FR-SWIPE
+Wiki / SOPs / checklists
+Knowledge & SOPs
+9.21 FR-WIKI
+Sync own-channel YouTube stats
+Growth Loop
+9.22 FR-PERF
+Audience submission intake form
+Growth Loop
+9.22 FR-SUB
+Idea Merit / content-pillar tagging
+Growth Loop
+9.22 FR-MERIT
+Keywords/SEO tracking
+Growth Loop
+9.22 FR-KW
+Auto YouTube chapter markers
+Growth Loop
+9.22 FR-CHAP
+Repurposing (linked derivative projects)
+Growth Loop
+9.22 FR-REPURP
+Sponsor / brand-deal pipeline
+Deferred
+Section 17 (Future)
+Multi-format / course / book production
+Deferred
+Section 17 (Future)
+
+
+
+
+19. Appendix — Screen Inventory (maps to mockups)
+Screen
+Module
+Mockup ref
+Dashboard (home overview)
+Dashboard
+MU-01
+Intel dashboard
+Intel
+MU-02
+Channel Voice — Advanced (Speaker Archetype)
+Voice
+MU-03
+Script Canvas — split panel (Plan/Script)
+Canvas
+MU-04
+Script Builder — Classic 10-step workflow
+Script Builder
+MU-05
+Ideas Library
+Ideas
+MU-06
+Ideation Chat + research sidebar
+Chat
+MU-07
+AI Thumbnail Studio (Brainstorm/Clone)
+Thumbnails
+MU-08
+Production Pipeline — Edit Bay kanban
+Production Pipeline
+MU-09
+Tasks & Content Calendar
+Tasks & Calendar
+MU-10
+Assets & Inspiration (B-roll + Swipes)
+Assets & Inspiration
+MU-11
+Onboarding Wizard (Step 5)
+Onboarding
+MU-12
+Audience Avatar
+Audience
+MU-13
+Users & Roles (Admin)
+Administration
+MU-14
+
+
+
+Mockups delivered as a separate interactive HTML file (CreateUp_Mockups.html). 
+
+
+

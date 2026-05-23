@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreateUp — Screen Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#E5482F; --brand-2:#B5371F; --brand-soft:#FDE7E1;
+  --violet:#6D28D9; --violet-soft:#EDE7FB;
+  --blue:#2563EB; --blue-soft:#E5EDFD;
+  --teal:#0D9488; --teal-soft:#D7F1ED;
+  --amber:#D97706; --amber-soft:#FBEED5;
+  --pink:#DB2777; --pink-soft:#FBE2EF;
+  --indigo:#4F46E5; --indigo-soft:#E7E6FB;
+  --green:#15924B; --green-soft:#E0F2E8;
+  --cyan:#0891B2; --cyan-soft:#D8EFF5;
+  --purple:#7C3AED; --purple-soft:#EEE7FC;
+  --rose:#E11D48; --rose-soft:#FBDFE6;
+  --steel:#465BA8; --steel-soft:#E5E9F6;
+  --ink:#15181D; --slate:#2B3440; --mute:#6B7280; --line:#E7E9EE; --line-2:#D6D9DF;
+  --bg:#FFFFFF; --panel:#F5F7FA; --zebra:#FAFBFC; --head:#28303B;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+  --accent:var(--brand); --accent-soft:var(--brand-soft);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--ink);
+  background:#E7EAF0;
+  background-image:radial-gradient(circle at 8% -8%,#fbe0d8 0,transparent 38%),radial-gradient(circle at 100% -5%,#e3e0fb 0,transparent 42%),radial-gradient(circle at 50% 120%,#d8f0ec 0,transparent 45%);}
+.viewer{max-width:1300px;margin:0 auto;padding:22px 18px 70px}
+.viewer-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:11px;font-family:var(--mono);font-weight:700;font-size:23px;letter-spacing:-.5px}
+.flame{width:36px;height:36px;border-radius:10px;background:linear-gradient(150deg,#F0623F,#C53A22);display:grid;place-items:center;color:#fff;font-size:19px;box-shadow:0 8px 20px rgba(229,72,47,.4)}
+.viewer-head .sub{font-size:13px;color:var(--mute)}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.tab{font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:999px;border:1px solid var(--line-2);
+  background:#fff;color:var(--slate);cursor:pointer;transition:.15s;font-weight:500;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab .dot{width:8px;height:8px;border-radius:50%;background:var(--tc,#999)}
+.tab:hover{border-color:var(--tc);color:var(--ink);transform:translateY(-1px)}
+.tab.active{background:var(--tc);color:#fff;border-color:var(--tc);box-shadow:0 5px 14px -4px var(--tc)}
+.tab.active .dot{background:#fff}
+.tab .id{opacity:.65;font-size:11px}
+.screen{display:none;animation:fade .3s ease}
+.screen.show{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.frame{background:var(--bg);border:1px solid var(--line-2);border-radius:18px;overflow:hidden;box-shadow:0 30px 70px -34px rgba(20,25,29,.55)}
+.caption{font-size:12.5px;color:var(--mute);margin:12px 4px 0;font-family:var(--mono);line-height:1.5}
+.caption b{color:var(--accent)}
+/* app chrome */
+.app{display:flex;min-height:580px}
+.rail{width:64px;background:linear-gradient(180deg,#fff,#fafbfc);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:7px;padding:15px 0;flex-shrink:0}
+.rail .flame{margin-bottom:8px;width:34px;height:34px}
+.rail .add{width:34px;height:34px;border-radius:10px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:20px}
+.rail .ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#98a0ab;font-size:16px;cursor:pointer;transition:.15s}
+.rail .ico:hover{background:var(--panel);color:var(--slate)}
+.rail .ico.on{background:var(--accent-soft);color:var(--accent)}
+.rail .me{margin-top:auto;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:11px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{min-height:55px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px;padding:8px 18px;flex-shrink:0;background:#fff}
+.topbar .title{font-family:var(--mono);font-weight:600;font-size:15px}
+.topbar .spacer{flex:1}
+.chanpill{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid var(--line-2);background:#fff}
+.chanpill .av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e7a , #d96);background:linear-gradient(135deg,#E0A89B,#C98A7D);display:grid;place-items:center;font-size:11px;color:#fff}
+.navlinks{display:flex;gap:17px;font-size:13.5px;color:var(--mute);font-weight:500}
+.navlinks a{cursor:pointer}.navlinks a.on{color:var(--accent);font-weight:600}
+.btn{font-family:var(--sans);font-weight:600;font-size:13px;border-radius:9px;padding:8px 13px;border:1px solid var(--line-2);background:#fff;cursor:pointer;color:var(--slate);transition:.15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 5px 14px -4px var(--accent)}
+.btn.primary:hover{filter:brightness(.95)}
+.btn.sm{padding:5px 10px;font-size:12px}
+.content{flex:1;padding:22px;overflow:auto;background:var(--panel)}
+/* banner */
+.banner{border-radius:15px;padding:20px 22px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
+.banner h1{font-family:var(--mono);margin:0 0 4px;font-size:23px;display:flex;align-items:center;gap:10px}
+.banner p{margin:0;opacity:.9;font-size:13px}
+.banner .pills{position:absolute;right:20px;top:20px;display:flex;gap:8px}
+.banner .pills span{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:12px;padding:6px 11px;border-radius:8px;font-weight:500}
+.banner::after{content:"";position:absolute;right:-50px;bottom:-100px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(255,255,255,.14)}
+.banner::before{content:"";position:absolute;left:30%;top:-60px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06)}
+/* headings */
+h2.sec{font-family:var(--mono);font-size:15px;margin:0 0 13px;display:flex;align-items:center;gap:8px}
+h2.sec .ic{color:var(--accent)}
+.card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px}
+.muted{color:var(--mute)}
+.tag{font-size:11px;font-family:var(--mono);padding:2px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+.score{font-family:var(--mono);font-weight:700;font-size:12px;padding:3px 9px;border-radius:7px}
+.score.g{background:var(--green-soft);color:var(--green)}
+.score.a{background:var(--amber-soft);color:var(--amber)}
+/* grids */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+/* stat card */
+.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;position:relative;overflow:hidden}
+.stat .k{font-family:var(--mono);font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.4px}
+.stat .v{font-family:var(--mono);font-size:30px;font-weight:700;margin-top:4px}
+.stat .d{font-size:11.5px;margin-top:2px}
+.stat .bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent)}
+/* list rows */
+.list-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.list-row:first-of-type{border-top:0}
+.thumb{width:62px;height:38px;border-radius:6px;flex-shrink:0;display:grid;place-items:center;font-size:9px;color:#fff;font-family:var(--mono);font-weight:700;background:linear-gradient(135deg,#2B3440,#4a5568)}
+.nm{font-weight:600;font-size:13px}
+.meta{font-size:11.5px;color:var(--mute)}
+.spark{width:54px;height:24px;flex-shrink:0}
+.av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff}
+.avstack{display:flex}.avstack .av{margin-left:-7px;border:2px solid #fff}.avstack .av:first-child{margin-left:0}
+/* status pills */
+.pill{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-idea{background:var(--amber-soft);color:#9a6207}
+.p-write{background:var(--blue-soft);color:#1f4fc4}
+.p-film{background:var(--purple-soft);color:#6326c7}
+.p-edit{background:var(--indigo-soft);color:#3f37c9}
+.p-sched{background:var(--teal-soft);color:#0a7a70}
+.p-pub{background:var(--green-soft);color:#0f7a3d}
+/* table */
+table.data{width:100%;border-collapse:collapse;font-size:13px}
+table.data thead th{background:var(--head);color:#fff;text-align:left;padding:11px 14px;font-family:var(--mono);font-weight:600;font-size:12px}
+table.data thead th:first-child{border-top-left-radius:11px}
+table.data thead th:last-child{border-top-right-radius:11px}
+table.data td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.data tbody tr:nth-child(even){background:var(--zebra)}
+.vtitle{font-weight:600;font-size:13.5px}
+.vsub{font-size:11.5px;color:var(--mute)}
+.role{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 10px;border-radius:7px}
+.role.admin{background:var(--brand-soft);color:var(--brand-2)}
+.role.editor{background:var(--blue-soft);color:#1f4fc4}
+.role.viewer{background:var(--panel);color:var(--mute)}
+/* kanban */
+.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kcol{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.kcol .kh{padding:10px 12px;font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.kcol .kb{padding:10px;display:flex;flex-direction:column;gap:9px;min-height:120px}
+.kcard{border:1px solid var(--line);border-radius:9px;padding:9px;background:#fff;box-shadow:0 2px 6px -3px rgba(0,0,0,.15)}
+.kcard .kt{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:7px}
+.kcard .kf{display:flex;justify-content:space-between;align-items:center}
+.kthumb{height:46px;border-radius:6px;margin-bottom:7px;display:grid;place-items:center;color:#fff;font-family:var(--mono);font-size:10px;font-weight:700}
+/* calendar */
+.cal{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.cal-h{display:grid;grid-template-columns:repeat(7,1fr);background:var(--head)}
+.cal-h div{padding:8px;text-align:center;color:#fff;font-family:var(--mono);font-size:11px;font-weight:600}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-d{min-height:78px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:5px 6px;font-size:11px}
+.cal-d .dn{font-family:var(--mono);color:var(--mute);font-size:10px}
+.cal-d.out{background:var(--zebra)}
+.cal-d.today{background:var(--accent-soft)}
+.evt{font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;margin-top:3px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* forms */
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--slate);margin-bottom:6px;font-family:var(--mono)}
+.field input,.field textarea{width:100%;border:1px solid var(--line-2);border-radius:9px;padding:11px 13px;font-family:var(--mono);font-size:13px;color:var(--ink);background:#fff;resize:none}
+.field textarea{min-height:72px;line-height:1.5}
+.grid-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modetoggle,.viewtoggle{display:inline-flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden;font-family:var(--mono);font-size:12px;font-weight:600}
+.modetoggle span,.viewtoggle span{padding:7px 13px;cursor:pointer;color:var(--mute);display:flex;gap:6px;align-items:center}
+.modetoggle span.on,.viewtoggle span.on{background:var(--accent-soft);color:var(--accent)}
+/* canvas/split */
+.split{display:flex;height:600px}
+.cv-chat{width:320px;border-right:1px solid var(--line);display:flex;flex-direction:column;background:#fff;flex-shrink:0}
+.ch-h{padding:13px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-weight:600;font-size:13px;display:flex;justify-content:space-between}
+.cv-msgs{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{font-size:12.5px;line-height:1.55;padding:10px 12px;border-radius:11px;max-width:92%}
+.msg.ai{background:var(--panel);align-self:flex-start;border:1px solid var(--line)}
+.msg.u{background:var(--accent);color:#fff;align-self:flex-end}
+.cv-input{padding:12px;border-top:1px solid var(--line)}
+.cv-input .box{border:1.5px solid var(--accent);border-radius:11px;padding:11px 13px;font-family:var(--mono);font-size:12.5px;color:#9aa1ab;display:flex;justify-content:space-between;align-items:center}
+.ctxrow{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+.minichip{font-family:var(--mono);font-size:11px;padding:5px 9px;border:1px solid var(--line-2);border-radius:8px;color:var(--slate);display:flex;gap:5px;align-items:center}
+.minichip .n{background:var(--accent);color:#fff;border-radius:5px;padding:0 5px;font-size:10px}
+.cv-doc{flex:1;display:flex;flex-direction:column;min-width:0;background:#fff}
+.cv-doc-bar{min-height:50px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 18px}
+.cv-body{flex:1;overflow:auto;padding:24px 32px}
+.cv-title{font-family:var(--mono);font-weight:700;font-size:21px;text-align:center;margin:0 0 6px;line-height:1.25}
+.cv-stat{text-align:center;font-family:var(--mono);font-size:12px;color:var(--mute);margin-bottom:20px}
+.cv-doc-inner{max-width:600px;margin:0 auto}
+.cv-sec-h{font-weight:700;font-size:15px;margin:20px 0 8px}
+.cv-doc-inner p{font-size:13.5px;line-height:1.7;color:#23282e;margin:0 0 12px}
+.hl{background:#fde8b8;border-radius:3px;padding:1px 2px}
+.hlbar{display:inline-flex;gap:6px;margin-left:6px;vertical-align:middle}
+.hlbar b{font-family:var(--mono);font-size:10px;background:#fff;border:1px solid var(--line-2);border-radius:6px;padding:2px 7px;color:var(--slate);font-weight:600;cursor:pointer}
+.outline-item{display:flex;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;font-size:13px}
+.outline-item .n{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px;font-family:var(--mono);flex-shrink:0}
+.research-side{width:290px;border-left:1px solid var(--line);background:#fff;display:flex;flex-direction:column;flex-shrink:0}
+/* builder steps */
+.sb{display:flex;height:600px}
+.sb-rail{width:230px;border-right:1px solid var(--line);background:#fff;padding:16px 12px;flex-shrink:0;overflow:auto}
+.sb-step{display:flex;gap:11px;padding:9px 10px;border-radius:9px;font-size:13px;cursor:pointer;align-items:center}
+.sb-step .n{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--mute);flex-shrink:0}
+.sb-step.done .n{background:var(--green);border-color:var(--green);color:#fff}
+.sb-step.cur{background:var(--accent-soft);font-weight:600;color:var(--accent)}
+.sb-step.cur .n{background:var(--accent);border-color:var(--accent);color:#fff}
+.sb-main{flex:1;padding:24px 30px;overflow:auto}
+/* concept tiles */
+.concepts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.concept{border:1px solid var(--line);border-radius:11px;overflow:hidden;cursor:pointer;transition:.15s}
+.concept:hover{transform:translateY(-2px);box-shadow:0 8px 18px -8px rgba(0,0,0,.3)}
+.concept.sel{border:2px solid var(--accent);box-shadow:0 8px 20px -8px var(--accent)}
+.concept .img{height:116px;display:grid;place-items:center;color:#fff;font-family:var(--mono);font-weight:700;font-size:15px;text-align:center;padding:8px}
+.concept .cap{padding:8px 11px;font-size:11.5px;color:var(--mute);display:flex;justify-content:space-between;align-items:center}
+.scorebar{display:inline-flex;gap:3px;align-items:center}
+.dot7{width:7px;height:7px;border-radius:50%;background:var(--line-2)}.dot7.on{background:var(--green)}
+/* swipe gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.swipe{border-radius:11px;overflow:hidden;border:1px solid var(--line);cursor:pointer;transition:.15s;background:#fff}
+.swipe:hover{transform:translateY(-2px);box-shadow:0 8px 18px -8px rgba(0,0,0,.3)}
+.swipe .si{height:96px;display:grid;place-items:center;color:#fff;font-family:var(--mono);font-weight:700;font-size:13px;text-align:center;padding:6px}
+.swipe .sc{padding:7px 9px}
+.swipe .sc .t{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.swipe .sc .tg{font-size:10px;color:var(--mute);font-family:var(--mono)}
+/* wizard */
+.wiz{display:flex;height:560px}
+.wiz-rail{width:248px;border-right:1px solid var(--line);background:#fff;padding:20px 16px;flex-shrink:0}
+.wstep{display:flex;gap:11px;padding:9px 0;font-size:13px}
+.wstep .n{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--mute);flex-shrink:0}
+.wstep.done .n{background:var(--green);border-color:var(--green);color:#fff}
+.wstep.cur .n{background:var(--accent);border-color:var(--accent);color:#fff}
+.wstep.cur{font-weight:600}
+.wstep .lbl small{display:block;color:var(--mute);font-weight:400;font-size:11px;margin-top:1px}
+.wiz-main{flex:1;padding:28px 34px;overflow:auto}
+.suggest-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.sugg{border:1px solid var(--line);border-radius:10px;padding:11px;display:flex;gap:11px;align-items:center;cursor:pointer}
+.sugg:hover{border-color:var(--accent)}
+.sugg.added{border-color:var(--accent);background:var(--accent-soft)}
+.sugg .pa{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#cdd3da,#aab2bd);flex-shrink:0}
+/* audience */
+.aud-grid{display:grid;grid-template-columns:230px 1fr;gap:22px}
+.aud-photo{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.aud-photo .ph{height:220px;background:linear-gradient(150deg,#E0A89B,#9d6f63);display:grid;place-items:center;color:#fff;font-family:var(--mono)}
+.aud-photo .ph-cap{padding:11px;text-align:center;font-size:12px;color:var(--mute)}
+.aud-cards{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.aud-card h4{font-family:var(--mono);font-size:13px;margin:0 0 7px;color:var(--accent)}
+.aud-card p,.aud-card li{font-size:12.5px;line-height:1.5;color:#33393f;margin:0}
+.aud-card ul{margin:0;padding-left:16px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:12px;font-family:var(--mono)}
+.legend b{color:var(--ink)}
+.check{width:16px;height:16px;border-radius:5px;border:1.5px solid var(--line-2);display:inline-grid;place-items:center;flex-shrink:0}
+.check.on{background:var(--green);border-color:var(--green);color:#fff;font-size:10px}
+@media(max-width:1000px){.grid4,.grid3,.kanban,.gallery{grid-template-columns:repeat(2,1fr)}.aud-grid{grid-template-columns:1fr}.research-side,.cv-chat,.cal{display:none}}
+</style>
+</head>
+<body>
+<div class="viewer">
+  <div class="viewer-head">
+    <div class="logo"><span class="flame">▲</span>CreateUp</div>
+    <div class="sub">Screen Mockups · v1.1 — 14 interactive screens spanning research → scripting → production. Click tabs &amp; controls.</div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+
+  <!-- ===== MU-01 DASHBOARD ===== -->
+  <section class="screen show" style="--accent:#E5482F;--accent-soft:#FDE7E1" data-cap="<b>MU-01</b> · Dashboard — the speed-focused home: pipeline at a glance, what's due, in-progress projects, and fresh ideas.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico on">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal ▾</span><div class="title" style="margin-left:4px">Dashboard</div><div class="spacer"></div><button class="btn sm">🔍</button><button class="btn primary sm">+ New content</button></div>
+        <div class="content">
+          <div class="banner" style="background:linear-gradient(115deg,#C53A22,#E5482F 55%,#F0764F)">
+            <h1>👋 Welcome back, Bryan</h1>
+            <p>You have 3 videos in production and 2 publishing this week.</p>
+            <div class="pills"><span>▦ 6 active</span><span>🗓 2 due</span><span>✦ 14 ideas</span></div>
+          </div>
+          <div class="grid4" style="margin-bottom:16px">
+            <div class="stat"><div class="bar" style="background:var(--amber)"></div><div class="k">Ideas</div><div class="v">14</div><div class="d" style="color:var(--amber)">4 high-outlier</div></div>
+            <div class="stat"><div class="bar" style="background:var(--blue)"></div><div class="k">In production</div><div class="v">6</div><div class="d muted">2 writing · 1 filming · 3 editing</div></div>
+            <div class="stat"><div class="bar" style="background:var(--teal)"></div><div class="k">Scheduled</div><div class="v">2</div><div class="d" style="color:var(--teal)">next: Tue</div></div>
+            <div class="stat"><div class="bar" style="background:var(--green)"></div><div class="k">Published / mo</div><div class="v">9</div><div class="d" style="color:var(--green)">▲ 18% vs last</div></div>
+          </div>
+          <div class="grid2">
+            <div class="card">
+              <h2 class="sec"><span class="ic">🎬</span>In progress</h2>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#2563EB,#1f4fc4)">▶</div><div style="flex:1"><div class="nm">Why Your Productivity System Is Broken</div><div class="meta">Maya · due Thu</div></div><span class="pill p-write">Writing</span></div>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#7C3AED,#6326c7)">▶</div><div style="flex:1"><div class="nm">My Productive Everyday Carry 2026</div><div class="meta">Ali · shoot Wed</div></div><span class="pill p-film">Filming</span></div>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#4F46E5,#3f37c9)">▶</div><div style="flex:1"><div class="nm">The Reliable Path to Earn $1M</div><div class="meta">Devon · rough cut</div></div><span class="pill p-edit">Editing</span></div>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#0D9488,#0a7a70)">▶</div><div style="flex:1"><div class="nm">5 Morning Habits Draining Your Energy</div><div class="meta">scheduled Tue</div></div><span class="pill p-sched">Scheduled</span></div>
+            </div>
+            <div class="card">
+              <h2 class="sec"><span class="ic">✦</span>Fresh ideas <span class="tag" style="margin-left:auto">outlier-ranked</span></h2>
+              <div class="list-row"><span class="score a">11.0x</span><div style="flex:1"><div class="nm">5 Habits Quietly Draining Your Energy</div><div class="meta">Energy · twisted from health niche</div></div><button class="btn primary sm">Write</button></div>
+              <div class="list-row"><span class="score g">2.9x</span><div style="flex:1"><div class="nm">My honest advice for financial freedom</div><div class="meta">Mindset</div></div><button class="btn primary sm">Write</button></div>
+              <div class="list-row"><span class="score g">1.6x</span><div style="flex:1"><div class="nm">My Productive Everyday Carry 2026</div><div class="meta">Gear</div></div><button class="btn primary sm">Write</button></div>
+              <div class="legend"><span>Generated from outliers in your &amp; adjacent niches</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-02 INTEL ===== -->
+  <section class="screen" style="--accent:#6D28D9;--accent-soft:#EDE7FB" data-cap="<b>MU-02</b> · Intel — research database of 100k+ channels with NL search, Velocity &amp; Outlier scores, trending content.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico on">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><div class="title">Intel</div><div class="spacer"></div><span class="muted" style="font-size:12px;font-family:var(--mono)">100,432 channels · updated daily</span></div>
+        <div class="content">
+          <div class="banner" style="background:linear-gradient(115deg,#3a1d6e,#6D28D9 60%,#8b46d6)">
+            <h1>📡 CreateUp Intel</h1><p>Data-driven research for YouTube content creators</p>
+            <div class="pills"><span>↗ Trending</span><span>▦ Outliers</span><span>✦ Insights</span></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:12px">
+            <input style="flex:1;border:1px solid var(--line-2);border-radius:10px;padding:13px 16px;font-family:var(--mono);font-size:13px" placeholder="fitness channels velocity > 2 created past 3 months …">
+            <button class="btn">⚙ Filters ▾</button><button class="btn primary">Search</button>
+          </div>
+          <div class="legend" style="margin:0 0 16px"><span><b>Velocity</b> growth momentum</span><span><b>Outlier</b> views ÷ surrounding avg</span><span><b>Views/Sub</b> reach beyond subs</span></div>
+          <div class="grid2">
+            <div class="card">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-family:var(--mono);font-size:13px">🌱 Hot New Channels</b><span class="tag">Velocity</span></div>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#6D28D9,#8b46d6)">CH</div><div style="flex:1"><div class="nm">SENIOR FOOD BLOG</div><div class="meta">78.3K subs · Senior Health</div></div><svg class="spark" viewBox="0 0 54 24"><polyline points="2,20 14,16 26,18 38,6 52,2" fill="none" stroke="#15924B" stroke-width="2"/></svg><span class="score g">7.5x</span></div>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#6D28D9,#8b46d6)">CH</div><div style="flex:1"><div class="nm">NO-CODE Nomads</div><div class="meta">22.1K subs · SaaS</div></div><svg class="spark" viewBox="0 0 54 24"><polyline points="2,22 14,18 26,10 38,12 52,3" fill="none" stroke="#15924B" stroke-width="2"/></svg><span class="score g">4.9x</span></div>
+              <div class="list-row"><div class="thumb" style="background:linear-gradient(135deg,#6D28D9,#8b46d6)">CH</div><div style="flex:1"><div class="nm">Quiet Money</div><div class="meta">9.8K subs · Finance</div></div><svg class="spark" viewBox="0 0 54 24"><polyline points="2,20 14,21 26,14 38,9 52,5" fill="none" stroke="#15924B" stroke-width="2"/></svg><span class="score g">3.2x</span></div>
+            </div>
+            <div class="card">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-family:var(--mono);font-size:13px">✦ Outlier Videos This Week</b><span class="tag">Outlier</span></div>
+              <div class="list-row"><div class="thumb">▶</div><div style="flex:1"><div class="nm">“The Habit Quietly Draining Your Energy”</div><div class="meta">Hope In Motion · 417.7K views</div></div><span class="score a">11.0x</span></div>
+              <div class="list-row"><div class="thumb">▶</div><div style="flex:1"><div class="nm">“I Tried the 5AM Club for 30 Days”</div><div class="meta">Deep Focus · 880K views</div></div><span class="score a">6.4x</span></div>
+              <div class="list-row"><div class="thumb">▶</div><div style="flex:1"><div class="nm">“Why Your Notion Setup Holds You Back”</div><div class="meta">SystemsLab · 305K views</div></div><span class="score a">5.1x</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-03 VOICE ===== -->
+  <section class="screen" style="--accent:#7C3AED;--accent-soft:#EEE7FC" data-cap="<b>MU-03</b> · Channel Voice — Advanced mode: Speaker Archetype, delivery, rhetoric &amp; diction parameters.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal ▾</span><div class="spacer"></div>
+          <div class="navlinks"><a>Scripts</a><a>Audience</a><a>Research</a><a>Competitors</a><a class="on">Voice</a><a>Templates</a></div></div>
+        <div class="content">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;max-width:880px;margin-inline:auto">
+            <div style="font-family:var(--mono);font-weight:700;font-size:17px">Channel Voice</div>
+            <div style="display:flex;gap:10px;align-items:center"><div class="modetoggle"><span>Simple</span><span class="on">Advanced</span></div><button class="btn">✨ Generate Preview</button></div>
+          </div>
+          <div class="card" style="max-width:880px;margin:0 auto 16px">
+            <h3 style="font-family:var(--mono);margin:0 0 14px;font-size:16px;color:var(--accent)">🎙 Speaker Archetype</h3>
+            <div class="field"><label>Label</label><input value="Knowledgeable, Approachable Guide"></div>
+            <div class="field"><label>Description</label><textarea>A well-educated professional who simplifies complex topics, offering practical advice with a friendly, self-deprecating tone. Positions self as a relatable expert.</textarea></div>
+            <div class="grid-fields">
+              <div class="field"><label>Age Vibe</label><input value="Young professional, contemporary"></div>
+              <div class="field"><label>Profession Archetype</label><input value="Educator, Doctor, Entrepreneur"></div>
+              <div class="field"><label>Temperament</label><input value="Enthusiastic, Analytical, Practical"></div>
+              <div class="field"><label>Authority Posture</label><input value="Expert with disclaimers"></div>
+            </div>
+          </div>
+          <div class="card" style="max-width:880px;margin:0 auto">
+            <h3 style="font-family:var(--mono);margin:0 0 14px;font-size:16px;color:var(--accent)">🤝 Delivery &amp; Diction</h3>
+            <div class="grid-fields">
+              <div class="field"><label>Cadence &amp; Energy</label><input value="Brisk, upbeat, conversational"></div>
+              <div class="field"><label>Hook Patterns</label><input value="Counterintuitive claim → promise of payoff"></div>
+              <div class="field"><label>Vocabulary Level</label><input value="Accessible; explains jargon"></div>
+              <div class="field"><label>Words to Avoid</label><input value="“delve”, “in today’s video”, “without further ado”"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-04 CANVAS ===== -->
+  <section class="screen" style="--accent:#2563EB;--accent-soft:#E5EDFD" data-cap="<b>MU-04</b> · Script Canvas — split panel (chat + editor), Plan/Script toggle, highlight-and-improve, Humanize.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="spacer"></div>
+          <div class="viewtoggle" style="margin-right:8px"><span>💡 Plan</span><span class="on">📝 Script</span></div>
+          <button class="btn sm">↶</button><button class="btn sm">↷</button><button class="btn sm">✨ Humanize</button><button class="btn primary sm">⤴ Export ▾</button></div>
+        <div class="split">
+          <div class="cv-chat">
+            <div class="ch-h"><span>Chat</span><span class="muted">⋯</span></div>
+            <div class="cv-msgs">
+              <div class="msg ai">Here’s a draft outline using your <b>Educational</b> template and voice. Expand section 2 with a personal story?</div>
+              <div class="msg u">Yes — add the story about quitting a productivity app, then write the full script.</div>
+              <div class="msg ai">Done ✓ 2,944 words (~18 min). Warm-peer tone kept; added an open loop in the hook. Highlight any line to refine.</div>
+            </div>
+            <div class="cv-input"><div class="ctxrow"><span class="minichip">📎 Context <span class="n">2</span></span><span class="minichip">⌘J Prompts</span></div><div class="box">What next?<span>→</span></div></div>
+          </div>
+          <div class="cv-doc">
+            <div class="cv-doc-bar"><span class="muted" style="font-family:var(--mono);font-size:12px">Educational</span><span class="muted" style="font-family:var(--mono);font-size:12px">· Claude 4.6 Sonnet ▾</span><div class="spacer"></div><span class="tag">2,944 words · ~18 min</span></div>
+            <div class="cv-body"><div class="cv-doc-inner">
+              <div class="cv-title">Why Your Productivity System Is Broken (The Feel-Good Fix)</div>
+              <div class="cv-stat">unlimited free regenerations</div>
+              <div class="cv-sec-h">Opening Hook &amp; Promise</div>
+              <p>Hey friends, welcome back. You know that feeling when you’ve tried every productivity system under the sun? Notion, time-blocking, Pomodoro, GTD. <span class="hl">And yet you still feel overwhelmed and behind.<span class="hlbar"><b>Improve ✦</b><b>Shorten</b><b>↻</b></span></span></p>
+              <p>Here’s what nobody talks about: the problem isn’t your discipline. It’s that every one of these systems treats you like a robot.</p>
+              <div class="cv-sec-h">The Discipline Trap</div>
+              <p>In this video I’ll show you why traditional productivity systems are fundamentally broken — and introduce the Feel-Good Fix, an approach that works with your psychology instead of against it.</p>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-05 SCRIPT BUILDER (CLASSIC) ===== -->
+  <section class="screen" style="--accent:#0D9488;--accent-soft:#D7F1ED" data-cap="<b>MU-05</b> · Script Builder (Classic) — the structured 10-step workflow with section-by-section drafting.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="title" style="margin-left:4px">· Script Builder</div><div class="spacer"></div><span class="muted" style="font-family:var(--mono);font-size:12px">8 / 10 steps · autosaved</span><button class="btn primary sm">Continue →</button></div>
+        <div class="sb">
+          <div class="sb-rail">
+            <div class="sb-step done"><div class="n">✓</div>Research</div>
+            <div class="sb-step done"><div class="n">✓</div>Frame</div>
+            <div class="sb-step done"><div class="n">✓</div>Title</div>
+            <div class="sb-step done"><div class="n">✓</div>Thumbnail</div>
+            <div class="sb-step done"><div class="n">✓</div>Hook</div>
+            <div class="sb-step done"><div class="n">✓</div>Payoffs</div>
+            <div class="sb-step cur"><div class="n">7</div>Draft</div>
+            <div class="sb-step"><div class="n">8</div>Edit</div>
+            <div class="sb-step"><div class="n">9</div>Export</div>
+            <div class="sb-step"><div class="n">10</div>Publish</div>
+          </div>
+          <div class="sb-main">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h2 style="font-family:var(--mono);font-size:19px;margin:0">Draft</h2><span class="muted" style="font-size:12px">Generate &amp; refine section-by-section</span></div>
+            <p class="muted" style="font-size:13px;margin:0 0 16px">Each section is generated from your research, frame and payoffs, in your channel voice. Regenerate any one without touching the rest.</p>
+            <div class="card" style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13.5px">1 · Hook</b><div style="display:flex;gap:6px"><span class="pill p-pub">drafted</span><button class="btn sm">↻ Regenerate</button></div></div><p style="font-size:13px;line-height:1.6;color:#33393f;margin:8px 0 0">You’ve tried every productivity system under the sun — and still feel behind. Here’s the uncomfortable truth nobody mentions…</p></div>
+            <div class="card" style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13.5px">2 · The Discipline Trap</b><div style="display:flex;gap:6px"><span class="pill p-pub">drafted</span><button class="btn sm">↻ Regenerate</button></div></div><p style="font-size:13px;line-height:1.6;color:#33393f;margin:8px 0 0">Every popular system assumes you’re a machine that executes regardless of energy or mood…</p></div>
+            <div class="card" style="border-style:dashed;text-align:center;color:var(--mute)"><b style="font-size:13.5px;color:var(--ink)">3 · The Feel-Good Fix</b><div style="margin-top:8px"><button class="btn primary sm">Generate this section ✦</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-06 IDEAS ===== -->
+  <section class="screen" style="--accent:#D97706;--accent-soft:#FBEED5" data-cap="<b>MU-06</b> · Ideas Library — outlier-driven ideas with theme, strategy, source video, outlier score, merit tag &amp; one-click Write.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="spacer"></div><span class="muted" style="font-family:var(--mono);font-size:12px">Sort: Highest Outlier ▾</span><button class="btn sm">⟳ Generate ideas</button></div>
+        <div class="content">
+          <h2 class="sec"><span class="ic">✦</span>Ideas Library</h2>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="data">
+              <thead><tr><th style="width:34%">Video Idea</th><th>Outlier</th><th>Merit</th><th>Strategy (the hook)</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><div class="vtitle">5 Morning Habits Quietly Draining Your Energy</div><div class="vsub">↳ 417K views · twisted from health niche</div></td><td><span class="score a">11.0x</span></td><td><span class="tag">Trending</span></td><td class="muted">Negativity + number + implied harm. Yoink &amp; twist.</td><td><button class="btn primary sm">Write →</button></td></tr>
+                <tr><td><div class="vtitle">My honest advice to someone who wants financial freedom</div><div class="vsub">↳ 112K views · 2 months ago</div></td><td><span class="score g">2.9x</span></td><td><span class="tag" style="background:var(--green-soft);color:var(--green)">Pillar</span></td><td class="muted">Confessional “honest advice” builds trust + curiosity.</td><td><button class="btn primary sm">Write →</button></td></tr>
+                <tr><td><div class="vtitle">My Productive Everyday Carry 2026</div><div class="vsub">↳ 139K views · 1 month ago</div></td><td><span class="score g">1.6x</span></td><td><span class="tag" style="background:var(--green-soft);color:var(--green)">Pillar</span></td><td class="muted">“My Productive X YYYY” — recurring format + timeliness.</td><td><button class="btn primary sm">Write →</button></td></tr>
+                <tr><td><div class="vtitle">The Proven, Reliable Path to Earn $1M (Step By Step)</div><div class="vsub">↳ 125K views · adjacent niche</div></td><td><span class="score g">1.5x</span></td><td><span class="tag">Trending</span></td><td class="muted">Specific number + “step by step” lowers perceived risk.</td><td><button class="btn primary sm">Write →</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="legend"><span>↳ Keep the <b>proven hook</b>, use <b>Change Topic</b> to redirect the subject · Merit tags: Pillar / Trending</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-07 CHAT ===== -->
+  <section class="screen" style="--accent:#0891B2;--accent-soft:#D8EFF5" data-cap="<b>MU-07</b> · Ideation Chat — channel-scoped brainstorming with chat history, prompt library, AI Research &amp; a star-able sidebar.">
+    <div class="frame"><div class="app" style="min-height:600px">
+      <div class="rail" style="width:206px;align-items:stretch;padding:14px 12px">
+        <div style="display:flex;align-items:center;gap:9px;font-family:var(--mono);font-weight:700;font-size:16px;margin-bottom:14px"><span class="flame" style="width:30px;height:30px;font-size:16px">▲</span>CreateUp</div>
+        <button class="btn primary" style="margin-bottom:14px">+ New Chat</button>
+        <div style="font-size:13px;color:var(--slate);display:flex;flex-direction:column;gap:9px;font-weight:500"><span>▦ Channels</span><span>📊 Intel</span><span>🎬 Production</span><span>🗂 Assets</span><span>🛠 Tools</span></div>
+        <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.5px;margin-bottom:8px">THIS WEEK</div>
+          <div style="font-size:12px;color:var(--mute);display:flex;flex-direction:column;gap:9px">
+            <span>Video ideas &amp; retention</span>
+            <span style="color:var(--accent);font-weight:600;background:var(--accent-soft);padding:6px 8px;border-radius:7px">Why your productivity system…</span>
+            <span>Reducing type-2 diabetes</span>
+          </div>
+        </div>
+        <div class="me" style="margin-top:auto">BN</div>
+      </div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal ▾</span><div class="spacer"></div><button class="btn sm">🔍</button></div>
+        <div style="display:flex;flex:1;min-height:0">
+          <div class="cv-doc" style="border-right:1px solid var(--line)">
+            <div class="cv-msgs" style="padding:22px 26px">
+              <div class="msg u">Analyze this video and tell me why it performed well: youtube.com/watch?v=…</div>
+              <div class="msg ai">📊 Pulled the transcript &amp; metrics — an <b>11.0x outlier</b>. Three drivers: a negativity hook, a specific number (5), and an open loop held to 0:45. Saved a <b>Video Analysis</b> to your sidebar →</div>
+              <div class="msg u">Run deep AI Research on circadian energy dips for the script.</div>
+              <div class="msg ai">🔬 AI Research complete — synthesized 9 sources into a report (saved &amp; starred). Want me to turn this into a script?</div>
+            </div>
+            <div class="cv-input" style="padding:14px 26px"><div class="ctxrow"><span class="minichip">✦ Claude 4.6 ▾</span><span class="minichip">📄 Educational ▾</span><span class="minichip">🔬 AI Research</span><span class="minichip">📎 Context <span class="n">2</span></span></div><div class="box">What should we research or write?<span>→</span></div></div>
+          </div>
+          <div class="research-side">
+            <div class="ch-h">Research <span class="muted">⋯</span></div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:10px;overflow:auto">
+              <div class="card" style="padding:11px"><div style="font-size:12px;font-weight:600;display:flex;justify-content:space-between">🔬 AI Research Report <span style="color:var(--accent)">★</span></div><div class="vsub" style="margin-top:3px">Circadian energy dips · 9 sources</div></div>
+              <div class="card" style="padding:11px"><div style="font-size:12px;font-weight:600;display:flex;justify-content:space-between">📹 Video Analysis <span style="color:var(--accent)">★</span></div><div class="vsub" style="margin-top:3px">“5 Morning Habits…” · 11.0x</div></div>
+              <div class="card" style="padding:11px"><div style="font-size:12px;font-weight:600;display:flex;justify-content:space-between">📺 Channel Breakdown <span class="muted">☆</span></div><div class="vsub" style="margin-top:3px">Hope In Motion · top topics</div></div>
+              <div class="legend" style="margin:6px 2px 0"><span>★ Starred research is reused across <b>all scripts</b></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-08 THUMBNAILS ===== -->
+  <section class="screen" style="--accent:#DB2777;--accent-soft:#FBE2EF" data-cap="<b>MU-08</b> · AI Thumbnail Studio — Brainstorm 4 concepts or Clone/Remix a reference, with CTR scoring &amp; history.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico on">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="title" style="margin-left:4px">· Thumbnail Studio</div></div>
+        <div class="content">
+          <div class="modetoggle" style="margin-bottom:16px"><span class="on">✦ Brainstorm</span><span>⧉ Clone / Remix</span></div>
+          <div style="display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start">
+            <div class="card">
+              <div class="field"><label>Video Title</label><input value="Why Your Productivity System Is Broken"></div>
+              <div class="field"><label>What’s the video about?</label><textarea>Debunking popular productivity systems; an energy-based approach.</textarea></div>
+              <button class="btn primary" style="width:100%">Generate 4 Concepts</button>
+              <div class="legend" style="margin-top:12px"><span>Trained on 25,000+ high-performing thumbnails</span></div>
+            </div>
+            <div>
+              <div style="font-family:var(--mono);font-size:13px;margin-bottom:8px;color:var(--slate)">Concept sketches — pick one to render full quality</div>
+              <div class="concepts">
+                <div class="concept sel"><div class="img" style="background:linear-gradient(135deg,#DB2777,#9d1452)">SYSTEM<br>BROKEN ✕</div><div class="cap">Big text · face left<span class="scorebar">CTR <span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7"></span></span></div></div>
+                <div class="concept"><div class="img" style="background:linear-gradient(135deg,#2B3440,#4a5568)">😩 → 😌<br>THE FIX</div><div class="cap">Before/after<span class="scorebar">CTR <span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7"></span><span class="dot7"></span></span></div></div>
+                <div class="concept"><div class="img" style="background:linear-gradient(135deg,#15924B,#0d6e38)">STOP<br>DOING THIS</div><div class="cap">Bold command<span class="scorebar">CTR <span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7"></span></span></div></div>
+                <div class="concept"><div class="img" style="background:linear-gradient(135deg,#D97706,#8a560f)">📋❌📱❌</div><div class="cap">Icon grid<span class="scorebar">CTR <span class="dot7 on"></span><span class="dot7 on"></span><span class="dot7"></span><span class="dot7"></span><span class="dot7"></span></span></div></div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap"><button class="btn primary">Render concept 1</button><span class="muted" style="font-size:12px">CTR 4/5 · ✓ high contrast · ⚠ tighten text</span><button class="btn sm">One-click fix</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-09 PRODUCTION PIPELINE ===== -->
+  <section class="screen" style="--accent:#4F46E5;--accent-soft:#E7E6FB" data-cap="<b>MU-09</b> · Production Pipeline — Writer's Room / Film Queue / Edit Bay. Shown: the Edit Bay kanban keyed on Edit Status.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico on">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="title" style="margin-left:4px">· Production</div><div class="spacer"></div>
+          <div class="viewtoggle"><span>✍ Writer’s Room</span><span>🎥 Film Queue</span><span class="on">✂ Edit Bay</span></div>
+          <button class="btn sm" style="margin-left:8px">👤 My work</button></div>
+        <div class="content">
+          <h2 class="sec"><span class="ic">✂</span>Edit Bay <span class="muted" style="font-weight:400;font-size:12px">— drag cards across post-production stages</span></h2>
+          <div class="kanban">
+            <div class="kcol"><div class="kh" style="background:#64748B">Assembly <span>2</span></div><div class="kb">
+              <div class="kcard"><div class="kthumb" style="background:linear-gradient(135deg,#2563EB,#1f4fc4)">PRODUCTIVITY</div><div class="kt">Why Your Productivity System Is Broken</div><div class="kf"><span class="vsub">18 min</span><span class="av" style="background:#2563EB">M</span></div></div>
+              <div class="kcard"><div class="kthumb" style="background:linear-gradient(135deg,#0D9488,#0a7a70)">DIABETES</div><div class="kt">The Reverse Diet That Cured My Insulin Resistance</div><div class="kf"><span class="vsub">22 min</span><span class="av" style="background:#0D9488">D</span></div></div>
+            </div></div>
+            <div class="kcol"><div class="kh" style="background:#6D28D9">Rough cut <span>1</span></div><div class="kb">
+              <div class="kcard"><div class="kthumb" style="background:linear-gradient(135deg,#4F46E5,#3f37c9)">$1M PATH</div><div class="kt">The Reliable Path to Earn $1M (Step by Step)</div><div class="kf"><span class="vsub">14 min</span><span class="av" style="background:#4F46E5">D</span></div></div>
+            </div></div>
+            <div class="kcol"><div class="kh" style="background:#0891B2">VFX <span>1</span></div><div class="kb">
+              <div class="kcard"><div class="kthumb" style="background:linear-gradient(135deg,#DB2777,#9d1452)">EDC 2026</div><div class="kt">My Productive Everyday Carry 2026</div><div class="kf"><span class="vsub">12 min</span><span class="av" style="background:#DB2777">A</span></div></div>
+            </div></div>
+            <div class="kcol"><div class="kh" style="background:#D97706">Sound &amp; music <span>1</span></div><div class="kb">
+              <div class="kcard"><div class="kthumb" style="background:linear-gradient(135deg,#15924B,#0d6e38)">ENERGY</div><div class="kt">5 Morning Habits Draining Your Energy</div><div class="kf"><span class="vsub">16 min</span><span class="av" style="background:#15924B">M</span></div></div>
+            </div></div>
+            <div class="kcol"><div class="kh" style="background:#15924B">Color grading <span>1</span></div><div class="kb">
+              <div class="kcard"><div class="kthumb" style="background:linear-gradient(135deg,#E5482F,#B5371F)">FOCUS</div><div class="kt">Deep Focus in a Distracted World</div><div class="kf"><span class="vsub">20 min</span><span class="av" style="background:#E5482F">A</span></div></div>
+            </div></div>
+          </div>
+          <div class="legend"><span>Statuses sync to the dashboard &amp; calendar · assignees shown as avatars · <b>My work</b> filters to you</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-10 TASKS & CALENDAR ===== -->
+  <section class="screen" style="--accent:#15924B;--accent-soft:#E0F2E8" data-cap="<b>MU-10</b> · Tasks &amp; Content Calendar — plan a consistent schedule by publish date, with assignable tasks tied to projects.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="title" style="margin-left:4px">· Calendar &amp; Tasks</div><div class="spacer"></div><span class="muted" style="font-family:var(--mono);font-size:12px">May 2026</span><button class="btn sm">‹</button><button class="btn sm">›</button></div>
+        <div class="content">
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start">
+            <div>
+              <h2 class="sec"><span class="ic">🗓</span>Content Calendar <span class="muted" style="font-weight:400;font-size:12px">— by target publish date</span></h2>
+              <div class="cal">
+                <div class="cal-h"><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div></div>
+                <div class="cal-g">
+                  <div class="cal-d out"><div class="dn">27</div></div><div class="cal-d out"><div class="dn">28</div></div><div class="cal-d out"><div class="dn">29</div></div><div class="cal-d out"><div class="dn">30</div></div><div class="cal-d"><div class="dn">1</div></div><div class="cal-d"><div class="dn">2</div></div><div class="cal-d"><div class="dn">3</div></div>
+                  <div class="cal-d"><div class="dn">4</div><div class="evt" style="background:#15924B">▶ Energy Habits</div></div><div class="cal-d"><div class="dn">5</div></div><div class="cal-d"><div class="dn">6</div><div class="evt" style="background:#2563EB">✍ Diabetes draft</div></div><div class="cal-d"><div class="dn">7</div></div><div class="cal-d"><div class="dn">8</div><div class="evt" style="background:#15924B">▶ Focus video</div></div><div class="cal-d"><div class="dn">9</div></div><div class="cal-d"><div class="dn">10</div></div>
+                  <div class="cal-d"><div class="dn">11</div></div><div class="cal-d today"><div class="dn">12 ·today</div><div class="evt" style="background:#7C3AED">🎥 EDC shoot</div></div><div class="cal-d"><div class="dn">13</div><div class="evt" style="background:#4F46E5">✂ $1M cut</div></div><div class="cal-d"><div class="dn">14</div></div><div class="cal-d"><div class="dn">15</div><div class="evt" style="background:#15924B">▶ Productivity</div></div><div class="cal-d"><div class="dn">16</div></div><div class="cal-d"><div class="dn">17</div></div>
+                  <div class="cal-d"><div class="dn">18</div><div class="evt" style="background:#D97706">💡 Idea review</div></div><div class="cal-d"><div class="dn">19</div></div><div class="cal-d"><div class="dn">20</div><div class="evt" style="background:#15924B">▶ EDC 2026</div></div><div class="cal-d"><div class="dn">21</div></div><div class="cal-d"><div class="dn">22</div></div><div class="cal-d"><div class="dn">23</div></div><div class="cal-d"><div class="dn">24</div></div>
+                </div>
+              </div>
+              <div class="legend"><span><b style="color:#15924B">▶</b> publish</span><span><b style="color:#2563EB">✍</b> writing</span><span><b style="color:#7C3AED">🎥</b> shoot</span><span><b style="color:#4F46E5">✂</b> edit</span></div>
+            </div>
+            <div class="card">
+              <h2 class="sec" style="margin-bottom:10px"><span class="ic">✓</span>My Tasks</h2>
+              <div style="display:flex;flex-direction:column;gap:11px">
+                <div style="display:flex;gap:9px;align-items:flex-start"><span class="check on">✓</span><div><div style="font-size:12.5px;text-decoration:line-through;color:var(--mute)">Outline “Energy Habits”</div><div class="vsub">done · Maya</div></div></div>
+                <div style="display:flex;gap:9px;align-items:flex-start"><span class="check"></span><div><div style="font-size:12.5px;font-weight:600">Write Productivity script</div><div class="vsub" style="color:var(--brand-2)">due Thu · Maya</div></div></div>
+                <div style="display:flex;gap:9px;align-items:flex-start"><span class="check"></span><div><div style="font-size:12.5px;font-weight:600">Record EDC b-roll</div><div class="vsub">Wed · Ali</div></div></div>
+                <div style="display:flex;gap:9px;align-items:flex-start"><span class="check"></span><div><div style="font-size:12.5px;font-weight:600">Color grade Focus video</div><div class="vsub">Fri · Devon</div></div></div>
+                <div style="display:flex;gap:9px;align-items:flex-start"><span class="check"></span><div><div style="font-size:12.5px;font-weight:600">Approve $1M thumbnail</div><div class="vsub">Bryan</div></div></div>
+              </div>
+              <button class="btn sm" style="margin-top:12px;width:100%">+ Add task</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-11 ASSETS & INSPIRATION ===== -->
+  <section class="screen" style="--accent:#0891B2;--accent-soft:#D8EFF5" data-cap="<b>MU-11</b> · Assets &amp; Inspiration — a centralized B-roll/shotlist library plus a visual Swipe File for thumbnails, sets &amp; landing pages.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico on">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="title" style="margin-left:4px">· Assets &amp; Inspiration</div><div class="spacer"></div><button class="btn sm">⬇ Import markers</button><button class="btn primary sm">+ Capture</button></div>
+        <div class="content">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+            <div class="card">
+              <h2 class="sec" style="margin-bottom:10px"><span class="ic">🎞</span>B-Roll Library <span class="muted" style="font-weight:400;font-size:12px">— centralized, reusable</span></h2>
+              <div class="list-row"><span style="color:var(--accent)">★</span><div class="thumb" style="background:linear-gradient(135deg,#0891B2,#066a82)">CLIP</div><div style="flex:1"><div class="nm">Desk typing close-up</div><div class="meta">Channel: Ali · cloud link · used 7×</div></div><span class="tag">favorite</span></div>
+              <div class="list-row"><span class="muted">☆</span><div class="thumb" style="background:linear-gradient(135deg,#0891B2,#066a82)">CLIP</div><div style="flex:1"><div class="nm">City timelapse — sunrise</div><div class="meta">imported · Premiere marker</div></div></div>
+              <div class="list-row"><span style="color:var(--accent)">★</span><div class="thumb" style="background:linear-gradient(135deg,#0891B2,#066a82)">SHOT</div><div style="flex:1"><div class="nm">Notion screen-record</div><div class="meta">linked to “Productivity” project</div></div><span class="tag">favorite</span></div>
+              <div class="list-row"><span class="muted">☆</span><div class="thumb" style="background:linear-gradient(135deg,#0891B2,#066a82)">CLIP</div><div style="flex:1"><div class="nm">Coffee pour macro</div><div class="meta">stock · Frame.io comment</div></div></div>
+              <div class="legend" style="margin-top:8px"><span>Attach to any project · ★ favorites reuse fast · import editor markers</span></div>
+            </div>
+            <div class="card">
+              <h2 class="sec" style="margin-bottom:10px"><span class="ic">📌</span>Swipe File <span class="muted" style="font-weight:400;font-size:12px">— visual inspiration</span></h2>
+              <div class="gallery" style="grid-template-columns:1fr 1fr">
+                <div class="swipe"><div class="si" style="background:linear-gradient(135deg,#DB2777,#9d1452)">SHOCKED FACE + BIG TEXT</div><div class="sc"><div class="t">MrBeast-style thumb</div><div class="tg">#thumbnail #contrast</div></div></div>
+                <div class="swipe"><div class="si" style="background:linear-gradient(135deg,#2B3440,#4a5568)">MINIMAL STUDIO SET</div><div class="sc"><div class="t">Clean desk setup</div><div class="tg">#set-design</div></div></div>
+                <div class="swipe"><div class="si" style="background:linear-gradient(135deg,#15924B,#0d6e38)">BOLD LANDING HERO</div><div class="sc"><div class="t">SaaS landing page</div><div class="tg">#landing #cta</div></div></div>
+                <div class="swipe"><div class="si" style="background:linear-gradient(135deg,#D97706,#8a560f)">BEFORE / AFTER SPLIT</div><div class="sc"><div class="t">Transformation thumb</div><div class="tg">#thumbnail</div></div></div>
+              </div>
+              <div class="legend" style="margin-top:8px"><span>Capture via web clipper or upload · auto-fills title &amp; source URL</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-12 ONBOARDING ===== -->
+  <section class="screen" style="--accent:#E5482F;--accent-soft:#FDE7E1" data-cap="<b>MU-12</b> · Onboarding Wizard — the 7-step channel setup; Step 5 selecting AI-suggested competitors.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="me" style="margin-top:auto">BN</div></div>
+      <div class="main">
+        <div class="topbar"><div class="title">Create a Channel</div><div class="spacer"></div><span class="muted" style="font-family:var(--mono);font-size:12px">Step 5 of 7</span></div>
+        <div class="wiz">
+          <div class="wiz-rail">
+            <div class="wstep done"><div class="n">✓</div><div class="lbl">Describe content<small>Niche &amp; focus</small></div></div>
+            <div class="wstep done"><div class="n">✓</div><div class="lbl">Presentation style<small>Personality / Faceless</small></div></div>
+            <div class="wstep done"><div class="n">✓</div><div class="lbl">Choose path<small>Link / new</small></div></div>
+            <div class="wstep done"><div class="n">✓</div><div class="lbl">Connect channel<small>@aliabdaal · 5.8M</small></div></div>
+            <div class="wstep cur"><div class="n">5</div><div class="lbl">Select competitors<small>AI suggestions</small></div></div>
+            <div class="wstep"><div class="n">6</div><div class="lbl">Differentiation</div></div>
+            <div class="wstep"><div class="n">7</div><div class="lbl">Review &amp; generate</div></div>
+          </div>
+          <div class="wiz-main">
+            <h2 style="font-family:var(--mono);font-size:20px;margin:0 0 6px">Who do you want to learn from?</h2>
+            <p class="muted" style="font-size:13.5px;margin:0 0 4px">Pick 3–5 competitor or inspiration channels. We suggested some from your niche — add your own by URL or @handle.</p>
+            <input style="width:100%;border:1px solid var(--line-2);border-radius:9px;padding:11px 13px;font-family:var(--mono);font-size:13px;margin-top:10px" placeholder="Search a channel by URL or @handle…">
+            <div class="suggest-grid">
+              <div class="sugg added"><div class="pa"></div><div><div style="font-weight:600;font-size:13px">Thomas Frank</div><div class="vsub">2.8M · Productivity</div></div><span style="margin-left:auto;color:var(--accent)">✓</span></div>
+              <div class="sugg added"><div class="pa"></div><div><div style="font-weight:600;font-size:13px">Matt D’Avella</div><div class="vsub">3.6M · Minimalism</div></div><span style="margin-left:auto;color:var(--accent)">✓</span></div>
+              <div class="sugg"><div class="pa"></div><div><div style="font-weight:600;font-size:13px">Better Ideas</div><div class="vsub">1.9M · Self-improvement</div></div><span style="margin-left:auto;color:var(--mute)">+</span></div>
+              <div class="sugg added"><div class="pa"></div><div><div style="font-weight:600;font-size:13px">Struthless</div><div class="vsub">1.4M · Creativity</div></div><span style="margin-left:auto;color:var(--accent)">✓</span></div>
+              <div class="sugg"><div class="pa"></div><div><div style="font-weight:600;font-size:13px">Mike &amp; Matty</div><div class="vsub">980K · Habits</div></div><span style="margin-left:auto;color:var(--mute)">+</span></div>
+              <div class="sugg"><div class="pa"></div><div><div style="font-weight:600;font-size:13px">Ali’s Study</div><div class="vsub">1.1M · Learning</div></div><span style="margin-left:auto;color:var(--mute)">+</span></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:22px"><button class="btn">← Back</button><div style="display:flex;gap:10px"><button class="btn">Skip for now</button><button class="btn primary">Continue (3 selected) →</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-13 AUDIENCE ===== -->
+  <section class="screen" style="--accent:#E11D48;--accent-soft:#FBDFE6" data-cap="<b>MU-13</b> · Audience Avatar — generated viewer profile (demographics, psychographics, behavior, key questions) with photo &amp; Actions.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><span class="chanpill"><span class="av">A</span>Ali Abdaal</span><div class="spacer"></div>
+          <div class="navlinks"><a>Scripts</a><a class="on">Audience</a><a>Research</a><a>Competitors</a><a>Voice</a></div><button class="btn sm" style="margin-left:14px">⚙ Actions ▾</button></div>
+        <div class="content">
+          <div style="font-family:var(--mono);font-weight:700;font-size:17px;margin-bottom:14px">Your Audience Avatar</div>
+          <div class="aud-grid">
+            <div><div class="aud-photo"><div class="ph">👤 viewer</div><div class="ph-cap">Representative viewer<br><a style="color:var(--accent);cursor:pointer">↻ Refresh photo</a></div></div></div>
+            <div class="aud-cards">
+              <div class="card aud-card"><h4>Demographics</h4><p>28–40, slight male skew, urban/suburban knowledge workers in the US, UK &amp; India. Founders, devs, students &amp; early-career professionals.</p></div>
+              <div class="card aud-card"><h4>Psychographics</h4><p>Ambitious but overwhelmed. Value autonomy, self-improvement and “working smarter.” Aspire to calm productivity over hustle.</p></div>
+              <div class="card aud-card"><h4>Online Behavior</h4><p>Follow Thomas Frank, Matt D’Avella, r/productivity; subscribe to newsletters; bounce between Notion, Todoist &amp; YouTube tutorials.</p></div>
+              <div class="card aud-card"><h4>Offline Behavior</h4><p>Journaling, gym, side-projects, audiobooks on commutes; juggle deep work against meetings and notifications.</p></div>
+              <div class="card aud-card" style="grid-column:1/-1"><h4>Key Questions</h4><ul><li>Why do I keep abandoning every productivity system I try?</li><li>How do I stay consistent without relying on willpower?</li><li>What setup actually fits how my brain works?</li></ul></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ===== MU-14 USERS / ADMIN ===== -->
+  <section class="screen" style="--accent:#465BA8;--accent-soft:#E5E9F6" data-cap="<b>MU-14</b> · Users &amp; Roles — multi-user, individual logins with Admin/Editor/Viewer roles and optional (non-paid) soft limits. No billing.">
+    <div class="frame"><div class="app">
+      <div class="rail"><div class="flame">▲</div><div class="add">+</div><div class="ico">▦</div><div class="ico">📊</div><div class="ico">🎬</div><div class="ico">🗂</div><div class="ico">🛠</div><div class="me">BN</div></div>
+      <div class="main">
+        <div class="topbar"><div class="title">Workspace · Users &amp; Roles</div><div class="spacer"></div><button class="btn primary sm">+ Invite member</button></div>
+        <div class="content">
+          <div class="banner" style="background:linear-gradient(115deg,#2f3c70,#465BA8 60%,#6577c0);margin-bottom:16px">
+            <h1>👥 Bryan Ng’s Team</h1><p>Everyone signs in with their own login. Access is by role — no plans, credits or payments.</p>
+            <div class="pills"><span>4 members</span><span>Free for all</span></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px">
+            <table class="data">
+              <thead><tr><th>Member</th><th>Email</th><th>Role</th><th>Status</th><th>Last active</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><div style="display:flex;align-items:center;gap:9px"><span class="av" style="background:#465BA8">BN</span><b>Bryan Ng</b></div></td><td class="muted">bryan@team.co</td><td><span class="role admin">Admin</span></td><td><span class="pill p-pub">active</span></td><td class="muted">now</td><td><button class="btn sm">⋯</button></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:9px"><span class="av" style="background:#2563EB">M</span><b>Maya Rivera</b></div></td><td class="muted">maya@team.co</td><td><span class="role editor">Editor</span></td><td><span class="pill p-pub">active</span></td><td class="muted">2h ago</td><td><button class="btn sm">⋯</button></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:9px"><span class="av" style="background:#0D9488">D</span><b>Devon Cole</b></div></td><td class="muted">devon@team.co</td><td><span class="role editor">Editor</span></td><td><span class="pill p-pub">active</span></td><td class="muted">yesterday</td><td><button class="btn sm">⋯</button></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:9px"><span class="av" style="background:#94A3B8">G</span><b>Guest Reviewer</b></div></td><td class="muted">client@brand.co</td><td><span class="role viewer">Viewer</span></td><td><span class="pill" style="background:var(--amber-soft);color:#9a6207">invited</span></td><td class="muted">—</td><td><button class="btn sm">⋯</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid2">
+            <div class="card"><h2 class="sec" style="margin-bottom:10px"><span class="ic">🎚</span>Optional Soft Limits <span class="muted" style="font-weight:400;font-size:12px">— off by default</span></h2>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px"><span>Script generations / user / mo</span><span class="tag" style="background:var(--panel);color:var(--mute)">Unlimited</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px"><span>Thumbnail generations / user / mo</span><span class="tag">200</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px"><span>Agent Mode runs / user / mo</span><span class="tag" style="background:var(--panel);color:var(--mute)">Unlimited</span></div>
+              <div class="legend" style="margin-top:8px"><span>Operational guards to bound infra cost — never a paywall</span></div>
+            </div>
+            <div class="card"><h2 class="sec" style="margin-bottom:10px"><span class="ic">📈</span>Workspace Usage</h2>
+              <div class="grid2" style="gap:10px">
+                <div class="stat" style="padding:12px"><div class="bar" style="background:#465BA8"></div><div class="k">Scripts / mo</div><div class="v" style="font-size:24px">38</div></div>
+                <div class="stat" style="padding:12px"><div class="bar" style="background:#15924B"></div><div class="k">Active users</div><div class="v" style="font-size:24px">3</div></div>
+                <div class="stat" style="padding:12px"><div class="bar" style="background:#DB2777"></div><div class="k">Thumbnails</div><div class="v" style="font-size:24px">21</div></div>
+                <div class="stat" style="padding:12px"><div class="bar" style="background:#D97706"></div><div class="k">Ideas gen.</div><div class="v" style="font-size:24px">96</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <div class="caption" id="caption"></div>
+</div>
+
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+const labels=["MU-01 Dashboard","MU-02 Intel","MU-03 Voice","MU-04 Canvas","MU-05 Script Builder","MU-06 Ideas","MU-07 Chat","MU-08 Thumbnails","MU-09 Production","MU-10 Calendar","MU-11 Assets","MU-12 Onboarding","MU-13 Audience","MU-14 Users"];
+const colors=["#E5482F","#6D28D9","#7C3AED","#2563EB","#0D9488","#D97706","#0891B2","#DB2777","#4F46E5","#15924B","#0891B2","#E5482F","#E11D48","#465BA8"];
+const tabs=document.getElementById('tabs'),cap=document.getElementById('caption');
+labels.forEach((l,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.style.setProperty('--tc',colors[i]);
+  const parts=l.split(' ');b.innerHTML='<span class="dot"></span><span class="id">'+parts[0]+'</span>'+parts.slice(1).join(' ');
+  b.onclick=()=>show(i);tabs.appendChild(b);});
+function show(i){screens.forEach((s,j)=>s.classList.toggle('show',i===j));[...tabs.children].forEach((t,j)=>t.classList.toggle('active',i===j));cap.innerHTML=screens[i].dataset.cap;window.scrollTo({top:0,behavior:'smooth'});}
+show(0);
+document.querySelectorAll('.concept').forEach(c=>c.onclick=()=>{c.closest('.concepts').querySelectorAll('.concept').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');});
+document.querySelectorAll('.viewtoggle,.modetoggle').forEach(g=>g.querySelectorAll('span').forEach(s=>s.onclick=()=>{g.querySelectorAll('span').forEach(x=>x.classList.remove('on'));s.classList.add('on');}));
+document.querySelectorAll('.check').forEach(c=>c.onclick=()=>{c.classList.toggle('on');c.textContent=c.classList.contains('on')?'✓':'';});
+document.querySelectorAll('.sugg').forEach(s=>s.onclick=()=>s.classList.toggle('added'));
+</script>
+</body>
+</html>
