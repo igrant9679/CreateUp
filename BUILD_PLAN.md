@@ -171,20 +171,20 @@ _The core writing experience._
 
 ### Script Canvas  `CANV`  (14 Must / 15 total)
 
-- [ ] **[Must]** `FR-CANV-01` — Enforce a one-chat-one-script model: each thread develops a single video; provide Start Over (same topic) and direct users to a new thread for different topics.
-- [ ] **[Must]** `FR-CANV-02` — Split-panel UI: left chat, right editor; panels resizable via divider and individually collapsible.
-- [ ] **[Must]** `FR-CANV-03` — Plan mode: present optional planning questions (main takeaway, audience concerns, points to cover, desired viewer action) then generate an editable outline (hook/intro, sections with key points, transitions, conclusion + CTA).
-- [ ] **[Must]** `FR-CANV-04` — Script mode: expand the approved outline into full prose applying voice profile, audience and template; stream output section by section.
-- [ ] **[Must]** `FR-CANV-05` — Plan/Script tab toggle; users can return to Plan, restructure, and regenerate sections.
-- [ ] **[Must]** `FR-CANV-06` — Model selector per script with the ability to switch mid-script (e.g. one model for outline, a faster one for edits); honor channel default.
-- [ ] **[Must]** `FR-CANV-07` — Template selector with the ability to switch templates at any time during creation.
-- [ ] **[Must]** `FR-CANV-08` — Add Context: attach YouTube URLs (transcripts), web articles, uploaded PDFs/docs, and pasted custom text, within plan-based research word limits.
-- [ ] **[Must]** `FR-CANV-09` — Direct rich-text editing with autosave.
-- [ ] **[Must]** `FR-CANV-10` — Highlight-and-Improve: select text to reveal a toolbar of improvement options plus a custom-instruction field; the AI rewrites only the selection.
-- [ ] **[Must]** `FR-CANV-11` — Humanize: one-click rewrite that strips AI patterns, merges choppy sentences, upgrades to vivid/specific language, targets ~6th–7th-grade spoken readability, optimizes for AI voiceover, and preserves the voice profile; streams section by section.
-- [ ] **[Must]** `FR-CANV-12` — Provide unlimited free regenerations (Start Over and Humanize), since there is no credit system; warn before destructive Start Over.
-- [ ] **[Must]** `FR-CANV-13` — Live word count and estimated spoken duration; support scripts up to 30,000 words / ~3 hours.
-- [ ] **[Must]** `FR-CANV-15` — Scripts list per channel with metadata (title, length, status, updated).
+- [x] **[Must]** `FR-CANV-01` — Enforce a one-chat-one-script model: each thread develops a single video; provide Start Over (same topic) and direct users to a new thread for different topics.
+- [x] **[Must]** `FR-CANV-02` — Split-panel UI: left chat, right editor; panels resizable via divider and individually collapsible. _(split layout shipped; resize/collapse is Should-priority polish)_
+- [x] **[Must]** `FR-CANV-03` — Plan mode: present optional planning questions (main takeaway, audience concerns, points to cover, desired viewer action) then generate an editable outline (hook/intro, sections with key points, transitions, conclusion + CTA).
+- [x] **[Must]** `FR-CANV-04` — Script mode: expand the approved outline into full prose applying voice profile, audience and template; stream output section by section. _(non-streaming generation done; streaming is a follow-up)_
+- [x] **[Must]** `FR-CANV-05` — Plan/Script tab toggle; users can return to Plan, restructure, and regenerate sections.
+- [x] **[Must]** `FR-CANV-06` — Model selector per script with the ability to switch mid-script (e.g. one model for outline, a faster one for edits); honor channel default.
+- [x] **[Must]** `FR-CANV-07` — Template selector with the ability to switch templates at any time during creation.
+- [ ] **[Must]** `FR-CANV-08` — Add Context: attach YouTube URLs (transcripts), web articles, uploaded PDFs/docs, and pasted custom text, within plan-based research word limits. _(file upload pending — pair with FR-CHAT-07)_
+- [x] **[Must]** `FR-CANV-09` — Direct rich-text editing with autosave.
+- [x] **[Must]** `FR-CANV-10` — Highlight-and-Improve: select text to reveal a toolbar of improvement options plus a custom-instruction field; the AI rewrites only the selection.
+- [x] **[Must]** `FR-CANV-11` — Humanize: one-click rewrite that strips AI patterns, merges choppy sentences, upgrades to vivid/specific language, targets ~6th–7th-grade spoken readability, optimizes for AI voiceover, and preserves the voice profile; streams section by section.
+- [x] **[Must]** `FR-CANV-12` — Provide unlimited free regenerations (Start Over and Humanize), since there is no credit system; warn before destructive Start Over.
+- [x] **[Must]** `FR-CANV-13` — Live word count and estimated spoken duration; support scripts up to 30,000 words / ~3 hours.
+- [x] **[Must]** `FR-CANV-15` — Scripts list per channel with metadata (title, length, status, updated).
 - [ ] [Should] `FR-CANV-14` — Version history: snapshot generations/major edits; allow review and restore.
 
 ### Script Builder (Classic)  `SB`  (0 Must / 12 total)

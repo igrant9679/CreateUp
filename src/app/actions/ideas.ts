@@ -39,6 +39,22 @@ export async function writeIdeaToCanvasAction(formData: FormData) {
       model: idea.channel.defaultModel,
     },
   });
+  // Linked Canvas chat (FR-CANV-01 — one-chat-one-script).
+  await db.chat.create({
+    data: {
+      channelId: idea.channelId,
+      userId: user.id,
+      type: "canvas",
+      scriptId: script.id,
+      title: idea.title,
+      messages: {
+        create: {
+          role: "assistant",
+          content: `Pulled from idea: **${idea.title}**\n${idea.strategy ? `\nStrategy: ${idea.strategy}` : ""}\n\nWhen you're ready, head to the Plan tab, answer the planning questions, and generate an outline.`,
+        },
+      },
+    },
+  });
   await db.idea.update({ where: { id: idea.id }, data: { status: "in_progress" } });
   const { redirect } = await import("next/navigation");
   redirect(`/scripts/${script.id}`);
