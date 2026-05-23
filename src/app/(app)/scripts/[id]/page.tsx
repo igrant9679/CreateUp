@@ -76,6 +76,11 @@ export default async function CanvasPage({
           <div className="flex items-center gap-3">
             <Link href={`/channels/${script.channelId}/scripts`} className="text-xs font-mono text-[var(--mute)] hover:text-[var(--accent)] flex items-center gap-1"><ArrowLeft className="w-3 h-3" /> {script.channel.name}</Link>
             <span className="flex-1" />
+            {script.body && (
+              <Link href={`/scripts/${script.id}/publish`} className="btn sm flex items-center gap-1.5" title="Export, teleprompter, promo assets">
+                Publish →
+              </Link>
+            )}
             {/* FR-CANV-12 — Start Over with warning */}
             <StartOverButton scriptId={script.id} hasBody={!!script.body} />
           </div>

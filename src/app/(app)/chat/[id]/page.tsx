@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { postMessageAction, addChatContextAction } from "@/app/actions/chat";
+import { UploadButton } from "@/components/UploadButton";
 
 // Chat thread (MU-07). FR-CHAT-02/03/11 — messages with channel context.
 
@@ -122,6 +123,10 @@ export default async function ChatThreadPage({ params }: { params: Promise<{ id:
             <input name="ref" required placeholder="paste URL or text" className="border border-[var(--line-2)] rounded-md p-2 text-xs" />
             <button type="submit" className="btn sm self-end">Add</button>
           </form>
+
+          <div className="border-t border-[var(--line)] mt-3 pt-3">
+            <UploadButton chatId={chat.id} />
+          </div>
         </section>
 
         <section className="card">

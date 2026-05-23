@@ -1,6 +1,129 @@
-import { requireMembership } from "@/lib/acl";
-import { Placeholder } from "@/components/Placeholder";
-export default async function ThumbnailsPage() {
-  await requireMembership();
-  return <Placeholder title="Thumbnails" tag="Phase 4 · FR-THUMB" />;
+import Link from "next/link";
+import Image from "next/image";
+import { Image as ImageIcon, Wand2, Copy, History } from "lucide-react";
+import { getActiveChannel } from "@/lib/channel";
+import { db } from "@/lib/db";
+import { brainstormThumbnailsAction, cloneThumbnailAction } from "@/app/actions/thumbnails";
+import { readJson } from "@/lib/db/json";
+
+// MU-08 — AI Thumbnail Studio. Brainstorm + Clone modes + history.
+
+export default async function ThumbnailsPage({ searchParams }: { searchParams: Promise<{ mode?: string }> }) {
+  const { mode = "brainstorm" } = await searchParams;
+  const { active, workspace } = await getActiveChannel();
+
+  if (!active) {
+    return (
+      <div className="card max-w-md mx-auto text-center py-10">
+        <span className="w-12 h-12 rounded-2xl grid place-items-center mx-auto mb-3" style={{ background: "#FBE2EF", color: "#DB2777" }}>
+          <ImageIcon className="w-6 h-6" />
+        </span>
+        <h1 className="font-mono font-bold text-lg mb-2">Pick a channel first</h1>
+        <p className="text-sm text-[var(--mute)] mb-4">Thumbnails are channel-scoped — voice, style, and audience condition every concept.</p>
+        <Link href="/onboarding/channel/new" className="btn primary">Create a channel</Link>
+      </div>
+    );
+  }
+
+  const history = await db.thumbnail.findMany({
+    where: { channel: { workspaceId: workspace.id } },
+    orderBy: { createdAt: "desc" },
+    take: 12,
+  });
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-5">
+        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "#FBE2EF", color: "#DB2777" }}>
+          <ImageIcon className="w-6 h-6" strokeWidth={2.25} />
+        </span>
+        <div>
+          <h1 className="font-mono font-bold text-2xl leading-tight">Thumbnail Studio</h1>
+          <p className="text-xs text-[var(--mute)]">Channel: <b>{active.name}</b></p>
+        </div>
+      </div>
+
+      {/* Mode tabs */}
+      <div className="flex gap-1 mb-4">
+        <TabLink href="/thumbnails?mode=brainstorm" active={mode !== "clone"} icon={<Wand2 className="w-3.5 h-3.5" />}>Brainstorm</TabLink>
+        <TabLink href="/thumbnails?mode=clone"      active={mode === "clone"}  icon={<Copy className="w-3.5 h-3.5" />}>Clone / Remix</TabLink>
+      </div>
+
+      {mode === "clone" ? (
+        <form action={cloneThumbnailAction} className="card flex flex-col gap-3 max-w-2xl mb-6">
+          <input type="hidden" name="channelId" value={active.id} />
+          <h2 className="font-mono font-bold text-[14px] flex items-center gap-2"><Copy className="w-4 h-4" style={{ color: "#DB2777" }} /> Clone a thumbnail's style</h2>
+          <p className="text-xs text-[var(--mute)]">Paste any YouTube URL or image URL. We'll analyze palette, typography, composition, and render a new thumbnail for your title.</p>
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Reference URL</span>
+            <input name="referenceUrl" required placeholder="https://… or @handle" className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm font-mono" />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">New video title</span>
+            <input name="title" required className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm" />
+          </label>
+          <div className="flex justify-end">
+            <button type="submit" className="btn primary">Render in this style →</button>
+          </div>
+        </form>
+      ) : (
+        <form action={brainstormThumbnailsAction} className="card flex flex-col gap-3 max-w-2xl mb-6">
+          <input type="hidden" name="channelId" value={active.id} />
+          <h2 className="font-mono font-bold text-[14px] flex items-center gap-2"><Wand2 className="w-4 h-4" style={{ color: "#DB2777" }} /> Brainstorm 4 concepts</h2>
+          <p className="text-xs text-[var(--mute)]">From a working title (and optional topic), we'll generate four concept directions across proven formats. Pick one to render in full resolution.</p>
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Video title</span>
+            <input name="title" required placeholder="e.g. Why your morning routine is broken" className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm" />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Topic (optional)</span>
+            <input name="topic" className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm" />
+          </label>
+          <div className="flex justify-end">
+            <button type="submit" className="btn primary">Brainstorm 4 concepts →</button>
+          </div>
+        </form>
+      )}
+
+      {/* History (FR-THUMB-05) */}
+      <section className="card">
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><History className="w-4 h-4" style={{ color: "#DB2777" }} /> History <span className="text-xs text-[var(--mute)] font-normal">({history.length})</span></h2>
+        {history.length === 0 ? (
+          <p className="text-sm text-[var(--mute)] py-6 text-center">No thumbnails yet.</p>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {history.map((t) => {
+              const concepts = readJson<{ url: string; label: string }[]>(t.concepts, []);
+              const previewUrl = t.renderUrl ?? concepts[0]?.url;
+              return (
+                <Link key={t.id} href={`/thumbnails/${t.id}`} className="block hover:shadow-md transition rounded-xl overflow-hidden border border-[var(--line)]">
+                  {previewUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={previewUrl} alt={t.title ?? ""} className="w-full aspect-video object-cover" />
+                  ) : (
+                    <div className="w-full aspect-video bg-[var(--zebra)] grid place-items-center text-xs text-[var(--mute)]">No preview</div>
+                  )}
+                  <div className="p-2">
+                    <div className="text-xs font-semibold truncate">{t.title ?? "Untitled"}</div>
+                    <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">{t.mode}{t.renderUrl ? " · rendered" : ""}</div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function TabLink({ href, active, icon, children }: { href: string; active: boolean; icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className={"flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider transition " + (active ? "bg-[#FBE2EF] text-[#DB2777]" : "text-[var(--mute)] hover:bg-[var(--zebra)]")}
+    >
+      {icon} {children}
+    </Link>
+  );
 }

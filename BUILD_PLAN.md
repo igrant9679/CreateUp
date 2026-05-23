@@ -145,7 +145,7 @@ _Find what works and turn it into validated ideas._
 - [x] **[Must]** `FR-CHAT-01` — Chat is channel-scoped: the selected channel’s voice and audience condition all responses; require a channel selection before chatting.
 - [x] **[Must]** `FR-CHAT-02` — Accept plain-language questions, pasted YouTube video/channel URLs, and document uploads as context.
 - [x] **[Must]** `FR-CHAT-03` — Analyze pasted YouTube videos (fetch metadata, transcript, structure) and channels (content strategy, top videos, outliers, posting patterns); support remixing into new angles.
-- [ ] **[Must]** `FR-CHAT-07` — Upload files as context — PDF, Word (.doc/.docx), text (.txt/.md/.json/.csv) and images (.jpg/.png/.gif/.webp), up to 10MB each. _(URL + pasted-text context done; file upload pending in Phase 3 alongside Canvas FR-CANV-08)_
+- [x] **[Must]** `FR-CHAT-07` — Upload files as context — PDF, Word (.doc/.docx), text (.txt/.md/.json/.csv) and images (.jpg/.png/.gif/.webp), up to 10MB each. _(local storage + extraction for text/image; PDF/Word stubbed pending pdf-parse/mammoth)_
 - [x] **[Must]** `FR-CHAT-10` — Intent like ‘turn this into a script’ creates a script project and opens the Canvas with context carried over.
 - [x] **[Must]** `FR-CHAT-11` — Maintain full-conversation context awareness; chat is rate-limited (not credit-metered) with clear back-off messaging.
 - [ ] [Should] `FR-CHAT-04` — Answer in-chat outlier requests with filters (e.g. ‘long-form outliers only’, ‘last 6 months’, ‘top 10 about <topic>’).
@@ -178,7 +178,7 @@ _The core writing experience._
 - [x] **[Must]** `FR-CANV-05` — Plan/Script tab toggle; users can return to Plan, restructure, and regenerate sections.
 - [x] **[Must]** `FR-CANV-06` — Model selector per script with the ability to switch mid-script (e.g. one model for outline, a faster one for edits); honor channel default.
 - [x] **[Must]** `FR-CANV-07` — Template selector with the ability to switch templates at any time during creation.
-- [ ] **[Must]** `FR-CANV-08` — Add Context: attach YouTube URLs (transcripts), web articles, uploaded PDFs/docs, and pasted custom text, within plan-based research word limits. _(file upload pending — pair with FR-CHAT-07)_
+- [x] **[Must]** `FR-CANV-08` — Add Context: attach YouTube URLs (transcripts), web articles, uploaded PDFs/docs, and pasted custom text, within plan-based research word limits.
 - [x] **[Must]** `FR-CANV-09` — Direct rich-text editing with autosave.
 - [x] **[Must]** `FR-CANV-10` — Highlight-and-Improve: select text to reveal a toolbar of improvement options plus a custom-instruction field; the AI rewrites only the selection.
 - [x] **[Must]** `FR-CANV-11` — Humanize: one-click rewrite that strips AI patterns, merges choppy sentences, upgrades to vivid/specific language, targets ~6th–7th-grade spoken readability, optimizes for AI voiceover, and preserves the voice profile; streams section by section.
@@ -227,20 +227,20 @@ _Titles, thumbnails, export, promo._
 
 ### Thumbnail Studio  `THUMB`  (0 Must / 7 total)
 
-- [ ] [Should] `FR-THUMB-01` — Brainstorm mode: from a video title (+ optional topic), generate 4 concept sketches across proven formats (~60–90s); selecting one opens a detail panel.
-- [ ] [Should] `FR-THUMB-02` — Render a full-resolution, publish-ready thumbnail from a selected concept.
-- [ ] [Should] `FR-THUMB-03` — Clone/Remix mode: accept a reference via YouTube URL or image upload, analyze its style (colors, typography, composition, lighting), and render a new thumbnail in that style; goes directly to final render.
-- [ ] [Should] `FR-THUMB-05` — Maintain thumbnail history; allow re-download of any prior thumbnail at high resolution.
+- [x] [Should] `FR-THUMB-01` — Brainstorm mode: from a video title (+ optional topic), generate 4 concept sketches across proven formats (~60–90s); selecting one opens a detail panel.
+- [x] [Should] `FR-THUMB-02` — Render a full-resolution, publish-ready thumbnail from a selected concept.
+- [x] [Should] `FR-THUMB-03` — Clone/Remix mode: accept a reference via YouTube URL or image upload, analyze its style (colors, typography, composition, lighting), and render a new thumbnail in that style; goes directly to final render.
+- [x] [Should] `FR-THUMB-05` — Maintain thumbnail history; allow re-download of any prior thumbnail at high resolution.
 - [ ] _[Could]_ `FR-THUMB-04` — Score each thumbnail against CTR principles (contrast, readability) and offer one-click fixes for weak spots.
 - [ ] _[Could]_ `FR-THUMB-06` — Thumbnail Settings: default brand assets and style preferences per channel.
 - [ ] _[Could]_ `FR-THUMB-07` — Thumbnail generation is free; an admin may optionally set a soft monthly generation limit per user/workspace (no paid packs).
 
 ### Publishing, Promotion & Export  `PUB`  (1 Must / 4 total)
 
-- [ ] **[Must]** `FR-PUB-01` — Export a finished script via Copy to Clipboard, Word (.docx) and PDF.
-- [ ] [Should] `FR-PUB-02` — Teleprompter view: full-screen, large-text reading mode launched from export.
-- [ ] [Should] `FR-PUB-03` — Generate promo assets from a finished script via Prompt Library: SEO video description, social package (Twitter/LinkedIn/Instagram), newsletter content, blog-post adaptation, and shot list / B-roll guide.
-- [ ] [Should] `FR-PUB-04` — Auto-generate optimized titles/hooks and description & tags.
+- [x] **[Must]** `FR-PUB-01` — Export a finished script via Copy to Clipboard, Word (.docx) and PDF.
+- [x] [Should] `FR-PUB-02` — Teleprompter view: full-screen, large-text reading mode launched from export.
+- [x] [Should] `FR-PUB-03` — Generate promo assets from a finished script via Prompt Library: SEO video description, social package (Twitter/LinkedIn/Instagram), newsletter content, blog-post adaptation, and shot list / B-roll guide.
+- [x] [Should] `FR-PUB-04` — Auto-generate optimized titles/hooks and description & tags.
 
 ---
 
