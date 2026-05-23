@@ -293,28 +293,28 @@ _Close the loop and refine._
 
 ### Performance / Stats Sync  `PERF`  (0 Must / 2 total)
 
-- [ ] [Should] `FR-PERF-01` — Sync the workspace’s own published YouTube video stats (views, retention proxies, engagement) into each Content Project, with periodic refresh.
+- [x] [Should] `FR-PERF-01` — Sync the workspace’s own published YouTube video stats (views, retention proxies, engagement) into each Content Project, with periodic refresh. _(manual sync done; periodic cron deferred — wire to BullMQ when JOB_BACKEND=redis)_
 - [ ] _[Could]_ `FR-PERF-02` — Surface own-channel performance trends and feed them into idea generation and voice/audience refinement.
 
 ### Audience Submissions  `SUB`  (0 Must / 1 total)
 
-- [ ] [Should] `FR-SUB-01` — Provide a public Audience Submission form to collect topic ideas from viewers; submissions flow into a reviewable queue and can be promoted to Ideas.
+- [x] [Should] `FR-SUB-01` — Provide a public Audience Submission form to collect topic ideas from viewers; submissions flow into a reviewable queue and can be promoted to Ideas.
 
 ### Idea Merit Tags  `MERIT`  (0 Must / 1 total)
 
-- [ ] [Should] `FR-MERIT-01` — Tag ideas/content with an Idea Merit (e.g. Content Pillar, Trending Topic, Experiment) for content-mix balancing and filtering.
+- [x] [Should] `FR-MERIT-01` — Tag ideas/content with an Idea Merit (e.g. Content Pillar, Trending Topic, Experiment) for content-mix balancing and filtering.
 
 ### Keywords / SEO  `KW`  (0 Must / 1 total)
 
-- [ ] _[Could]_ `FR-KW-01` — Track target keywords per Content Project (a keyword list with optional notes/volume) for SEO management.
+- [x] _[Could]_ `FR-KW-01` — Track target keywords per Content Project (a keyword list with optional notes/volume) for SEO management.
 
 ### Chapter Markers  `CHAP`  (0 Must / 1 total)
 
-- [ ] _[Could]_ `FR-CHAP-01` — Auto-generate YouTube chapter markers/timestamps from a finished script or outline.
+- [x] _[Could]_ `FR-CHAP-01` — Auto-generate YouTube chapter markers/timestamps from a finished script or outline.
 
 ### Repurposing  `REPURP`  (0 Must / 1 total)
 
-- [ ] _[Could]_ `FR-REPURP-01` — Create linked derivative Content Projects (e.g. a Short from a long-form video) that reference the parent for repurposing.
+- [x] _[Could]_ `FR-REPURP-01` — Create linked derivative Content Projects (e.g. a Short from a long-form video) that reference the parent for repurposing.
 
 ---
 

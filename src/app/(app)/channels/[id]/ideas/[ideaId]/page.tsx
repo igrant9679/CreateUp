@@ -5,6 +5,7 @@ import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { outlierBand, formatNum } from "@/lib/intel";
 import { writeIdeaToCanvasAction, updateIdeaStatusAction } from "@/app/actions/ideas";
+import { setIdeaMeritAction } from "@/app/actions/growth";
 
 // FR-IDEA-02 — Idea detail with all required fields + Write action (FR-IDEA-07).
 
@@ -55,6 +56,21 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ id:
           </div>
         </div>
       )}
+
+      {/* FR-MERIT-01 — idea merit tag */}
+      <form action={setIdeaMeritAction} className="card mb-4 flex items-end gap-2 max-w-md">
+        <input type="hidden" name="ideaId" value={idea.id} />
+        <label className="flex flex-col gap-1 flex-1">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Idea merit (content-mix balancing)</span>
+          <select name="merit" defaultValue={idea.merit ?? ""} className="border border-[var(--line-2)] rounded-lg p-2 text-sm">
+            <option value="">—</option>
+            <option value="pillar">Content pillar</option>
+            <option value="trending">Trending topic</option>
+            <option value="experiment">Experiment</option>
+          </select>
+        </label>
+        <button type="submit" className="btn sm">Save</button>
+      </form>
 
       <div className="flex gap-2">
         <form action={writeIdeaToCanvasAction}>

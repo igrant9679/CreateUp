@@ -5,6 +5,7 @@ import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { readJson } from "@/lib/db/json";
 import { generatePromoAction } from "@/app/actions/publish";
+import { generateChapterMarkersAction } from "@/app/actions/growth";
 import { CopyButton } from "@/components/CopyButton";
 
 // MU (publish surface) — FR-PUB-01 Export, FR-PUB-02 Teleprompter, FR-PUB-03 Promo, FR-PUB-04 Titles/Tags.
@@ -66,6 +67,21 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
           <a href={`/api/scripts/${id}/export?format=pdf`} className="btn flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Download .pdf</a>
           <Link href={`/teleprompter/${id}`} className="btn flex items-center gap-1.5"><Tv className="w-3.5 h-3.5" /> Teleprompter</Link>
         </div>
+      </section>
+
+      {/* Chapter markers (FR-CHAP-01) */}
+      <section className="card mb-5">
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2">YouTube chapter markers (FR-CHAP-01)</h2>
+        <div className="flex items-center gap-2 mb-2">
+          {publish.chapters && <CopyButton text={publish.chapters} />}
+          <form action={generateChapterMarkersAction}>
+            <input type="hidden" name="scriptId" value={id} />
+            <button type="submit" className="btn primary sm">{publish.chapters ? "Regenerate chapters" : "Generate chapters"}</button>
+          </form>
+        </div>
+        {publish.chapters && (
+          <pre className="bg-[var(--zebra)] rounded-md p-3 text-xs whitespace-pre-wrap font-mono max-h-64 overflow-auto">{publish.chapters}</pre>
+        )}
       </section>
 
       {/* Promo generators */}

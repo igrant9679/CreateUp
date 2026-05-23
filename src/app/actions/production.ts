@@ -23,7 +23,7 @@ export async function promoteScriptAction(formData: FormData) {
   if (!script) return;
   if (script.contentProject) {
     const { redirect } = await import("next/navigation");
-    redirect(`/production?focus=${script.contentProject.id}`);
+    redirect(`/production/projects/${script.contentProject.id}`);
   }
   const project = await db.contentProject.create({
     data: {
@@ -35,7 +35,7 @@ export async function promoteScriptAction(formData: FormData) {
     },
   });
   const { redirect } = await import("next/navigation");
-  redirect(`/production?focus=${project.id}`);
+  redirect(`/production/projects/${project.id}`);
 }
 
 export async function createProjectAction(formData: FormData) {

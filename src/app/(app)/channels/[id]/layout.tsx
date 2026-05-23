@@ -10,6 +10,7 @@ const SUBNAV = [
   { href: "/audience", label: "Audience" },
   { href: "/competitors", label: "Competitors" },
   { href: "/voice", label: "Voice" },
+  { href: "/submissions", label: "Submissions" },
   { href: "/settings", label: "Settings" },
 ];
 
