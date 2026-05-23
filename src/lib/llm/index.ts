@@ -2,6 +2,7 @@ import { env } from "@/lib/env";
 import type { LLMProvider, LLMRequest, LLMResponse } from "./types";
 import { mockProvider } from "./mock";
 import { createAnthropicProvider } from "./anthropic";
+import { createGoogleProvider } from "./google";
 import { MODELS, getModel } from "./models";
 
 // Routing layer (FR-MODEL-04). Application code uses llm.complete() / llm.stream()
@@ -18,7 +19,11 @@ function getProvider(id: string): LLMProvider {
       if (!env.ANTHROPIC_API_KEY) return mockProvider;
       provider = wrapWithFallback(createAnthropicProvider(env.ANTHROPIC_API_KEY), "anthropic");
       break;
-    // Other providers go here as we wire them up (openai, google, deepseek, xai, moonshot, minimax).
+    case "google":
+      if (!env.GOOGLE_GENAI_API_KEY) return mockProvider;
+      provider = wrapWithFallback(createGoogleProvider(env.GOOGLE_GENAI_API_KEY), "google");
+      break;
+    // Other providers go here as we wire them up (openai, deepseek, xai, moonshot, minimax).
     default:
       provider = mockProvider;
   }

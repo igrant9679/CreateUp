@@ -24,7 +24,7 @@ Pick at least one — the rest can be added later. Models picker in the UI only 
 |---|---|
 | `ANTHROPIC_API_KEY` | console.anthropic.com → API Keys |
 | `OPENAI_API_KEY` | platform.openai.com → API keys |
-| `GOOGLE_GENAI_API_KEY` | aistudio.google.com/apikey |
+| `GOOGLE_GENAI_API_KEY` | aistudio.google.com/apikey (✅ wired — falls back to mock if missing) |
 | `DEEPSEEK_API_KEY` | platform.deepseek.com |
 | `XAI_API_KEY` | console.x.ai |
 | `MOONSHOT_API_KEY` | platform.moonshot.ai |
