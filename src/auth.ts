@@ -33,6 +33,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
   secret: env.AUTH_SECRET,
+  // Trust the host header so Auth.js derives the canonical URL from the incoming
+  // request instead of requiring AUTH_URL to be set per environment. This means
+  // switching domains (Railway subdomain → custom domain) needs no env change.
+  trustHost: true,
   pages: {
     signIn: "/signin",
   },

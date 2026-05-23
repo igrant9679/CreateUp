@@ -3,7 +3,7 @@ import { Inbox, Sparkles, X, CheckCircle2, Copy } from "lucide-react";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { reviewSubmissionAction, promoteSubmissionAction } from "@/app/actions/growth";
-import { env } from "@/lib/env";
+import { getPublicUrl } from "@/lib/public-url";
 import { CopyButton } from "@/components/CopyButton";
 
 // Reviewable queue for incoming audience submissions; promote to Ideas.
@@ -25,7 +25,7 @@ export default async function SubmissionsPage({ params, searchParams }: { params
   });
   const count = (s: string) => counts.find((c) => c.status === s)?._count._all ?? 0;
 
-  const publicUrl = `${env.APP_URL}/submit/${id}`;
+  const publicUrl = `${await getPublicUrl()}/submit/${id}`;
 
   return (
     <div>

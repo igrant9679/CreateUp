@@ -5,7 +5,7 @@ import { email } from "@/lib/email";
 import { readJson, writeJson } from "@/lib/db/json";
 import { countWords, durationSeconds, MAX_WORDS } from "@/lib/canvas/duration";
 import { systemForOutline, systemForScript, HUMANIZE_SYSTEM } from "@/lib/canvas/prompts";
-import { env } from "@/lib/env";
+import { getPublicUrl } from "@/lib/public-url";
 
 //..04, 06 — automated pipeline:
 //   Research → Outline → Script → QA (retention + humanize + repetition cleanup) → VO prep.
@@ -200,11 +200,13 @@ export function registerAgentJobs() {
       if (state === "succeeded") {
         const sc = await db.script.findUnique({ where: { id: scriptId }, include: { channel: true, author: true } });
         if (sc?.author?.email) {
+          // Background job — no request scope, so getPublicUrl() falls back to env.APP_URL.
+          const origin = await getPublicUrl();
           await email.send({
             to: sc.author.email,
             subject: `Your script is ready: ${sc.title}`,
             html: `<p>Agent Mode finished a script for <b>${sc.channel.name}</b>.</p>
-                   <p><a href="${env.APP_URL}/scripts/${sc.id}">Open in Canvas →</a></p>`,
+                   <p><a href="${origin}/scripts/${sc.id}">Open in Canvas →</a></p>`,
           });
         }
       } else if (note) {

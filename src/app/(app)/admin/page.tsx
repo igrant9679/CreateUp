@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { email as emailProvider } from "@/lib/email";
 import { nanoid } from "nanoid";
-import { env } from "@/lib/env";
+import { getPublicUrl } from "@/lib/public-url";
 
 // MU-14 — Users & Roles (Admin). Implements:
 //   (Users page: list + add/edit role/deactivate/remove)
@@ -36,11 +36,12 @@ async function inviteAction(formData: FormData) {
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     },
   });
+  const origin = await getPublicUrl();
   await emailProvider.send({
     to: parsed.data.email,
     subject: `You've been invited to ${workspace.name} on CreateUp`,
     html: `<p>You've been invited to join <b>${workspace.name}</b> as a <b>${parsed.data.role}</b>.</p>
-           <p><a href="${env.APP_URL}/invitations/${token}">Accept the invitation</a></p>`,
+           <p><a href="${origin}/invitations/${token}">Accept the invitation</a></p>`,
   });
   revalidatePath("/admin");
 }

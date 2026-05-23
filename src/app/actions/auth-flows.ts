@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
 import { db } from "@/lib/db";
 import { email } from "@/lib/email";
-import { env } from "@/lib/env";
+import { getPublicUrl } from "@/lib/public-url";
 
 // Password reset, email verification, secure session management,
 // per-user activity attribution.
@@ -39,11 +39,12 @@ export async function requestPasswordResetAction(formData: FormData) {
         expires: new Date(Date.now() + TOKEN_TTL_MS),
       },
     });
+    const origin = await getPublicUrl();
     await email.send({
       to: parsed.data.email,
       subject: "Reset your CreateUp password",
       html: `<p>Click below to reset your password (the link expires in 1 hour):</p>
-             <p><a href="${env.APP_URL}/reset/${token}">${env.APP_URL}/reset/${token}</a></p>
+             <p><a href="${origin}/reset/${token}">${origin}/reset/${token}</a></p>
              <p>If you didn't request this, you can ignore the message.</p>`,
     });
   }
@@ -96,11 +97,12 @@ export async function requestVerificationForUser(userId: string, userEmail: stri
       expires: new Date(Date.now() + TOKEN_TTL_MS * 24), // 1 day for verification
     },
   });
+  const origin = await getPublicUrl();
   await email.send({
     to: userEmail,
     subject: "Verify your CreateUp email",
     html: `<p>Welcome! Confirm your email to unlock all features:</p>
-           <p><a href="${env.APP_URL}/verify/${token}">${env.APP_URL}/verify/${token}</a></p>`,
+           <p><a href="${origin}/verify/${token}">${origin}/verify/${token}</a></p>`,
   });
 }
 
