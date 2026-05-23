@@ -34,19 +34,23 @@ export default async function DashboardPage() {
       {/* Hero banner */}
       <div className="rounded-[20px] p-7 mb-6 text-white relative overflow-hidden shadow-xl shadow-[#E5482F]/20"
            style={{ background: "linear-gradient(115deg,#E5482F 0%,#B5371F 45%,#6D28D9 100%)" }}>
-        <h1 className="font-mono text-[28px] font-bold m-0 flex items-center gap-3 leading-tight">
-          Welcome back, {firstName} <Sparkles className="w-6 h-6" />
-        </h1>
-        <p className="opacity-90 text-[14px] mt-1.5 max-w-xl">From idea to first draft in about twelve minutes. Pick up where you left off — or start something new.</p>
+        {/* Decorative shapes — behind everything else (z-0) */}
+        <div className="absolute -right-20 -bottom-28 w-[320px] h-[320px] rounded-full border border-white/15 z-0 pointer-events-none" />
+        <div className="absolute right-[35%] -top-32 w-[200px] h-[200px] rounded-full bg-white/5 z-0 pointer-events-none" />
 
-        <div className="absolute right-6 top-6 flex gap-2">
+        {/* Foreground content */}
+        <div className="relative z-10">
+          <h1 className="font-mono text-[28px] font-bold m-0 flex items-center gap-3 leading-tight">
+            Welcome back, {firstName} <Sparkles className="w-6 h-6" />
+          </h1>
+          <p className="opacity-90 text-[14px] mt-1.5 max-w-xl">From idea to first draft in about twelve minutes. Pick up where you left off — or start something new.</p>
+        </div>
+
+        <div className="absolute right-6 top-6 flex gap-2 z-10">
           <PillStat label="channels" value={channelCount} />
           <PillStat label="scripts" value={scriptCount} />
           <PillStat label="ideas" value={ideaCount} />
         </div>
-
-        <div className="absolute -right-16 -bottom-24 w-[300px] h-[300px] rounded-full border border-white/15" />
-        <div className="absolute -left-10 -top-32 w-[180px] h-[180px] rounded-full bg-white/5 backdrop-blur" />
       </div>
 
       {/* Quick start tiles */}
