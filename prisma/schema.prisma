@@ -1,16 +1,15 @@
 // CreateUp — data model. Mirrors §10 "Conceptual Data Model" of the spec.
 //
-// Local dev uses SQLite (see DECISIONS.md §1). For Railway/Postgres, change:
-//   provider = "sqlite"  →  provider = "postgresql"
-// and regenerate migrations. JSON-shaped fields are stored as String (serialized)
-// for SQLite portability; helpers in src/lib/db/json.ts handle parse/stringify.
+// PostgreSQL for both local dev and Railway prod (see DECISIONS.md §1).
+// JSON-shaped fields remain String (serialized JSON) so the data model is
+// portable; helpers in src/lib/db/json.ts handle parse/stringify.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

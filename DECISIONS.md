@@ -14,15 +14,13 @@ Concrete tech choices and any deviations from the defaults proposed in the brief
 
 ## Deviations from defaults
 
-### 1. SQLite for local development, Postgres for production
+### 1. PostgreSQL for both dev and prod (Railway)
 
-`.env.example` defaults to a local Postgres URL. **Local dev uses SQLite** (`file:./dev.db`) because:
-- The user is hosting on Railway, which provisions Postgres via env injection — they will not run Postgres locally.
-- SQLite + Prisma gives a zero-install dev loop and lets the app boot today.
+Initial scaffolding used SQLite for a zero-install dev loop. **We've since switched to PostgreSQL for both environments** to eliminate the dev/prod schema split. For local development, paste the Railway Postgres _public_ connection string into `.env` (Postgres plugin → Variables → `DATABASE_PUBLIC_URL`). On Railway prod, the platform injects `DATABASE_URL` automatically.
 
-Prisma's schema is written so that switching the `provider` from `sqlite` → `postgresql` requires only changing one line in `prisma/schema.prisma` and re-running migrations. JSON-heavy fields are stored as `String` (serialized JSON) for SQLite portability — Postgres can keep them as JSON or be migrated to a real `Json` column later without changing application code (the access layer always parses/stringifies).
+JSON-heavy fields remain stored as `String` (serialized JSON) so the model is portable and the existing access layer works unchanged. They can be promoted to real `jsonb` columns later via a no-code-change migration if we ever need indexed JSON queries.
 
-**Action on first Railway deploy:** flip provider to `postgresql`, regenerate the initial migration against the Railway Postgres URL, and remove the `.db` SQLite file.
+Migrations live in `prisma/migrations/` and are committed. Railway runs `prisma migrate deploy` on every boot before starting Next.js (see `railway.json`).
 
 ### 2. JSON fields stored as serialized strings
 

@@ -5,8 +5,8 @@ The app boots and is fully demoable with **zero** real keys (all `USE_MOCK_*` fl
 ## 0. Already set for you
 
 - `BOOTSTRAP_ADMIN_EMAIL=idris.grant@communityforce.com` — first account to sign in with this email becomes the workspace Admin.
-- `DATABASE_URL=file:./dev.db` — local SQLite. Railway will inject its own Postgres URL.
-- `AUTH_SECRET` — placeholder. Generate a real one with `openssl rand -base64 32` before any non-local deploy.
+- `DATABASE_URL` — **you must set this for local dev.** Easiest: Railway → Postgres plugin → Variables tab → copy `DATABASE_PUBLIC_URL` into your local `.env`. On Railway itself, the internal `DATABASE_URL` is injected automatically — don't paste it into Railway Variables.
+- `AUTH_SECRET` — placeholder in `.env`. Before deploying, run `openssl rand -base64 32` (or use any 32-byte random string) and put it in Railway Variables.
 
 ## 1. AI model provider keys (FR-MODEL-01)
 

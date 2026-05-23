@@ -45,12 +45,20 @@ See `SETUP.md`. Short version:
 
 ## Deploy (Railway)
 
-1. Push this repo to GitHub.
-2. New Railway project → "Deploy from GitHub repo".
-3. Add the **Postgres** plugin (Railway injects `DATABASE_URL`).
-4. (When jobs go real) Add the **Redis** plugin and set `JOB_BACKEND=redis`.
-5. Paste your `.env` into Railway → Variables (skip `DATABASE_URL` / `REDIS_URL`).
-6. Before first deploy, flip `prisma/schema.prisma` provider from `sqlite` to `postgresql` (see `DECISIONS.md` §1).
+Repo: <https://github.com/igrant9679/CreateUp>
+Railway: deploy from that repo.
+
+Steps:
+
+1. In Railway project → **+ New** → **Database** → **PostgreSQL**. Railway auto-injects `DATABASE_URL` into every service in the project.
+2. **+ New** → **GitHub repo** → pick `igrant9679/CreateUp`.
+3. In the service → **Variables**: paste the values from your local `.env` **except** `DATABASE_URL` (Railway sets it). Required at minimum:
+   - `AUTH_SECRET` (run `openssl rand -base64 32`)
+   - `APP_URL` and `AUTH_URL` (Railway assigns a domain on first deploy — set these to that URL, then redeploy)
+   - `BOOTSTRAP_ADMIN_EMAIL`
+   - Leave every `USE_MOCK_*=true` to start.
+4. First deploy will run automatically. Build = `npm ci && npx prisma generate && npm run build`; start = `npx prisma migrate deploy && npm run start` (see `railway.json`). Migrations apply on every boot — safe because `migrate deploy` is idempotent.
+5. (Later, when you need background jobs for Agent Mode) Add the **Redis** plugin and set `JOB_BACKEND=redis`.
 
 ## Docs
 
