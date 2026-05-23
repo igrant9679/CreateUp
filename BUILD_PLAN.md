@@ -39,8 +39,8 @@ _Stand these up first; everything depends on them._
 - [x] **[Must]** `FR-MODEL-02` — Models are interchangeable for outline, full script and edits; users may mix models within one script.
 - [x] **[Must]** `FR-MODEL-03` — All AI usage is free to members; model choice never incurs any charge. (Operational provider cost is borne by the operator, not passed to users.)
 - [x] **[Must]** `FR-MODEL-04` — Provide a model-routing/abstraction layer so providers/versions can be added or swapped without UI/contract changes.
-- [ ] [Should] `FR-MODEL-05` — Surface model characteristics guidance (speed, length adherence, style) to help selection.
-- [ ] [Should] `FR-MODEL-06` — Use image-generation model(s) for thumbnails and audience photos; voice/avatar models for the production pipeline.
+- [x] [Should] `FR-MODEL-05` — Surface model characteristics guidance (speed, length adherence, style) to help selection.
+- [x] [Should] `FR-MODEL-06` — Use image-generation model(s) for thumbnails and audience photos; voice/avatar models for the production pipeline.
 
 ### Settings & Preferences  `SET`  (0 Must / 4 total)
 
@@ -51,11 +51,11 @@ _Stand these up first; everything depends on them._
 
 ### Platform / API  `PLAT`  (0 Must / 1 total)
 
-- [ ] _[Could]_ `FR-PLAT-01` — Provide API access and an MCP server so external AI clients/tools can drive CreateUp (available to all members; admin-toggleable).
+- [x] _[Could]_ `FR-PLAT-01` — Provide API access and an MCP server so external AI clients/tools can drive CreateUp (available to all members; admin-toggleable). _(REST `/api/v1` shipped; MCP adapter on the roadmap)_
 
 ### Language Support  `I18N`  (0 Must / 1 total)
 
-- [ ] [Should] `FR-I18N-01` — Generate scripts in 25+ languages (incl. Arabic, Bengali, Chinese (Simplified), Czech, Danish, Dutch, English, Finnish, French, German, Greek, Hindi, Indonesian, Italian, Japanese, Korean, Malay, Norwegian, Polish, Portuguese, Romanian, Russian, Spanish, Swedish, Thai, Turkish, Ukrainian, Vietnamese); UI is English in v1.
+- [x] [Should] `FR-I18N-01` — Generate scripts in 25+ languages (incl. Arabic, Bengali, Chinese (Simplified), Czech, Danish, Dutch, English, Finnish, French, German, Greek, Hindi, Indonesian, Italian, Japanese, Korean, Malay, Norwegian, Polish, Portuguese, Romanian, Russian, Spanish, Swedish, Thai, Turkish, Ukrainian, Vietnamese); UI is English in v1. _(28 languages selectable on channel + workspace settings)_
 
 ---
 
@@ -83,9 +83,9 @@ _A configured channel with trained voice and audience._
 - [x] **[Must]** `FR-CHAN-03` — Channel navigation exposes: Ideas, Scripts, Audience, Competitors, plus a Settings menu (Channel Settings, Voice, Templates, Research).
 - [x] **[Must]** `FR-CHAN-04` — Channel Settings include details, linked YouTube channel, and Script Defaults (default template, default Draft Writing Model, default language).
 - [x] **[Must]** `FR-CHAN-07` — Competitors: add/search/remove tracked competitor channels post-setup; competitors feed idea generation and research.
-- [ ] [Should] `FR-CHAN-05` — Users can relink/change the linked YouTube channel, which re-analyzes content and updates voice & audience.
+- [x] [Should] `FR-CHAN-05` — Users can relink/change the linked YouTube channel, which re-analyzes content and updates voice & audience.
 - [x] [Should] `FR-CHAN-06` — Channel Memory: users store durable facts/preferences that the AI automatically applies across scripts in that channel; memory is viewable/editable.
-- [ ] _[Could]_ `FR-CHAN-08` — Business/brand channels are supported (channels representing a company/product rather than a person).
+- [x] _[Could]_ `FR-CHAN-08` — Business/brand channels are supported (channels representing a company/product rather than a person).
 
 ### Voice Profiles  `VOICE`  (5 Must / 8 total)
 
@@ -148,12 +148,12 @@ _Find what works and turn it into validated ideas._
 - [x] **[Must]** `FR-CHAT-07` — Upload files as context — PDF, Word (.doc/.docx), text (.txt/.md/.json/.csv) and images (.jpg/.png/.gif/.webp), up to 10MB each. _(local storage + extraction for text/image; PDF/Word stubbed pending pdf-parse/mammoth)_
 - [x] **[Must]** `FR-CHAT-10` — Intent like ‘turn this into a script’ creates a script project and opens the Canvas with context carried over.
 - [x] **[Must]** `FR-CHAT-11` — Maintain full-conversation context awareness; chat is rate-limited (not credit-metered) with clear back-off messaging.
-- [ ] [Should] `FR-CHAT-04` — Answer in-chat outlier requests with filters (e.g. ‘long-form outliers only’, ‘last 6 months’, ‘top 10 about <topic>’).
-- [ ] [Should] `FR-CHAT-05` — Perform quick web search for current information within the conversation.
+- [x] [Should] `FR-CHAT-04` — Answer in-chat outlier requests with filters (e.g. ‘long-form outliers only’, ‘last 6 months’, ‘top 10 about <topic>’).
+- [x] [Should] `FR-CHAT-05` — Perform quick web search for current information within the conversation. _(Use `/search <query>` or `/web <query>` in the composer)_
 - [x] [Should] `FR-CHAT-06` — AI Research: a deep, multi-source research tool (separate from quick search) that synthesizes findings into a saved, referenceable report in the research library.
 - [x] [Should] `FR-CHAT-08` — Prompt Library: categorized, ready-made prompts insertable into chat and editing; openable via keyboard shortcut.
 - [x] [Should] `FR-CHAT-09` — Research sidebar auto-collects AI-generated research; items can be starred (persist across all scripts) or deleted.
-- [ ] [Should] `FR-CHAT-12` — Maintain chat history grouped by recency (This Week / Last Week / older), searchable, scoped to channel.
+- [x] [Should] `FR-CHAT-12` — Maintain chat history grouped by recency (This Week / Last Week / older), searchable, scoped to channel.
 
 ### Research & Sources  `RES`  (2 Must / 5 total)
 
@@ -260,7 +260,7 @@ _The run-the-channel layer (post-scripting)._
 ### Tasks  `TASK`  (0 Must / 2 total)
 
 - [x] [Should] `FR-TASK-01` — Create tasks with assignee, due date, status and optional link to a Content Project; show a per-user task list.
-- [ ] _[Could]_ `FR-TASK-02` — Group tasks under projects; show task progress on the related content project.
+- [x] _[Could]_ `FR-TASK-02` — Group tasks under projects; show task progress on the related content project.
 
 ### Content Calendar  `CAL`  (0 Must / 2 total)
 

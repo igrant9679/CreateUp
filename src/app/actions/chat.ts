@@ -66,6 +66,26 @@ export async function postMessageAction(formData: FormData) {
   // Detect intent (FR-CHAT-10 — "turn this into a script" creates a Script + opens Canvas)
   const turnIntoScript = /turn (this|that|it) into (a |the )?script|make (this|that|it) a script|write (this|that) (as|into) a script/i.test(parsed.data.content);
 
+  // FR-CHAT-04 — answer in-chat outlier requests via Intel data
+  // FR-CHAT-05 — quick web search
+  let extraContext = "";
+  if (/outlier|outliers|long-form outlier|top \d+ about/i.test(parsed.data.content)) {
+    const { db } = await import("@/lib/db");
+    const top = await db.intelVideo.findMany({
+      where: { outlierScore: { gte: 2 } },
+      orderBy: { outlierScore: "desc" },
+      take: 10,
+      include: { intelChannel: true },
+    });
+    extraContext += "\n[FR-CHAT-04 outliers from indexed Intel]\n" + top.map((v) => `- ${v.outlierScore?.toFixed(1)}x ${v.title} (${v.intelChannel.name})`).join("\n");
+  }
+  const webMatch = parsed.data.content.match(/\/(search|web)\s+(.+)/i);
+  if (webMatch) {
+    const { search } = await import("@/lib/search");
+    const results = await search.search(webMatch[2], 5);
+    extraContext += "\n[FR-CHAT-05 quick web search]\n" + results.map((r, i) => `${i + 1}. ${r.title} — ${r.url}\n   ${r.snippet}`).join("\n");
+  }
+
   // Build system + context preamble (FR-AUD-05 — audience injected into chat)
   const voice = chat.channel.voiceProfiles[0];
   const audienceKQ = readJson<string[]>(chat.channel.audience?.keyQuestions ?? null, []);
@@ -80,7 +100,7 @@ Differentiation: ${chat.channel.differentiation ?? "—"}
 Audience key questions: ${audienceKQ.slice(0, 5).join(" · ")}
 Voice profile (truncated): ${(voice?.data ?? "").slice(0, 600)}
 ${memoryLines ? `\nChannel Memory (durable facts — ALWAYS respect these):\n${memoryLines}\n` : ""}
-${starredResearch ? `\nStarred research (persisted across all scripts, FR-CHAT-09):\n${starredResearch}\n` : ""}
+${starredResearch ? `\nStarred research (persisted across all scripts, FR-CHAT-09):\n${starredResearch}\n` : ""}${extraContext}
 Attached context items:
 ${contextLines || "(none)"}`;
 

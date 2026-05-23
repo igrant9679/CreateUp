@@ -48,6 +48,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   const keywords = readJson<string[]>(project.keywords, []);
 
+  // FR-TASK-02 — task grouping under projects with progress rollup
+  const tasksDone = project.tasks.filter((t) => t.status === "done").length;
+  const tasksProgress = project.tasks.length > 0 ? Math.round((tasksDone / project.tasks.length) * 100) : 0;
+
   return (
     <div>
       <Link href="/production" className="text-xs font-mono text-[var(--mute)] hover:text-[var(--accent)] flex items-center gap-1 mb-3"><ArrowLeft className="w-3 h-3" /> Production board</Link>
@@ -154,6 +158,25 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           </form>
           {stat && <p className="text-[10px] font-mono text-[var(--mute)] mt-2">Last synced {new Date(stat.capturedAt).toLocaleString()}</p>}
         </section>
+
+        {/* Task progress rollup (FR-TASK-02) */}
+        {project.tasks.length > 0 && (
+          <section className="card">
+            <h2 className="font-mono font-bold text-[14px] mb-3">Tasks ({tasksDone}/{project.tasks.length} done)</h2>
+            <div className="h-2 rounded-full bg-[var(--line)] overflow-hidden mb-3">
+              <div className="h-full rounded-full transition-all" style={{ width: tasksProgress + "%", background: tasksProgress === 100 ? "var(--green)" : "var(--accent)" }} />
+            </div>
+            <ul className="m-0 p-0">
+              {project.tasks.slice(0, 6).map((t) => (
+                <li key={t.id} className="border-t border-[var(--line)] first:border-t-0 py-1.5 text-xs flex items-center gap-2">
+                  <span className={"w-2 h-2 rounded-full"} style={{ background: t.status === "done" ? "var(--green)" : t.status === "in_progress" ? "var(--amber)" : "var(--mute)" }} />
+                  <span className={"flex-1 " + (t.status === "done" ? "line-through text-[var(--mute)]" : "")}>{t.title}</span>
+                  {t.dueDate && <span className="text-[10px] text-[var(--mute)]">{new Date(t.dueDate).toLocaleDateString()}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* Repurposing */}
         <section className="card">

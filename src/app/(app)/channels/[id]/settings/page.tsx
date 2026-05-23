@@ -2,6 +2,8 @@ import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { MODELS } from "@/lib/llm/models";
 import { updateChannelSettingsAction } from "@/app/actions/channel-settings";
+import { relinkYoutubeAction, setBusinessChannelAction } from "@/app/actions/channel-extras";
+import { ModelChip } from "@/components/ModelChip";
 
 // FR-CHAN-04 — Channel Settings: details, linked YouTube, Script Defaults.
 
@@ -37,9 +39,13 @@ export default async function ChannelSettingsPage({ params }: { params: Promise<
           <SelectField name="defaultModel" label="Default draft model" defaultValue={channel.defaultModel ?? ""}>
             <option value="">Workspace default</option>
             {MODELS.filter((m) => m.provider !== "mock").map((m) => (
-              <option key={m.id} value={m.id}>{m.label} — {m.style}</option>
+              <option key={m.id} value={m.id}>{m.label} — {m.style} (speed: {m.speed}, length: {m.lengthAdherence})</option>
             ))}
           </SelectField>
+          {channel.defaultModel && (() => {
+            const m = MODELS.find((x) => x.id === channel.defaultModel);
+            return m ? <div className="mt-1 -mb-2">Current: <ModelChip model={m} /></div> : null;
+          })()}
           <SelectField name="defaultLanguage" label="Default language" defaultValue={channel.defaultLanguage ?? "en"}>
             {LANGS.map((l) => (<option key={l} value={l}>{l}</option>))}
           </SelectField>
@@ -52,6 +58,27 @@ export default async function ChannelSettingsPage({ params }: { params: Promise<
         <div className="flex justify-end">
           <button type="submit" className="btn primary">Save settings</button>
         </div>
+      </form>
+
+      {/* FR-CHAN-05 — Relink YouTube channel (triggers voice + audience re-train) */}
+      <form action={relinkYoutubeAction} className="card flex items-end gap-2 mt-4">
+        <input type="hidden" name="channelId" value={id} />
+        <label className="flex-1 flex flex-col gap-1">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Relink YouTube channel (FR-CHAN-05) — re-trains voice + audience</span>
+          <input name="handle" required placeholder="@new-handle" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
+        </label>
+        <button type="submit" className="btn">Relink & retrain</button>
+      </form>
+
+      {/* FR-CHAN-08 — Business / brand channel toggle */}
+      <form action={setBusinessChannelAction} className="card flex items-center gap-3 mt-4">
+        <input type="hidden" name="channelId" value={id} />
+        <input type="hidden" name="business" value={channel.presentationStyle === "business" ? "0" : "1"} />
+        <div className="flex-1">
+          <div className="text-sm font-semibold">Business / brand channel</div>
+          <p className="text-xs text-[var(--mute)]">Currently: <b>{channel.presentationStyle}</b>. Business channels represent a company or product rather than a person.</p>
+        </div>
+        <button type="submit" className="btn">{channel.presentationStyle === "business" ? "Switch to personality" : "Mark as business"}</button>
       </form>
     </div>
   );
