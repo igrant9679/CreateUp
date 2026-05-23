@@ -198,14 +198,16 @@ async function StepFivePreview({ channelId }: { channelId: string }) {
         </section>
       )}
 
-      <form action={finishOnboardingAction} className="flex justify-between items-center mt-5">
-        <input type="hidden" name="channelId" value={channelId} />
-        <Link href={`/channels/${channelId}`} className="text-xs text-[var(--mute)] underline">Skip for now</Link>
-        <button type="submit" className="btn primary">Open channel →</button>
-      </form>
+      <div className="flex flex-wrap justify-between items-center mt-5 gap-2">
+        <Link href={`/channels/${channelId}`} className="btn sm" title="Skip background generation — you can edit voice/audience later from the channel page">Skip — open channel anyway →</Link>
+        <form action={finishOnboardingAction} className="flex items-center gap-2">
+          <input type="hidden" name="channelId" value={channelId} />
+          <button type="submit" className="btn primary">Open channel →</button>
+        </form>
+      </div>
 
       <p className="text-xs text-[var(--mute)] mt-3 text-center">
-        Page auto-refreshes every few seconds.{" "}
+        Page auto-refreshes every few seconds (stops after 90 seconds).{" "}
         <Link href={`/onboarding/channel/${channelId}?step=5`} className="underline">Refresh now</Link>.
       </p>
 
@@ -228,11 +230,25 @@ function StatusCard({ label, ready }: { label: string; ready: boolean }) {
 
 function RefreshScript({ ready }: { ready: boolean }) {
   if (ready) return null;
-  // Auto-refresh the page every 3 seconds while jobs are running (FR-ONB-10).
+  // Auto-refresh the page while jobs are running (FR-ONB-10), but cap at 90 seconds
+  // so a stuck job can never trap the user in a refresh loop.
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: "setTimeout(() => location.reload(), 3000);",
+        __html: `
+          (function(){
+            try {
+              const KEY = 'createup_onboard_refresh_start';
+              let start = sessionStorage.getItem(KEY);
+              if (!start) { start = String(Date.now()); sessionStorage.setItem(KEY, start); }
+              if (Date.now() - Number(start) < 90000) {
+                setTimeout(() => location.reload(), 3000);
+              } else {
+                sessionStorage.removeItem(KEY);
+              }
+            } catch { setTimeout(() => location.reload(), 3000); }
+          })();
+        `,
       }}
     />
   );

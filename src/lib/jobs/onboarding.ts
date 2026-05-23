@@ -26,8 +26,20 @@ export function registerOnboardingJobs() {
     const channel = await db.channel.findUnique({ where: { id: channelId } });
     if (!channel) return;
 
-    // FR-VOICE-01: top 10 videos (5 most-viewed + 5 most-recent ≥ 3 min).
+    // ALWAYS write a baseline first so the UI completes even if the LLM call fails later.
     let voiceData: Record<string, unknown> = baselineVoice(channel.nicheDescription ?? "");
+    await db.voiceProfile.upsert({
+      where: { id: `voice-${channelId}-default` },
+      update: { data: writeJson(voiceData), isDefault: true },
+      create: {
+        id: `voice-${channelId}-default`,
+        channelId,
+        label: "Default voice",
+        isDefault: true,
+        data: writeJson(voiceData),
+      },
+    });
+    await ctx.progress(0.3);
 
     if (channel.linkedYoutubeId) {
       const videos = await youtube.listVideos(channel.linkedYoutubeId, 10);
@@ -41,28 +53,25 @@ export function registerOnboardingJobs() {
           .filter(Boolean) as string[];
         await ctx.progress(0.7);
 
-        const completion = await llm.complete({
-          model: "claude-sonnet",
-          system: "You produce a structured voice profile from creator transcripts.",
-          messages: [
-            { role: "user", content: `Niche: ${channel.nicheDescription}\n\nStyle: ${channel.presentationStyle}\n\nTranscripts:\n${transcripts.join("\n\n---\n\n").slice(0, 8000)}\n\nReturn a JSON-ish profile of archetype, delivery, rhetoric, diction, and extras.` },
-          ],
-        });
-        voiceData = { ...voiceData, summary: completion.content };
+        try {
+          const completion = await llm.complete({
+            model: "claude-sonnet",
+            system: "You produce a structured voice profile from creator transcripts.",
+            messages: [
+              { role: "user", content: `Niche: ${channel.nicheDescription}\n\nStyle: ${channel.presentationStyle}\n\nTranscripts:\n${transcripts.join("\n\n---\n\n").slice(0, 8000)}\n\nReturn a JSON-ish profile of archetype, delivery, rhetoric, diction, and extras.` },
+            ],
+          });
+          voiceData = { ...voiceData, summary: completion.content };
+          // Upgrade the baseline with the LLM-enriched profile.
+          await db.voiceProfile.update({
+            where: { id: `voice-${channelId}-default` },
+            data: { data: writeJson(voiceData) },
+          });
+        } catch (e) {
+          ctx.log(`voice: LLM enrichment failed, keeping baseline. ${e instanceof Error ? e.message : e}`);
+        }
       }
     }
-
-    await db.voiceProfile.upsert({
-      where: { id: `voice-${channelId}-default` },
-      update: { data: writeJson(voiceData), isDefault: true },
-      create: {
-        id: `voice-${channelId}-default`,
-        channelId,
-        label: "Default voice",
-        isDefault: true,
-        data: writeJson(voiceData),
-      },
-    });
     await ctx.progress(1);
   });
 
@@ -71,49 +80,44 @@ export function registerOnboardingJobs() {
     const channel = await db.channel.findUnique({ where: { id: channelId } });
     if (!channel) return;
 
-    // FR-AUD-01: from top 5 videos (linked) or description (custom).
-    const source = channel.linkedYoutubeId
-      ? `Top videos: ${(await youtube.listVideos(channel.linkedYoutubeId, 5)).map((v) => v.title).join("; ")}`
-      : `Description: ${channel.nicheDescription}`;
-    await ctx.progress(0.4);
-
-    const completion = await llm.complete({
-      model: "claude-sonnet",
-      system: "You generate audience avatars with demographics, psychographics, online behavior, offline behavior, and key questions.",
-      messages: [{ role: "user", content: `Niche: ${channel.nicheDescription}\n${source}\n\nDifferentiation: ${channel.differentiation}\n\nProduce a JSON object with fields: demographics, psychographics, onlineBehavior, offlineBehavior, keyQuestions (array of 5 strings).` }],
-    });
-    await ctx.progress(0.8);
-
+    // ALWAYS create a baseline first so the UI doesn't hang if the LLM call fails.
+    const baseline = {
+      demographics:    writeJson({ summary: `Adults interested in ${channel.nicheDescription ?? "this niche"}.` }),
+      psychographics:  writeJson({ summary: "Curious, growth-oriented, time-poor." }),
+      onlineBehavior:  writeJson({ summary: "YouTube + niche communities; deep-dives." }),
+      offlineBehavior: writeJson({ summary: "Commute / WFH / weekend project context." }),
+      keyQuestions:    writeJson([
+        "What's the most efficient way to do this?",
+        "Whose advice should I actually trust?",
+        "Where do experts disagree, and why?",
+        "What do beginners get wrong about this?",
+        "How will this look in 3 years?",
+      ]),
+    };
     await db.audienceAvatar.upsert({
       where: { channelId },
-      update: {
-        demographics: writeJson({ summary: completion.content.slice(0, 600) }),
-        psychographics: writeJson({ summary: "Curious, growth-oriented, time-poor." }),
-        onlineBehavior: writeJson({ summary: "YouTube + niche communities; deep-dives." }),
-        offlineBehavior: writeJson({ summary: "Commute / WFH / weekend project context." }),
-        keyQuestions: writeJson([
-          "What's the most efficient way to do this?",
-          "Whose advice should I actually trust?",
-          "Where do experts disagree, and why?",
-          "What do beginners get wrong about this?",
-          "How will this look in 3 years?",
-        ]),
-      },
-      create: {
-        channelId,
-        demographics: writeJson({ summary: completion.content.slice(0, 600) }),
-        psychographics: writeJson({ summary: "Curious, growth-oriented, time-poor." }),
-        onlineBehavior: writeJson({ summary: "YouTube + niche communities; deep-dives." }),
-        offlineBehavior: writeJson({ summary: "Commute / WFH / weekend project context." }),
-        keyQuestions: writeJson([
-          "What's the most efficient way to do this?",
-          "Whose advice should I actually trust?",
-          "Where do experts disagree, and why?",
-          "What do beginners get wrong about this?",
-          "How will this look in 3 years?",
-        ]),
-      },
+      update: baseline,
+      create: { channelId, ...baseline },
     });
+    await ctx.progress(0.4);
+
+    try {
+      const source = channel.linkedYoutubeId
+        ? `Top videos: ${(await youtube.listVideos(channel.linkedYoutubeId, 5)).map((v) => v.title).join("; ")}`
+        : `Description: ${channel.nicheDescription}`;
+      const completion = await llm.complete({
+        model: "claude-sonnet",
+        system: "You generate audience avatars with demographics, psychographics, online behavior, offline behavior, and key questions.",
+        messages: [{ role: "user", content: `Niche: ${channel.nicheDescription}\n${source}\n\nDifferentiation: ${channel.differentiation}\n\nProduce a JSON object with fields: demographics, psychographics, onlineBehavior, offlineBehavior, keyQuestions (array of 5 strings).` }],
+      });
+      // Upgrade demographics text with the LLM-enriched version
+      await db.audienceAvatar.update({
+        where: { channelId },
+        data: { demographics: writeJson({ summary: completion.content.slice(0, 600) }) },
+      });
+    } catch (e) {
+      ctx.log(`audience: LLM enrichment failed, keeping baseline. ${e instanceof Error ? e.message : e}`);
+    }
     await ctx.progress(1);
   });
 
@@ -152,34 +156,62 @@ export function registerOnboardingJobs() {
 
     const seed = candidates.slice(0, 10);
 
-    // Have the LLM rewrite each into an idea title/strategy in the creator's voice.
-    const completion = await llm.complete({
-      model: "claude-sonnet",
-      system: "You convert outlier video titles into 10 fresh idea titles for a creator in a related niche, preserving each one's hook structure.",
-      messages: [
-        { role: "user", content: `Creator niche: ${channel.nicheDescription}\nDifferentiation: ${channel.differentiation}${perfHint}\nOutlier seeds:\n${seed.map((s, i) => `${i + 1}. (${s.outlier.toFixed(1)}x) ${s.title}`).join("\n")}\n\nReturn one idea per line: "title — strategy".` },
-      ],
-    });
+    // ALWAYS seed at least 5 baseline ideas so the UI completes if the LLM call fails.
+    const baselineIdeas = [
+      "Why everything you know about this is wrong",
+      "The 80/20 nobody talks about",
+      "I tried this for 30 days — here's what happened",
+      "Stop doing this. Do this instead.",
+      "What experts get wrong about this",
+    ];
+    const existingIdeaCount = await db.idea.count({ where: { channelId } });
+    if (existingIdeaCount === 0) {
+      for (const title of baselineIdeas) {
+        await db.idea.create({
+          data: {
+            channelId,
+            title,
+            strategy: "Counter-intuitive hook with research-backed payoff.",
+            outlierScore: 2 + Math.random() * 4,
+            suggestedLength: "8–12 min",
+            topic: channel.nicheDescription?.slice(0, 80) ?? null,
+          },
+        });
+      }
+    }
+    await ctx.progress(0.7);
 
-    const lines = completion.content
-      .split("\n")
-      .map((l) => l.replace(/^[*\-\d.\s]+/, "").trim())
-      .filter(Boolean)
-      .slice(0, 10);
-
-    for (let i = 0; i < lines.length; i++) {
-      const [title, strategy] = lines[i].split("—").map((s) => s.trim());
-      if (!title) continue;
-      await db.idea.create({
-        data: {
-          channelId,
-          title,
-          strategy: strategy ?? "Counter-intuitive hook with research-backed payoff.",
-          outlierScore: seed[i]?.outlier ?? 2 + Math.random() * 4,
-          suggestedLength: "8–12 min",
-          topic: channel.nicheDescription?.slice(0, 80) ?? null,
-        },
+    try {
+      const completion = await llm.complete({
+        model: "claude-sonnet",
+        system: "You convert outlier video titles into 10 fresh idea titles for a creator in a related niche, preserving each one's hook structure.",
+        messages: [
+          { role: "user", content: `Creator niche: ${channel.nicheDescription}\nDifferentiation: ${channel.differentiation}${perfHint}\nOutlier seeds:\n${seed.map((s, i) => `${i + 1}. (${s.outlier.toFixed(1)}x) ${s.title}`).join("\n")}\n\nReturn one idea per line: "title — strategy".` },
+        ],
       });
+
+      const lines = completion.content
+        .split("\n")
+        .map((l) => l.replace(/^[*\-\d.\s]+/, "").trim())
+        .filter(Boolean)
+        .slice(0, 10);
+
+      for (let i = 0; i < lines.length; i++) {
+        const [title, strategy] = lines[i].split("—").map((s) => s.trim());
+        if (!title) continue;
+        await db.idea.create({
+          data: {
+            channelId,
+            title,
+            strategy: strategy ?? "Counter-intuitive hook with research-backed payoff.",
+            outlierScore: seed[i]?.outlier ?? 2 + Math.random() * 4,
+            suggestedLength: "8–12 min",
+            topic: channel.nicheDescription?.slice(0, 80) ?? null,
+          },
+        });
+      }
+    } catch (e) {
+      ctx.log(`ideas: LLM enrichment failed, keeping baseline. ${e instanceof Error ? e.message : e}`);
     }
     await ctx.progress(1);
   });
