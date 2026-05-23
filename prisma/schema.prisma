@@ -48,6 +48,15 @@ enum Role {
   VIEWER
 }
 
+// Global key/value settings — currently used for in-app API key storage so admins
+// can paste provider keys via UI instead of editing Railway env vars. Values are
+// stored in plaintext; treat the DB as the secret boundary (same trust level as env).
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id            String        @id @default(cuid())
   email         String        @unique

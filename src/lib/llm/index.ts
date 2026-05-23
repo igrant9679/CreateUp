@@ -4,31 +4,49 @@ import { mockProvider } from "./mock";
 import { createAnthropicProvider } from "./anthropic";
 import { createGoogleProvider } from "./google";
 import { MODELS, getModel } from "./models";
+import { getApiKey, invalidateKeyCache } from "./keys";
 
 // Routing layer (FR-MODEL-04). Application code uses llm.complete() / llm.stream()
 // and never imports a concrete provider. Real providers are wrapped so a network /
 // auth / quota / timeout failure transparently falls back to the mock — the app keeps
 // working even when an upstream LLM is misconfigured.
+//
+// Keys come from getApiKey() which prefers a DB Setting row (set via /admin/api-keys)
+// and falls back to the env var. Providers are cached per-key so a rotation in the
+// admin UI takes effect on the next request without a redeploy.
 
 const providerCache = new Map<string, LLMProvider>();
-function getProvider(id: string): LLMProvider {
-  if (providerCache.has(id)) return providerCache.get(id)!;
+
+async function getProvider(providerId: string): Promise<LLMProvider> {
+  const key = (providerId === "anthropic" || providerId === "google")
+    ? await getApiKey(providerId)
+    : "";
+  const cacheKey = `${providerId}:${key ? hash(key) : "none"}`;
+  const cached = providerCache.get(cacheKey);
+  if (cached) return cached;
   let provider: LLMProvider;
-  switch (id) {
+  switch (providerId) {
     case "anthropic":
-      if (!env.ANTHROPIC_API_KEY) return mockProvider;
-      provider = wrapWithFallback(createAnthropicProvider(env.ANTHROPIC_API_KEY), "anthropic");
+      if (!key) { provider = mockProvider; break; }
+      provider = wrapWithFallback(createAnthropicProvider(key), "anthropic");
       break;
     case "google":
-      if (!env.GOOGLE_GENAI_API_KEY) return mockProvider;
-      provider = wrapWithFallback(createGoogleProvider(env.GOOGLE_GENAI_API_KEY), "google");
+      if (!key) { provider = mockProvider; break; }
+      provider = wrapWithFallback(createGoogleProvider(key), "google");
       break;
     // Other providers go here as we wire them up (openai, deepseek, xai, moonshot, minimax).
     default:
       provider = mockProvider;
   }
-  providerCache.set(id, provider);
+  providerCache.set(cacheKey, provider);
   return provider;
+}
+
+// Cheap stable identifier for an opaque key string, used as a cache key.
+function hash(s: string): string {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return `h${h}`;
 }
 
 /**
@@ -74,7 +92,7 @@ function wrapWithFallback(real: LLMProvider, providerId: string): LLMProvider {
   };
 }
 
-function selectProvider(model: string): LLMProvider {
+async function selectProvider(model: string): Promise<LLMProvider> {
   if (env.USE_MOCK_LLM) return mockProvider;
   const descriptor = getModel(model);
   if (!descriptor) return mockProvider;
@@ -85,11 +103,14 @@ export const llm = {
   models: MODELS,
   defaultModel: env.DEFAULT_LLM_MODEL,
   async complete(req: LLMRequest): Promise<LLMResponse> {
-    return selectProvider(req.model).complete(req);
+    const p = await selectProvider(req.model);
+    return p.complete(req);
   },
-  stream(req: LLMRequest): AsyncIterable<string> {
-    return selectProvider(req.model).stream(req);
+  async *stream(req: LLMRequest): AsyncIterable<string> {
+    const p = await selectProvider(req.model);
+    for await (const chunk of p.stream(req)) yield chunk;
   },
+  invalidateKeyCache,
 };
 
 export type { LLMRequest, LLMResponse, LLMProvider } from "./types";

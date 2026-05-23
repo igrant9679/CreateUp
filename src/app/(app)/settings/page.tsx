@@ -79,18 +79,29 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
         </form>
       </section>
 
-      {/* Theme */}
+      {/* Theme — click to apply instantly (one form per option, auto-submitting). */}
       <section className="card mb-4">
         <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Palette className="w-4 h-4" style={{ color: "#6D28D9" }} /> Appearance</h2>
-        <form action={setThemeAction} className="flex gap-2 items-center">
-          {(["light", "dark", "auto"] as const).map((t) => (
-            <label key={t} className={"card cursor-pointer flex-1 text-center has-[input:checked]:border-[var(--accent)] has-[input:checked]:bg-[var(--accent-soft)]"}>
-              <input type="radio" name="theme" value={t} defaultChecked={theme === t} className="hidden" />
-              <span className="capitalize">{t}</span>
-            </label>
-          ))}
-          <button type="submit" className="btn primary sm">Save</button>
-        </form>
+        <p className="text-xs text-[var(--mute)] mb-3">Click a mode to apply it instantly.</p>
+        <div className="flex gap-2">
+          {(["light", "dark", "auto"] as const).map((t) => {
+            const active = theme === t;
+            return (
+              <form key={t} action={setThemeAction} className="flex-1">
+                <input type="hidden" name="theme" value={t} />
+                <input type="hidden" name="return" value="/settings" />
+                <button
+                  type="submit"
+                  className="card w-full text-center cursor-pointer transition-colors"
+                  style={active ? { borderColor: "var(--accent)", background: "var(--accent-soft)", color: "var(--accent)", fontWeight: 600 } : undefined}
+                >
+                  <span className="capitalize">{t}</span>
+                  {active && <span className="ml-2 text-[10px] font-mono uppercase tracking-wider">✓ active</span>}
+                </button>
+              </form>
+            );
+          })}
+        </div>
       </section>
 
       {/* Workspaces */}
