@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { PenLine } from "lucide-react";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
@@ -40,7 +41,7 @@ export default async function ChannelIdeasPage({
         </form>
         <form action={regenerateIdeasAction}>
           <input type="hidden" name="channelId" value={id} />
-          <button type="submit" className="btn primary sm">Regenerate</button>
+          <SubmitButton className="btn primary sm">Regenerate</SubmitButton>
         </form>
       </div>
 
@@ -49,7 +50,7 @@ export default async function ChannelIdeasPage({
           <p className="text-sm text-[var(--mute)] mb-3">No ideas yet.</p>
           <form action={regenerateIdeasAction}>
             <input type="hidden" name="channelId" value={id} />
-            <button type="submit" className="btn primary">Generate 10 ideas</button>
+            <SubmitButton className="btn primary">Generate 10 ideas</SubmitButton>
           </form>
         </div>
       )}
@@ -70,7 +71,7 @@ export default async function ChannelIdeasPage({
               <div className="flex gap-2">
                 <form action={writeIdeaToCanvasAction}>
                   <input type="hidden" name="ideaId" value={i.id} />
-                  <button type="submit" className="btn primary sm flex items-center gap-1.5"><PenLine className="w-3.5 h-3.5" /> Write</button>
+                  <SubmitButton className="btn primary sm flex items-center gap-1.5"><PenLine className="w-3.5 h-3.5" /> Write</SubmitButton>
                 </form>
                 <Link href={`/channels/${id}/ideas/${i.id}`} className="btn sm">Detail</Link>
               </div>

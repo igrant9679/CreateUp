@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, Search, Layers, Type, Image as ImageIcon, Zap, Target, FileText, Edit3, Download, Send, ListChecks, Check, RefreshCw } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -132,7 +133,7 @@ export default async function BuilderPage({ params }: { params: Promise<{ id: st
         <form action={setBuilderStepAction} className="mt-6 flex justify-end">
           <input type="hidden" name="scriptId" value={id} />
           <input type="hidden" name="step" value={Math.min(10, state.step + 1)} />
-          {state.step < 10 && <button type="submit" className="btn primary">Continue →</button>}
+          {state.step < 10 && <SubmitButton className="btn primary">Continue →</SubmitButton>}
         </form>
       </main>
     </div>
@@ -174,7 +175,7 @@ function StepResearch({ scriptId, state }: { scriptId: string; state: BuilderSta
           </select>
           <input name="title" placeholder="Title (optional)" className="border border-[var(--line-2)] rounded-lg p-2 text-sm flex-1 min-w-[180px]" />
           <input name="ref" required placeholder="URL or paste" className="border border-[var(--line-2)] rounded-lg p-2 text-sm flex-1 min-w-[200px] font-mono" />
-          <button type="submit" className="btn primary sm">Add</button>
+          <SubmitButton className="btn primary sm">Add</SubmitButton>
         </div>
       </form>
 
@@ -201,7 +202,7 @@ function StepFrame({ scriptId, state }: { scriptId: string; state: BuilderState 
       <FormField name="angle" label="Specific angle" defaultValue={state.frame.angle} placeholder="What's the single most counter-intuitive take?" />
       <FormField name="learningGoal" label="Learning goal" defaultValue={state.frame.learningGoal} placeholder="By the end the viewer should understand…" />
       <FormField name="emotionalGoal" label="Emotional goal" defaultValue={state.frame.emotionalGoal} placeholder="The viewer should feel…" />
-      <div className="flex justify-end"><button type="submit" className="btn primary sm">Save frame</button></div>
+      <div className="flex justify-end"><SubmitButton className="btn primary sm">Save frame</SubmitButton></div>
     </form>
   );
 }
@@ -226,7 +227,7 @@ function StepTitle({ scriptId, state, fallback }: { scriptId: string; state: Bui
           <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Working title</span>
           <input name="title" defaultValue={state.title || fallback} className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-semibold" required />
         </label>
-        <div className="flex justify-end"><button type="submit" className="btn primary sm">Save title</button></div>
+        <div className="flex justify-end"><SubmitButton className="btn primary sm">Save title</SubmitButton></div>
       </form>
 
       <form action={suggestBuilderTitlesAction} className="flex justify-between items-center">
@@ -289,7 +290,7 @@ function StepHook({ scriptId, state }: { scriptId: string; state: BuilderState }
           <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Selected hook</span>
           <textarea name="hook" defaultValue={state.hook} rows={3} className="border border-[var(--line-2)] rounded-lg p-2 text-sm" required />
         </label>
-        <div className="flex justify-end"><button type="submit" className="btn primary sm">Save hook</button></div>
+        <div className="flex justify-end"><SubmitButton className="btn primary sm">Save hook</SubmitButton></div>
       </form>
 
       <form action={suggestBuilderHooksAction} className="flex justify-between items-center">
@@ -323,7 +324,7 @@ function StepPayoffs({ scriptId, state }: { scriptId: string; state: BuilderStat
       <input type="hidden" name="scriptId" value={scriptId} />
       <p className="text-sm text-[var(--mute)]">List the 3-8 key information payoffs your video will deliver, in order.</p>
       <textarea name="payoffs" rows={10} defaultValue={state.payoffs.join("\n")} placeholder="One payoff per line, e.g.\nWhy this approach typically fails\nThe 80/20 of what works\nA simple test you can run today" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
-      <div className="flex justify-end"><button type="submit" className="btn primary sm">Save payoffs</button></div>
+      <div className="flex justify-end"><SubmitButton className="btn primary sm">Save payoffs</SubmitButton></div>
     </form>
   );
 }
@@ -335,7 +336,7 @@ function StepDraft({ scriptId, state }: { scriptId: string; state: BuilderState 
       <p className="text-sm text-[var(--mute)]">Generate the full script section-by-section. Regenerate any section without affecting the others.</p>
       <form action={generateBuilderDraftAction}>
         <input type="hidden" name="scriptId" value={scriptId} />
-        <button type="submit" className="btn primary">{state.sections.length > 0 ? "Regenerate full draft" : "Generate full draft"}</button>
+        <SubmitButton className="btn primary">{state.sections.length > 0 ? "Regenerate full draft" : "Generate full draft"}</SubmitButton>
       </form>
 
       {state.sections.map((s, i) => (
@@ -388,7 +389,7 @@ function StepPublish({ scriptId, state }: { scriptId: string; state: BuilderStat
       <p className="text-sm text-[var(--mute)]">Generate YouTube tags, description, and metadata.</p>
       <form action={generateBuilderPublishAction}>
         <input type="hidden" name="scriptId" value={scriptId} />
-        <button type="submit" className="btn primary">{state.publish?.description ? "Regenerate" : "Generate description, tags & metadata"}</button>
+        <SubmitButton className="btn primary">{state.publish?.description ? "Regenerate" : "Generate description, tags & metadata"}</SubmitButton>
       </form>
       {state.publish?.description && (
         <>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, PenLine, Archive } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireChannel } from "@/lib/channel";
@@ -75,7 +76,7 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ id:
       <div className="flex gap-2">
         <form action={writeIdeaToCanvasAction}>
           <input type="hidden" name="ideaId" value={idea.id} />
-          <button type="submit" className="btn primary flex items-center gap-2"><PenLine className="w-4 h-4" /> Write this</button>
+          <SubmitButton className="btn primary flex items-center gap-2"><PenLine className="w-4 h-4" /> Write this</SubmitButton>
         </form>
         <form action={updateIdeaStatusAction}>
           <input type="hidden" name="ideaId" value={idea.id} />

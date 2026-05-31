@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
@@ -27,7 +28,7 @@ export default async function NewWikiPage() {
           <textarea name="body" rows={18} className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
         </label>
         <div className="flex justify-end">
-          <button type="submit" className="btn primary">Create page</button>
+          <SubmitButton className="btn primary">Create page</SubmitButton>
         </div>
       </form>
     </div>

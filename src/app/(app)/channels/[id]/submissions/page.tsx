@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Inbox, Sparkles, X, CheckCircle2, Copy } from "lucide-react";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
@@ -72,7 +73,7 @@ export default async function SubmissionsPage({ params, searchParams }: { params
               <div className="flex items-center gap-2">
                 <form action={promoteSubmissionAction}>
                   <input type="hidden" name="id" value={s.id} />
-                  <button type="submit" className="btn primary sm flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" /> Promote to Idea</button>
+                  <SubmitButton className="btn primary sm flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" /> Promote to Idea</SubmitButton>
                 </form>
                 <form action={reviewSubmissionAction}>
                   <input type="hidden" name="id" value={s.id} />

@@ -1,4 +1,5 @@
 import { requireChannel } from "@/lib/channel";
+import { SubmitButton } from "@/components/SubmitButton";
 import { db } from "@/lib/db";
 import { readJson } from "@/lib/db/json";
 import {
@@ -27,7 +28,7 @@ export default async function ChannelAudiencePage({ params }: { params: Promise<
         <p className="text-sm text-[var(--mute)] mb-3">No audience avatar yet.</p>
         <form action={refreshAudienceAction}>
           <input type="hidden" name="channelId" value={id} />
-          <button type="submit" className="btn primary">Generate audience avatar</button>
+          <SubmitButton className="btn primary">Generate audience avatar</SubmitButton>
         </form>
       </div>
     );

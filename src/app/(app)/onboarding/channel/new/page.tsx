@@ -1,4 +1,5 @@
 import { requireRole } from "@/lib/acl";
+import { SubmitButton } from "@/components/SubmitButton";
 import { startOnboardingAction } from "@/app/actions/onboarding";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 
@@ -64,7 +65,7 @@ export default async function OnboardingStartPage({ searchParams }: { searchPara
         </fieldset>
 
         <div className="flex justify-end">
-          <button type="submit" className="btn primary">Continue →</button>
+          <SubmitButton className="btn primary">Continue →</SubmitButton>
         </div>
       </form>
     </div>

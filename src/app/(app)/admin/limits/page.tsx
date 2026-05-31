@@ -1,4 +1,5 @@
 import { Gauge } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireRole } from "@/lib/acl";
 import { updateSoftLimitsAction } from "@/app/actions/admin";
 
@@ -24,7 +25,7 @@ export default async function AdminLimitsPage() {
         <LimitField name="thumbnailsPerUserMonth" label="Thumbnails per user / month"     defaultValue={workspace.limitThumbnailsPerUserMonth} hint="Thumbnail generation is the costliest operation." />
         <LimitField name="agentRunsPerUserMonth"  label="Agent Mode runs per user / month" defaultValue={workspace.limitAgentRunsPerUserMonth} hint="Agent Mode is the heaviest pipeline." />
         <LimitField name="channels"               label="Channels per workspace"           defaultValue={workspace.limitChannels} />
-        <div className="flex justify-end"><button type="submit" className="btn primary">Save limits</button></div>
+        <div className="flex justify-end"><SubmitButton className="btn primary">Save limits</SubmitButton></div>
       </form>
     </div>
   );

@@ -218,7 +218,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
           {params.q?.trim().startsWith("@") && (
             <form action={autoIndexHandleAction} className="flex items-center gap-2 justify-center">
               <input type="hidden" name="handle" value={params.q} />
-              <button type="submit" className="btn primary sm">Auto-index <code className="font-mono">{params.q}</code> now</button>
+              <SubmitButton className="btn primary sm">Auto-index <code className="font-mono">{params.q}</code> now</SubmitButton>
             </form>
           )}
         </div>

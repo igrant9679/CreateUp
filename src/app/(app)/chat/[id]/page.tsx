@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, MessageCircle, Link2, Send, PenLine } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -79,9 +80,9 @@ export default async function ChatThreadPage({ params }: { params: Promise<{ id:
           />
           <div className="flex flex-col gap-1 self-stretch">
             <PromptLibrary targetId="composer-textarea" />
-            <button type="submit" className="btn primary flex items-center gap-1.5 flex-1">
+            <SubmitButton className="btn primary flex items-center gap-1.5 flex-1">
               <Send className="w-4 h-4" /> Send
-            </button>
+            </SubmitButton>
           </div>
         </form>
       </main>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, Download, CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -76,7 +77,7 @@ export default async function ThumbnailDetailPage({ params }: { params: Promise<
                     <form action={renderThumbnailAction} className="mt-2">
                       <input type="hidden" name="thumbnailId" value={thumb.id} />
                       <input type="hidden" name="conceptId" value={c.id} />
-                      <button type="submit" className="btn primary sm w-full">Render this</button>
+                      <SubmitButton className="btn primary sm w-full">Render this</SubmitButton>
                     </form>
                   )}
                 </div>

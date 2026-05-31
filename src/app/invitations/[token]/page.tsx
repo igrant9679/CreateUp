@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { SubmitButton } from "@/components/SubmitButton";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
@@ -44,7 +45,7 @@ export default async function InvitationPage({ params }: { params: Promise<{ tok
         <p className="text-sm text-[var(--mute)] mb-1">to <b>{invite.workspace.name}</b> on CreateUp</p>
         <p className="text-xs font-mono text-[var(--mute)] mb-4">Role: {invite.role}</p>
         <form action={acceptAction.bind(null, token)}>
-          <button className="btn primary" type="submit">Accept invitation</button>
+          <SubmitButton className="btn primary">Accept invitation</SubmitButton>
         </form>
         <p className="text-xs text-[var(--mute)] mt-4">
           New? <Link href={`/signup?invite=${token}`} className="text-[var(--accent)] font-semibold">Create an account first</Link>

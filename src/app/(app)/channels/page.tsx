@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Layers, Plus, Star, ArrowRight, Mic2, Brain, Image as ImageIcon, FileText, Sparkles } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
@@ -85,7 +86,7 @@ export default async function ChannelsManagerPage() {
                 {active?.id !== c.id && (
                   <form action={setActiveChannelAction} className="flex-1">
                     <input type="hidden" name="channelId" value={c.id} />
-                    <button type="submit" className="btn primary sm w-full">Switch to this channel</button>
+                    <SubmitButton className="btn primary sm w-full">Switch to this channel</SubmitButton>
                   </form>
                 )}
                 <Link href={`/channels/${c.id}`} className="btn sm flex items-center gap-1.5">Open <ArrowRight className="w-3.5 h-3.5" /></Link>

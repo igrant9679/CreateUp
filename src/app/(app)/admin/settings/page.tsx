@@ -1,4 +1,5 @@
 import { Settings } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { MODELS } from "@/lib/llm/models";
@@ -52,7 +53,7 @@ export default async function AdminSettingsPage() {
           </select>
         </label>
 
-        <div className="flex justify-end"><button type="submit" className="btn primary">Save settings</button></div>
+        <div className="flex justify-end"><SubmitButton className="btn primary">Save settings</SubmitButton></div>
       </form>
     </div>
   );

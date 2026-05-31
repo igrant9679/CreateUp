@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SubmitButton } from "@/components/SubmitButton";
 import { db } from "@/lib/db";
 import { submitAudienceTopicAction } from "@/app/actions/growth";
 
@@ -52,7 +53,7 @@ export default async function PublicSubmitPage({
               <span className="text-xs font-mono uppercase text-[var(--mute)]">Your name or @ (optional)</span>
               <input name="submitter" maxLength={120} className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm" />
             </label>
-            <button type="submit" className="btn primary mt-1">Submit</button>
+            <SubmitButton className="btn primary mt-1">Submit</SubmitButton>
             <p className="text-[10px] font-mono text-[var(--mute)] text-center mt-1">No account needed. Submissions are reviewed before becoming ideas.</p>
           </form>
         )}

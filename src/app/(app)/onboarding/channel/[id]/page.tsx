@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { redirect } from "next/navigation";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
@@ -52,7 +53,7 @@ function StepTwoYouTube({ channelId, error }: { channelId: string; error?: strin
         <p className="text-xs text-[var(--mute)]">Mock mode returns a plausible channel for any handle so you can demo the full flow.</p>
         <div className="flex justify-between items-center mt-2">
           <Link href={`/onboarding/channel/${channelId}?step=2&path=custom`} className="text-xs text-[var(--mute)] underline">Use custom path instead →</Link>
-          <button type="submit" className="btn primary">Look up & continue →</button>
+          <SubmitButton className="btn primary">Look up & continue →</SubmitButton>
         </div>
       </form>
     </div>
@@ -77,7 +78,7 @@ function StepTwoCustom({ channelId, error }: { channelId: string; error?: string
         </label>
         <div className="flex justify-between items-center mt-2">
           <Link href={`/onboarding/channel/${channelId}?step=2&path=youtube`} className="text-xs text-[var(--mute)] underline">Link a YouTube channel instead →</Link>
-          <button type="submit" className="btn primary">Continue →</button>
+          <SubmitButton className="btn primary">Continue →</SubmitButton>
         </div>
       </form>
     </div>
@@ -111,7 +112,7 @@ async function StepThreeCompetitors({ channel, path, error }: { channel: { id: s
         </label>
         <div className="flex justify-between items-center mt-2">
           <button type="submit" name="skip" value="1" className="text-xs text-[var(--mute)] underline">Skip for now</button>
-          <button type="submit" className="btn primary">Save & continue →</button>
+          <SubmitButton className="btn primary">Save & continue →</SubmitButton>
         </div>
       </form>
     </div>
@@ -131,7 +132,7 @@ function StepFourDifferentiation({ channelId, error }: { channelId: string; erro
           <textarea name="differentiation" required minLength={20} rows={3} placeholder="e.g. I cite the actual papers and show the math instead of vague advice." className="border border-[var(--line-2)] rounded-lg p-3 text-sm" />
         </label>
         <div className="flex justify-end">
-          <button type="submit" className="btn primary">Start generating →</button>
+          <SubmitButton className="btn primary">Start generating →</SubmitButton>
         </div>
       </form>
     </div>
@@ -202,7 +203,7 @@ async function StepFivePreview({ channelId }: { channelId: string }) {
         <Link href={`/channels/${channelId}`} className="btn sm" title="Skip background generation — you can edit voice/audience later from the channel page">Skip — open channel anyway →</Link>
         <form action={finishOnboardingAction} className="flex items-center gap-2">
           <input type="hidden" name="channelId" value={channelId} />
-          <button type="submit" className="btn primary">Open channel →</button>
+          <SubmitButton className="btn primary">Open channel →</SubmitButton>
         </form>
       </div>
 

@@ -1,4 +1,5 @@
 import { requireChannel } from "@/lib/channel";
+import { SubmitButton } from "@/components/SubmitButton";
 import { db } from "@/lib/db";
 import { MODELS } from "@/lib/llm/models";
 import { updateChannelSettingsAction } from "@/app/actions/channel-settings";
@@ -58,7 +59,7 @@ export default async function ChannelSettingsPage({ params }: { params: Promise<
         </fieldset>
 
         <div className="flex justify-end">
-          <button type="submit" className="btn primary">Save settings</button>
+          <SubmitButton className="btn primary">Save settings</SubmitButton>
         </div>
       </form>
 
@@ -96,7 +97,7 @@ export default async function ChannelSettingsPage({ params }: { params: Promise<
             <Field name="logoUrl" label="Brand logo URL" defaultValue={cfg.logoUrl ?? ""} placeholder="https://…" />
             <TextArea name="styleNotes" label="Other style notes" defaultValue={cfg.styleNotes ?? ""} />
             <Field name="limitThumbnailsPerMonth" label="Max thumbnails per month (0 = unlimited)" defaultValue={String(channel.limitThumbnailsPerMonth ?? "")} placeholder="0" />
-            <div className="flex justify-end"><button type="submit" className="btn primary sm">Save thumbnail config</button></div>
+            <div className="flex justify-end"><SubmitButton className="btn primary sm">Save thumbnail config</SubmitButton></div>
           </form>
         );
       })()}

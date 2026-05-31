@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Clapperboard, ArrowRight, Film } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
@@ -73,7 +74,7 @@ export default async function FilmQueuePage({ searchParams }: { searchParams: Pr
                 <form action={setProjectStatusAction} className="mt-3">
                   <input type="hidden" name="id" value={p.id} />
                   <input type="hidden" name="status" value="editing" />
-                  <button type="submit" className="btn primary sm w-full flex items-center justify-center gap-1.5">Move to Edit Bay <ArrowRight className="w-3.5 h-3.5" /></button>
+                  <SubmitButton className="btn primary sm w-full flex items-center justify-center gap-1.5">Move to Edit Bay <ArrowRight className="w-3.5 h-3.5" /></SubmitButton>
                 </form>
               </li>
             ))}

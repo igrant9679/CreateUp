@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Mic2, Plus, Star, Trash2, FileText, Sparkles } from "lucide-react";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
@@ -95,7 +96,7 @@ export default async function ChannelVoicePage({
           <input type="hidden" name="channelId" value={id} />
           <input name="handle" required placeholder="@another-creator" className="border border-[var(--line-2)] rounded-md p-1.5 text-xs font-mono" />
           <input name="label" placeholder="Label (optional)" className="border border-[var(--line-2)] rounded-md p-1.5 text-xs" />
-          <button type="submit" className="btn primary sm">Train from their videos</button>
+          <SubmitButton className="btn primary sm">Train from their videos</SubmitButton>
         </form>
         {error === "notfound" && <p className="text-xs text-[var(--brand)] mt-2">Channel not found for that handle.</p>}
       </aside>
@@ -133,7 +134,7 @@ export default async function ChannelVoicePage({
               <input type="hidden" name="channelId" value={id} />
               <input type="hidden" name="voiceId" value={active.id} />
               <input name="instruction" placeholder="e.g. more casual, shorter sentences" className="border border-[var(--line-2)] rounded-lg p-2 text-sm" required />
-              <div className="flex justify-end"><button type="submit" className="btn primary sm">Apply</button></div>
+              <div className="flex justify-end"><SubmitButton className="btn primary sm">Apply</SubmitButton></div>
             </form>
             {data._lastInstruction && (
               <div className="mt-4 text-xs">
@@ -165,7 +166,7 @@ export default async function ChannelVoicePage({
                 defaultValue={JSON.stringify(data, null, 2)}
                 className="border border-[var(--line-2)] rounded-lg p-2 text-xs font-mono"
               />
-              <div className="flex justify-end"><button type="submit" className="btn primary sm">Save</button></div>
+              <div className="flex justify-end"><SubmitButton className="btn primary sm">Save</SubmitButton></div>
             </form>
           </section>
         </div>
@@ -179,7 +180,7 @@ export default async function ChannelVoicePage({
             <input type="hidden" name="voiceId" value={active.id} />
             <input name="label" placeholder="Sample label (e.g. Newsletter Aug 2025)" className="border border-[var(--line-2)] rounded-lg p-2 text-sm" />
             <textarea name="body" required rows={5} maxLength={50_000} placeholder="Paste up to 50,000 characters…" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
-            <div className="flex justify-end"><button type="submit" className="btn primary sm">Add sample</button></div>
+            <div className="flex justify-end"><SubmitButton className="btn primary sm">Add sample</SubmitButton></div>
           </form>
 
           {samples.length === 0 && <p className="text-xs text-[var(--mute)] text-center py-2">No samples yet.</p>}

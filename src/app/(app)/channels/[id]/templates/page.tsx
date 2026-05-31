@@ -1,4 +1,5 @@
 import { Layers, Trash2, Sparkles, Plus } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { readJson } from "@/lib/db/json";
@@ -54,7 +55,7 @@ export default async function ChannelTemplatesPage({ params, searchParams }: { p
           <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">References (1-3 YouTube URLs or @handles, comma or newline-separated)</span>
           <textarea name="references" required rows={3} placeholder="@example-channel, https://youtube.com/watch?v=…" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
         </label>
-        <div className="flex justify-end mt-2"><button type="submit" className="btn primary sm flex items-center gap-1.5"><Plus className="w-3.5 h-3.5" /> Clone</button></div>
+        <div className="flex justify-end mt-2"><SubmitButton className="btn primary sm flex items-center gap-1.5"><Plus className="w-3.5 h-3.5" /> Clone</SubmitButton></div>
       </form>
 
       {/* Focused template detail */}

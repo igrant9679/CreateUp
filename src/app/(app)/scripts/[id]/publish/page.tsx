@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, Download, FileText, Tv, Sparkles } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -76,7 +77,7 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
           {publish.chapters && <CopyButton text={publish.chapters} />}
           <form action={generateChapterMarkersAction}>
             <input type="hidden" name="scriptId" value={id} />
-            <button type="submit" className="btn primary sm">{publish.chapters ? "Regenerate chapters" : "Generate chapters"}</button>
+            <SubmitButton className="btn primary sm">{publish.chapters ? "Regenerate chapters" : "Generate chapters"}</SubmitButton>
           </form>
         </div>
         {publish.chapters && (
@@ -117,7 +118,7 @@ function PromoCard({ scriptId, kind, title, color, value }: { scriptId: string; 
         <form action={generatePromoAction}>
           <input type="hidden" name="scriptId" value={scriptId} />
           <input type="hidden" name="kind" value={kind} />
-          <button type="submit" className="btn primary sm">{value ? "Regenerate" : "Generate"}</button>
+          <SubmitButton className="btn primary sm">{value ? "Regenerate" : "Generate"}</SubmitButton>
         </form>
       </div>
       {value && (

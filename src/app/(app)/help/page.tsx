@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { HelpCircle, Keyboard, Palette, Sparkles, ExternalLink } from "lucide-react";
 import { setThemeAction, getTheme } from "@/app/actions/theme";
 import { HelpClient } from "./HelpClient";
@@ -64,7 +65,7 @@ export default async function HelpPage() {
                 </div>
               </label>
             ))}
-            <button type="submit" className="btn primary">Save</button>
+            <SubmitButton className="btn primary">Save</SubmitButton>
           </form>
         </section>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { Clock, PenLine, ArrowRight } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
@@ -70,7 +71,7 @@ export default async function WritersRoomPage({ searchParams }: { searchParams: 
               <form action={setProjectStatusAction} className="ml-auto">
                 <input type="hidden" name="id" value={p.id} />
                 <input type="hidden" name="status" value="recording" />
-                <button type="submit" className="btn primary sm flex items-center gap-1.5">Move to recording <ArrowRight className="w-3.5 h-3.5" /></button>
+                <SubmitButton className="btn primary sm flex items-center gap-1.5">Move to recording <ArrowRight className="w-3.5 h-3.5" /></SubmitButton>
               </form>
             </div>
           </li>

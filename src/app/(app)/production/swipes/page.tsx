@@ -1,4 +1,5 @@
 import { Image as ImageIcon, X, Link as LinkIcon } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { createSwipeAction, removeSwipeAction } from "@/app/actions/production";
@@ -44,7 +45,7 @@ export default async function SwipesPage({ searchParams }: { searchParams: Promi
           <option value="">No channel</option>
           {channels.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
-        <button type="submit" className="btn primary sm">Clip</button>
+        <SubmitButton className="btn primary sm">Clip</SubmitButton>
       </form>
 
       <form action={createSwipeAction} className="card grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 items-end mb-5">
@@ -70,7 +71,7 @@ export default async function SwipesPage({ searchParams }: { searchParams: Promi
             <option value="">No channel</option>
             {channels.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
-          <button type="submit" className="btn primary sm">Save</button>
+          <SubmitButton className="btn primary sm">Save</SubmitButton>
         </div>
       </form>
 

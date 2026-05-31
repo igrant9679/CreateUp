@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { MessageCircle, Plus } from "lucide-react";
 import { getActiveChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
@@ -50,7 +51,7 @@ export default async function ChatListPage() {
         <span className="flex-1" />
         <form action={createChatAction}>
           <input type="hidden" name="channelId" value={active.id} />
-          <button type="submit" className="btn primary flex items-center gap-2"><Plus className="w-4 h-4" /> New chat</button>
+          <SubmitButton className="btn primary flex items-center gap-2"><Plus className="w-4 h-4" /> New chat</SubmitButton>
         </form>
       </div>
 
@@ -59,7 +60,7 @@ export default async function ChatListPage() {
           <p className="text-sm text-[var(--mute)] mb-3">No chats yet.</p>
           <form action={createChatAction}>
             <input type="hidden" name="channelId" value={active.id} />
-            <button type="submit" className="btn primary">Start a chat</button>
+            <SubmitButton className="btn primary">Start a chat</SubmitButton>
           </form>
         </div>
       )}

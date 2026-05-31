@@ -1,4 +1,5 @@
 import { verifyEmailAction } from "@/app/actions/auth-flows";
+import { SubmitButton } from "@/components/SubmitButton";
 
 // Auto-redirects on submit. We render a one-click confirm so this isn't done by accident
 // (and email clients can't auto-GET-trigger it).
@@ -12,7 +13,7 @@ export default async function VerifyPage({ params }: { params: Promise<{ token: 
         <p className="text-sm text-[var(--mute)] mb-4">Click the button to confirm you own this address.</p>
         <form action={verifyEmailAction}>
           <input type="hidden" name="token" value={token} />
-          <button className="btn primary" type="submit">Confirm email</button>
+          <SubmitButton className="btn primary">Confirm email</SubmitButton>
         </form>
       </div>
     </div>

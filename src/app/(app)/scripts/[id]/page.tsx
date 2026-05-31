@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, PenLine, FileText, MessageCircle, History, ListTree, Type, Bot } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -314,7 +315,7 @@ function ScriptTab({ scriptId, body, hasOutline }: { scriptId: string; body: str
         <p className="text-sm text-[var(--mute)] mb-3">Outline is ready. Generate the full script now.</p>
         <form action={generateScriptAction}>
           <input type="hidden" name="scriptId" value={scriptId} />
-          <button type="submit" className="btn primary">Generate script</button>
+          <SubmitButton className="btn primary">Generate script</SubmitButton>
         </form>
       </div>
     );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import Image from "next/image";
 import { Image as ImageIcon, Wand2, Copy, History } from "lucide-react";
 import { getActiveChannel } from "@/lib/channel";
@@ -63,7 +64,7 @@ export default async function ThumbnailsPage({ searchParams }: { searchParams: P
             <input name="title" required className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm" />
           </label>
           <div className="flex justify-end">
-            <button type="submit" className="btn primary">Render in this style →</button>
+            <SubmitButton className="btn primary">Render in this style →</SubmitButton>
           </div>
         </form>
       ) : (
@@ -80,7 +81,7 @@ export default async function ThumbnailsPage({ searchParams }: { searchParams: P
             <input name="topic" className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm" />
           </label>
           <div className="flex justify-end">
-            <button type="submit" className="btn primary">Brainstorm 4 concepts →</button>
+            <SubmitButton className="btn primary">Brainstorm 4 concepts →</SubmitButton>
           </div>
         </form>
       )}

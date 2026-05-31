@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft, BarChart3, RefreshCw, Tag, Hash, GitBranch, FileText, BookOpen } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -198,7 +199,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   {wikiDocs.map((d) => <option key={d.id} value={d.id}>{d.title}</option>)}
                 </select>
               </label>
-              <button type="submit" className="btn primary sm">Attach as tasks</button>
+              <SubmitButton className="btn primary sm">Attach as tasks</SubmitButton>
             </form>
             <p className="text-[11px] text-[var(--mute)] mt-2">Converts the wiki page's checklist (or `- ` bullets in the body) into assigned tasks on this project.</p>
           </section>
@@ -222,7 +223,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <option value="blog">Blog</option>
               </select>
             </label>
-            <button type="submit" className="btn primary sm">Create derivative</button>
+            <SubmitButton className="btn primary sm">Create derivative</SubmitButton>
           </form>
           {project.derivatives.length > 0 && (
             <ul className="m-0 p-0">

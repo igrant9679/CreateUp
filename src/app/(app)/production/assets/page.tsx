@@ -1,4 +1,5 @@
 import { Film, Star, Link2, Upload } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { createAssetAction, toggleAssetFavoriteAction } from "@/app/actions/production";
@@ -74,7 +75,7 @@ export default async function AssetsPage({ searchParams }: { searchParams: Promi
             <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Paste markers (one per line, optional comma-separated `timecode, name, note`)</span>
             <textarea name="raw" required rows={6} placeholder={"00:01:23, Establishing wide, Cold open\n00:04:05, B-roll laptop close-up"} className="border border-[var(--line-2)] rounded-lg p-2 text-xs font-mono" />
           </label>
-          <div className="flex justify-end"><button type="submit" className="btn primary sm">Import as assets</button></div>
+          <div className="flex justify-end"><SubmitButton className="btn primary sm">Import as assets</SubmitButton></div>
         </form>
       </details>
 
@@ -104,7 +105,7 @@ export default async function AssetsPage({ searchParams }: { searchParams: Promi
             {channels.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </label>
-        <button type="submit" className="btn primary sm">Add asset</button>
+        <SubmitButton className="btn primary sm">Add asset</SubmitButton>
       </form>
 
       <ul className="m-0 p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

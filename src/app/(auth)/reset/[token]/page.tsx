@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { db } from "@/lib/db";
 import { completePasswordResetAction } from "@/app/actions/auth-flows";
 
@@ -37,7 +38,7 @@ export default async function ResetPage({
           <label className="text-xs font-mono uppercase text-[var(--mute)]">New password
             <input name="password" type="password" required minLength={8} className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           </label>
-          <button className="btn primary mt-2" type="submit">Reset password</button>
+          <SubmitButton className="btn primary mt-2">Reset password</SubmitButton>
         </form>
       </div>
     </div>

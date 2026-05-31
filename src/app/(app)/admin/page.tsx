@@ -1,4 +1,5 @@
 import { requireRole } from "@/lib/acl";
+import { SubmitButton } from "@/components/SubmitButton";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -105,7 +106,7 @@ export default async function AdminUsersPage() {
               <option value="VIEWER">Viewer</option>
             </select>
           </label>
-          <button type="submit" className="btn primary">Send invitation</button>
+          <SubmitButton className="btn primary">Send invitation</SubmitButton>
         </form>
         <p className="text-xs text-[var(--mute)] mt-2">Emails are mocked in dev — check your console. Set <code>USE_MOCK_EMAIL=false</code> + supply a provider key to send for real.</p>
       </section>

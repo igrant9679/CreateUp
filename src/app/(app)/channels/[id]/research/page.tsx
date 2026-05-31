@@ -1,4 +1,5 @@
 import { FileSearch, Star, Trash2 } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { deepResearchAction, starResearchAction, deleteResearchAction } from "@/app/actions/research";
@@ -53,7 +54,7 @@ export default async function ChannelResearchPage({ params, searchParams }: { pa
             Include competitor video titles for niche context
           </label>
           <span className="flex-1" />
-          <button type="submit" className="btn primary">Run deep research</button>
+          <SubmitButton className="btn primary">Run deep research</SubmitButton>
         </div>
       </form>
 

@@ -1,4 +1,5 @@
 import { Brain, Plus, Trash2 } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireChannel } from "@/lib/channel";
 import { db } from "@/lib/db";
 import { addMemoryEntryAction, removeMemoryEntryAction } from "@/app/actions/memory";
@@ -33,7 +34,7 @@ export default async function ChannelMemoryPage({ params }: { params: Promise<{ 
             placeholder="e.g. Always cite original papers, not blog summaries. Avoid the word 'literally'. My audience already knows what compounding is."
             className="border border-[var(--line-2)] rounded-lg p-2 text-sm" />
         </label>
-        <div className="flex justify-end"><button type="submit" className="btn primary sm flex items-center gap-1.5"><Plus className="w-3.5 h-3.5" /> Remember this</button></div>
+        <div className="flex justify-end"><SubmitButton className="btn primary sm flex items-center gap-1.5"><Plus className="w-3.5 h-3.5" /> Remember this</SubmitButton></div>
       </form>
 
       {entries.length === 0 ? (

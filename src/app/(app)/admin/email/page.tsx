@@ -1,4 +1,5 @@
 import { Mail, CheckCircle2, AlertCircle, Send } from "lucide-react";
+import { SubmitButton } from "@/components/SubmitButton";
 import { requireRole } from "@/lib/acl";
 import { getSmtpConfig } from "@/lib/email/config";
 import { saveSmtpAction, clearSmtpAction, testSmtpAction } from "@/app/actions/email-config";
@@ -91,7 +92,7 @@ export default async function EmailSettingsPage({ searchParams }: { searchParams
               Clear saved config
             </button>
           )}
-          <button type="submit" className="btn primary sm">Save settings</button>
+          <SubmitButton className="btn primary sm">Save settings</SubmitButton>
         </div>
 
         {/* Test send — formAction lets one form drive two server actions. */}

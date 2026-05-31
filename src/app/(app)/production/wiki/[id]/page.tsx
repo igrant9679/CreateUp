@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requireMembership } from "@/lib/acl";
@@ -28,7 +29,7 @@ export default async function WikiDocPage({ params }: { params: Promise<{ id: st
         <textarea name="body" defaultValue={doc.body} rows={28} className="border border-[var(--line-2)] rounded-lg p-3 text-sm font-mono leading-[1.6]" />
         <div className="flex justify-between items-center">
           <span className="text-xs text-[var(--mute)]">Updated {new Date(doc.updatedAt).toLocaleString()}</span>
-          <button type="submit" className="btn primary">Save</button>
+          <SubmitButton className="btn primary">Save</SubmitButton>
         </div>
       </form>
     </div>

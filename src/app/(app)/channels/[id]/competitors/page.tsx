@@ -1,4 +1,5 @@
 import { requireChannel } from "@/lib/channel";
+import { SubmitButton } from "@/components/SubmitButton";
 import { db } from "@/lib/db";
 import { readJson } from "@/lib/db/json";
 import { addCompetitorAction, removeCompetitorAction } from "@/app/actions/competitors";
@@ -22,7 +23,7 @@ export default async function ChannelCompetitorsPage({ params }: { params: Promi
           <span className="text-xs font-mono uppercase text-[var(--mute)]">Add by YouTube @handle or URL</span>
           <input name="handle" required placeholder="@example" className="border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono" />
         </label>
-        <button type="submit" className="btn primary sm">Add</button>
+        <SubmitButton className="btn primary sm">Add</SubmitButton>
       </form>
 
       {competitors.length === 0 && <p className="text-sm text-[var(--mute)]">None tracked yet.</p>}

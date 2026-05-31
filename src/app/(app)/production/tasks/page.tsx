@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { CheckSquare, Square, Circle, Plus } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
@@ -63,7 +64,7 @@ export default async function TasksPage({ searchParams }: { searchParams: Promis
             {projects.map((p) => (<option key={p.id} value={p.id}>{p.title}</option>))}
           </select>
         </label>
-        <button type="submit" className="btn primary flex items-center gap-1"><Plus className="w-3.5 h-3.5" /> Add</button>
+        <SubmitButton className="btn primary flex items-center gap-1"><Plus className="w-3.5 h-3.5" /> Add</SubmitButton>
       </form>
 
       {/* Buckets */}
