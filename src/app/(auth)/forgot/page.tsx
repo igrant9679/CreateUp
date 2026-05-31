@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requestPasswordResetAction } from "@/app/actions/auth-flows";
 import { SubmitButton } from "@/components/SubmitButton";
+import { ValidatedInput } from "@/components/ValidatedInput";
 
 export default async function ForgotPage({ searchParams }: { searchParams: Promise<{ ok?: string; error?: string }> }) {
   const { ok, error } = await searchParams;
@@ -12,9 +13,7 @@ export default async function ForgotPage({ searchParams }: { searchParams: Promi
         {ok === "1" && <p className="text-sm bg-[var(--green-soft)] text-[var(--green)] rounded-md px-3 py-2 mb-3">If an account exists for that email, a reset link is on its way. The link expires in 1 hour.</p>}
         {error === "expired" && <p className="text-sm text-[var(--brand)] mb-3">That link expired. Request a new one below.</p>}
         <form action={requestPasswordResetAction} className="flex flex-col gap-3">
-          <label className="text-xs font-mono uppercase text-[var(--mute)]">Email
-            <input name="email" type="email" required className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
-          </label>
+          <ValidatedInput label="Email" name="email" type="email" required autoComplete="email" className="w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           <SubmitButton className="btn primary mt-2" pendingText="Sending…">Send reset link</SubmitButton>
         </form>
         <p className="text-xs text-[var(--mute)] mt-4 text-center">

@@ -34,40 +34,46 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex-1 flex min-h-screen">
-      <aside className="w-[78px] left-rail border-r border-[var(--line)] hidden md:flex flex-col items-center gap-2.5 py-5 flex-shrink-0 relative z-40">
+      <aside className="w-60 left-rail border-r border-[var(--line)] hidden md:flex flex-col gap-1 py-4 px-3 flex-shrink-0 relative z-40">
         <Link
           href="/dashboard"
-          className="w-11 h-11 rounded-2xl text-white grid place-items-center mb-3 font-mono font-bold text-lg shadow-lg shadow-[#E5482F]/30"
-          style={{ background: "linear-gradient(150deg,#F0623F,#C53A22)" }}
+          className="flex items-center gap-2.5 px-2 py-1.5 mb-2 rounded-xl"
           title="CreateUp · Home"
         >
-          ▲
+          <span
+            className="w-9 h-9 rounded-xl text-white grid place-items-center font-mono font-bold text-lg shadow-lg shadow-[#E5482F]/30 flex-shrink-0"
+            style={{ background: "linear-gradient(150deg,#F0623F,#C53A22)" }}
+          >
+            ▲
+          </span>
+          <span className="font-mono font-bold text-[16px] tracking-tight">CreateUp</span>
         </Link>
 
         <LeftRailNav items={navItems} />
 
-        {/* Profile + sign out — now with a clearer label */}
-        <div className="mt-auto flex flex-col items-center gap-2">
+        {/* Profile + sign out */}
+        <div className="mt-auto flex flex-col gap-1 pt-2 border-t border-[var(--line)]">
           <Link
             href="/settings"
-            title={`${userLabel} · open settings`}
-            className="group relative w-11 h-11 rounded-2xl text-white grid place-items-center font-mono font-bold text-[12px] shadow-md hover:scale-105 transition"
-            style={{ background: "linear-gradient(135deg,#E5482F,#6D28D9)" }}
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold min-h-[44px] text-[var(--slate)] hover:bg-[var(--zebra)] transition-colors"
             aria-label={`Open ${userLabel}'s settings`}
           >
-            <User className="w-[20px] h-[20px]" strokeWidth={2.25} />
-            <span className="absolute left-[58px] top-1/2 -translate-y-1/2 whitespace-nowrap text-[12px] font-semibold font-mono px-2.5 py-1 rounded-md text-white shadow-lg opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition pointer-events-none z-30"
-                  style={{ background: "linear-gradient(135deg,#E5482F,#6D28D9)" }}>
-              {userLabel} · Settings
+            <span
+              className="w-7 h-7 rounded-lg text-white grid place-items-center flex-shrink-0"
+              style={{ background: "linear-gradient(135deg,#E5482F,#6D28D9)" }}
+              aria-hidden
+            >
+              <User className="w-[16px] h-[16px]" strokeWidth={2.25} />
             </span>
+            <span className="truncate">{userLabel}</span>
           </Link>
           <form action={signOutAction}>
-            <button title="Sign out" className="group relative w-11 h-11 rounded-2xl grid place-items-center text-[var(--mute)] hover:text-[var(--brand)] hover:bg-[var(--brand-soft)] transition">
-              <LogOut className="w-[18px] h-[18px]" strokeWidth={2.25} />
-              <span className="absolute left-[58px] top-1/2 -translate-y-1/2 whitespace-nowrap text-[12px] font-semibold font-mono px-2.5 py-1 rounded-md text-white shadow-lg opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition pointer-events-none z-30"
-                    style={{ background: "var(--brand)" }}>
-                Sign out
-              </span>
+            <button
+              title="Sign out"
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold min-h-[44px] text-[var(--mute)] hover:text-[var(--brand)] hover:bg-[var(--brand-soft)] transition-colors"
+            >
+              <LogOut className="w-[18px] h-[18px] flex-shrink-0" strokeWidth={2.25} />
+              Sign out
             </button>
           </form>
         </div>

@@ -3,6 +3,7 @@ import { signIn } from "@/auth";
 import { env } from "@/lib/env";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "@/components/SubmitButton";
+import { ValidatedInput } from "@/components/ValidatedInput";
 
 async function signinAction(formData: FormData) {
   "use server";
@@ -32,12 +33,8 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
         {error && <p className="text-sm text-[var(--brand)] mb-3">Invalid email or password.</p>}
         {reset === "1" && <p className="text-sm bg-[var(--green-soft)] text-[var(--green)] rounded-md px-3 py-2 mb-3">Password updated. Sign in with your new password.</p>}
         <form action={signinAction} className="flex flex-col gap-3">
-          <label className="text-xs font-mono uppercase text-[var(--mute)]">Email
-            <input name="email" type="email" required className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
-          </label>
-          <label className="text-xs font-mono uppercase text-[var(--mute)]">Password
-            <input name="password" type="password" required minLength={8} className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
-          </label>
+          <ValidatedInput label="Email" name="email" type="email" required autoComplete="email" className="w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
+          <ValidatedInput label="Password" name="password" type="password" required minLength={8} autoComplete="current-password" className="w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           <SubmitButton className="btn primary mt-2" pendingText="Signing in…">Sign in</SubmitButton>
         </form>
         {env.ENABLE_GOOGLE_SSO && (

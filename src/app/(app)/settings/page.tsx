@@ -6,6 +6,7 @@ import { setThemeAction, getTheme } from "@/app/actions/theme";
 import { updateProfileAction, changePasswordAction } from "@/app/actions/profile";
 import { resendVerificationAction } from "@/app/actions/auth-flows";
 import { SubmitButton } from "@/components/SubmitButton";
+import { ValidatedInput } from "@/components/ValidatedInput";
 
 // User-level settings (distinct from /admin/settings which is workspace-level).
 // Linked from the avatar button in the left rail.
@@ -35,10 +36,12 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
       <section className="card mb-4">
         <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><User className="w-4 h-4" style={{ color: "var(--accent-on)" }} /> Profile</h2>
         <form action={updateProfileAction} className="flex flex-col gap-3">
-          <label className="flex flex-col gap-1">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Display name</span>
-            <input name="name" defaultValue={user.name ?? ""} required className="border border-[var(--line-2)] rounded-lg p-2 text-sm" />
-          </label>
+          <ValidatedInput
+            label="Display name"
+            labelClassName="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]"
+            name="name" defaultValue={user.name ?? ""} required autoComplete="name"
+            className="border border-[var(--line-2)] rounded-lg p-2 text-sm"
+          />
           <label className="flex flex-col gap-1">
             <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Email <span className="opacity-50">(read-only — contact admin to change)</span></span>
             <input value={user.email} readOnly className="border border-[var(--line-2)] rounded-lg p-2 text-sm bg-[var(--zebra)] font-mono" />
@@ -68,14 +71,18 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
         {error === "nopass"    && <p className="text-sm text-[var(--brand)] mb-2">No password is set on this account. Use <Link href="/forgot" className="text-[var(--accent)] font-semibold">Forgot password</Link> instead.</p>}
         {ok === "password"     && <p className="text-sm text-[var(--green)] bg-[var(--green-soft)] rounded-md px-3 py-2 mb-2">Password updated.</p>}
         <form action={changePasswordAction} className="flex flex-col gap-3">
-          <label className="flex flex-col gap-1">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Current password</span>
-            <input name="current" type="password" required className="border border-[var(--line-2)] rounded-lg p-2 text-sm" />
-          </label>
-          <label className="flex flex-col gap-1">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">New password (8+ chars)</span>
-            <input name="next" type="password" required minLength={8} className="border border-[var(--line-2)] rounded-lg p-2 text-sm" />
-          </label>
+          <ValidatedInput
+            label="Current password"
+            labelClassName="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]"
+            name="current" type="password" required autoComplete="current-password"
+            className="border border-[var(--line-2)] rounded-lg p-2 text-sm"
+          />
+          <ValidatedInput
+            label="New password (8+ chars)"
+            labelClassName="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]"
+            name="next" type="password" required minLength={8} autoComplete="new-password" errorMessage="Use at least 8 characters."
+            className="border border-[var(--line-2)] rounded-lg p-2 text-sm"
+          />
           <div className="flex justify-end"><SubmitButton className="btn primary sm" pendingText="Updating…">Change password</SubmitButton></div>
         </form>
       </section>

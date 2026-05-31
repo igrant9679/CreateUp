@@ -7,6 +7,7 @@ import { env } from "@/lib/env";
 import { signIn } from "@/auth";
 import { requestVerificationForUser } from "@/app/actions/auth-flows";
 import { SubmitButton } from "@/components/SubmitButton";
+import { ValidatedInput } from "@/components/ValidatedInput";
 
 const schema = z.object({
   name: z.string().min(1).max(80),
@@ -68,15 +69,9 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
         {error === "exists" && <p className="text-sm text-[var(--brand)] mb-3">An account already exists for that email.</p>}
         {error === "invalid" && <p className="text-sm text-[var(--brand)] mb-3">Please check your details and try again.</p>}
         <form action={signupAction} className="flex flex-col gap-3">
-          <label className="text-xs font-mono uppercase text-[var(--mute)]">Your name
-            <input name="name" required maxLength={80} className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
-          </label>
-          <label className="text-xs font-mono uppercase text-[var(--mute)]">Email
-            <input name="email" type="email" required className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
-          </label>
-          <label className="text-xs font-mono uppercase text-[var(--mute)]">Password
-            <input name="password" type="password" required minLength={8} className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
-          </label>
+          <ValidatedInput label="Your name" name="name" required maxLength={80} autoComplete="name" className="w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
+          <ValidatedInput label="Email" name="email" type="email" required autoComplete="email" className="w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
+          <ValidatedInput label="Password" name="password" type="password" required minLength={8} autoComplete="new-password" errorMessage="Use at least 8 characters." className="w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           <SubmitButton className="btn primary mt-2" pendingText="Creating…">Create account</SubmitButton>
         </form>
         <p className="text-xs text-[var(--mute)] mt-4 text-center">
