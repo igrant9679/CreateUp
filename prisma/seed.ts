@@ -62,7 +62,7 @@ async function seedTemplates() {
 
 async function seedDemoData() {
   const adminEmail = (process.env.BOOTSTRAP_ADMIN_EMAIL ?? "you@example.com").toLowerCase();
-  const passwordHash = await bcrypt.hash("createup-dev", 10);
+  const passwordHash = await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD ?? "createup-dev", 10);
 
   const user = await db.user.upsert({
     where: { email: adminEmail },
@@ -241,7 +241,14 @@ async function main() {
   await seedTemplates();
   await seedDemoData();
   await seedIntel();
-  console.log("✓ Seed complete. Admin email:", (process.env.BOOTSTRAP_ADMIN_EMAIL ?? "you@example.com").toLowerCase(), "  password: createup-dev");
+  const adminEmail = (process.env.BOOTSTRAP_ADMIN_EMAIL ?? "you@example.com").toLowerCase();
+  // Don't print a configured admin password into deploy logs (this runs on every
+  // Railway boot). Only echo the built-in dev default, which is public anyway.
+  if (process.env.SEED_ADMIN_PASSWORD) {
+    console.log("✓ Seed complete. Admin email:", adminEmail, "(password set via SEED_ADMIN_PASSWORD — not logged)");
+  } else {
+    console.log("✓ Seed complete. Admin email:", adminEmail, "  password: createup-dev (default — set SEED_ADMIN_PASSWORD to change)");
+  }
 }
 
 main().then(() => db.$disconnect()).catch(async (e) => {
