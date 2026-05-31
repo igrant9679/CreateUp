@@ -32,7 +32,16 @@ Railway runs `prisma migrate deploy` on boot.
 - **Settings storage** — generic `Setting` table (key/value). Backs in-app API keys + SMTP config.
 - **Icons/PWA** — `src/app/icon.tsx`, `apple-icon.tsx`, `manifest.ts` generate favicon, iOS
   home-screen icon, and web manifest.
-- **Left nav** `src/components/LeftRailNav.tsx` (client) — highlights the active route.
+- **Left nav** `src/components/LeftRailNav.tsx` (client) — highlights the active route via the
+  shared `isNavActive()` (also used by `MobileNav`); channel-scoped `ideas`/`scripts` URLs light up
+  those rail entries, not Channels.
+- **Theming/colors** `src/app/globals.css` — light/dark via `data-theme` on `<html>`. Per-hue tokens:
+  `--<hue>` (solid, e.g. nav chips with white text), `--<hue>-soft` (chip background), `--<hue>-on`
+  (chip foreground). Dark mode auto-derives `-soft`/`-on` via `color-mix`, so **use these tokens for
+  colored chips/badges instead of raw hex** or they won't adapt. `.btn.primary` uses `--accent-strong`
+  for AA contrast. Fonts come from next/font via `--font-plex-sans/-mono`.
+- **Shared UI helpers** `src/components/`: `SubmitButton` (form pending spinner via `useFormStatus`),
+  `MobileNav` (hamburger drawer <md), `ChannelSwitcher` (auto-submitting channel select).
 
 ## Admin surfaces (sidebar → Admin)
 Users · Workspace · Soft limits · Usage · Channels · **API keys** (`/admin/api-keys`) ·
@@ -45,8 +54,8 @@ Users · Workspace · Soft limits · Usage · Channels · **API keys** (`/admin/
 - **Rotate `AUTH_SECRET`** — a `.test-cookies.txt` with an encrypted session token was once
   committed then removed (commit `8daa5b7`). Not exploitable without the secret, but rotating is
   best practice. (Will sign everyone out once.)
-- **Seed prints the admin password to the Railway deploy log every boot** — offered to silence it;
-  not yet done.
+- ~~Seed prints the admin password to the deploy log~~ — **done (2026-05-31):** only the public
+  built-in default is echoed for local dev; a configured `SEED_ADMIN_PASSWORD` is never logged.
 - **Custom domain:** if the user adds one in Railway → Settings → Networking, add the Google OAuth
   redirect URI in Google Cloud Console if SSO is enabled. No code/env change needed otherwise.
 
