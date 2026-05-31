@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { requestPasswordResetAction } from "@/app/actions/auth-flows";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default async function ForgotPage({ searchParams }: { searchParams: Promise<{ ok?: string; error?: string }> }) {
   const { ok, error } = await searchParams;
@@ -14,7 +15,7 @@ export default async function ForgotPage({ searchParams }: { searchParams: Promi
           <label className="text-xs font-mono uppercase text-[var(--mute)]">Email
             <input name="email" type="email" required className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           </label>
-          <button className="btn primary mt-2" type="submit">Send reset link</button>
+          <SubmitButton className="btn primary mt-2" pendingText="Sending…">Send reset link</SubmitButton>
         </form>
         <p className="text-xs text-[var(--mute)] mt-4 text-center">
           <Link href="/signin" className="text-[var(--accent)] font-semibold">Back to sign in</Link>

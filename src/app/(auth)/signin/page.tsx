@@ -2,6 +2,7 @@ import Link from "next/link";
 import { signIn } from "@/auth";
 import { env } from "@/lib/env";
 import { redirect } from "next/navigation";
+import { SubmitButton } from "@/components/SubmitButton";
 
 async function signinAction(formData: FormData) {
   "use server";
@@ -37,11 +38,11 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
           <label className="text-xs font-mono uppercase text-[var(--mute)]">Password
             <input name="password" type="password" required minLength={8} className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           </label>
-          <button className="btn primary mt-2" type="submit">Sign in</button>
+          <SubmitButton className="btn primary mt-2" pendingText="Signing in…">Sign in</SubmitButton>
         </form>
         {env.ENABLE_GOOGLE_SSO && (
           <form action={googleAction} className="mt-3">
-            <button className="btn w-full" type="submit">Continue with Google</button>
+            <SubmitButton className="btn w-full" pendingText="Redirecting…">Continue with Google</SubmitButton>
           </form>
         )}
         <p className="text-xs text-[var(--mute)] mt-4 text-center flex items-center justify-between">

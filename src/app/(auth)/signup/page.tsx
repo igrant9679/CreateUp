@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { signIn } from "@/auth";
 import { requestVerificationForUser } from "@/app/actions/auth-flows";
+import { SubmitButton } from "@/components/SubmitButton";
 
 const schema = z.object({
   name: z.string().min(1).max(80),
@@ -76,7 +77,7 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
           <label className="text-xs font-mono uppercase text-[var(--mute)]">Password
             <input name="password" type="password" required minLength={8} className="mt-1 w-full border border-[var(--line-2)] rounded-lg px-3 py-2 text-sm" />
           </label>
-          <button className="btn primary mt-2" type="submit">Create account</button>
+          <SubmitButton className="btn primary mt-2" pendingText="Creating…">Create account</SubmitButton>
         </form>
         <p className="text-xs text-[var(--mute)] mt-4 text-center">
           Already have an account? <Link href="/signin" className="text-[var(--accent)] font-semibold">Sign in</Link>

@@ -3,6 +3,7 @@ import { ArrowRight, Plus } from "lucide-react";
 import { requireMembership } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { setProjectStatusAction, createProjectAction } from "@/app/actions/production";
+import { SubmitButton } from "@/components/SubmitButton";
 
 // Configurable Production Board: all content by status, with click-to-advance.
 // Drag-and-drop is omitted v1; the forward arrow is the supported way to advance a stage.
@@ -42,7 +43,7 @@ export default async function ProductionBoardPage() {
               {channels.map((c) => (<option key={c.id} value={c.id}>{c.name}</option>))}
             </select>
           </label>
-          <button type="submit" className="btn primary sm flex items-center gap-1"><Plus className="w-3.5 h-3.5" /> Add</button>
+          <SubmitButton className="btn primary sm" pendingText="Adding…"><Plus className="w-3.5 h-3.5" /> Add</SubmitButton>
         </form>
       )}
 

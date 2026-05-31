@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { searchIntel, outlierBand, isFastGrowing, formatNum } from "@/lib/intel";
 import { toggleBookmarkAction } from "@/app/actions/bookmarks";
 import { autoIndexHandleAction } from "@/app/actions/intel";
+import { SubmitButton } from "@/components/SubmitButton";
 
 // MU-02 — Intel dashboard. Implements:
 //   NL search · explicit filters · velocity tag
@@ -86,7 +87,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
           <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Language</span>
           <input name="language" defaultValue={params.language ?? ""} placeholder="en" className="border border-[var(--line-2)] rounded-lg p-2.5 text-sm w-16" />
         </label>
-        <button type="submit" className="btn primary">Search</button>
+        <SubmitButton className="btn primary" pendingText="Searching…">Search</SubmitButton>
       </form>
 
       {/* Curated dashboard modules */}

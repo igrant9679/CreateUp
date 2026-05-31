@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { setThemeAction, getTheme } from "@/app/actions/theme";
 import { updateProfileAction, changePasswordAction } from "@/app/actions/profile";
 import { resendVerificationAction } from "@/app/actions/auth-flows";
+import { SubmitButton } from "@/components/SubmitButton";
 
 // User-level settings (distinct from /admin/settings which is workspace-level).
 // Linked from the avatar button in the left rail.
@@ -42,7 +43,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
             <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Email <span className="opacity-50">(read-only — contact admin to change)</span></span>
             <input value={user.email} readOnly className="border border-[var(--line-2)] rounded-lg p-2 text-sm bg-[var(--zebra)] font-mono" />
           </label>
-          <div className="flex justify-end"><button type="submit" className="btn primary sm">Save profile</button></div>
+          <div className="flex justify-end"><SubmitButton className="btn primary sm" pendingText="Saving…">Save profile</SubmitButton></div>
         </form>
       </section>
 
@@ -54,7 +55,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
         ) : (
           <div className="flex items-center gap-3">
             <p className="text-sm text-[var(--mute)] flex-1">Your email isn't verified yet.</p>
-            <form action={resendVerificationAction}><button type="submit" className="btn primary sm">Resend verification</button></form>
+            <form action={resendVerificationAction}><SubmitButton className="btn primary sm" pendingText="Sending…">Resend verification</SubmitButton></form>
           </div>
         )}
       </section>
@@ -75,7 +76,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
             <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">New password (8+ chars)</span>
             <input name="next" type="password" required minLength={8} className="border border-[var(--line-2)] rounded-lg p-2 text-sm" />
           </label>
-          <div className="flex justify-end"><button type="submit" className="btn primary sm">Change password</button></div>
+          <div className="flex justify-end"><SubmitButton className="btn primary sm" pendingText="Updating…">Change password</SubmitButton></div>
         </form>
       </section>
 

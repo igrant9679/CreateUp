@@ -4,6 +4,7 @@ import { requireRole } from "@/lib/acl";
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { saveApiKeyAction } from "@/app/actions/api-keys";
+import { SubmitButton } from "@/components/SubmitButton";
 
 // In-app API key management. Admins can paste provider keys here
 // instead of editing Railway env vars. DB-stored keys override env vars; env vars
@@ -98,7 +99,7 @@ export default async function ApiKeysPage({ searchParams }: { searchParams: Prom
                 className="flex-1 border border-[var(--line-2)] rounded-lg p-2 text-sm font-mono"
                 autoComplete="off"
               />
-              <button type="submit" className="btn primary sm">Save</button>
+              <SubmitButton className="btn primary sm" pendingText="Saving…">Save</SubmitButton>
             </div>
           </form>
         );

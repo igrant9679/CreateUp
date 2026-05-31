@@ -175,7 +175,8 @@ html[data-theme="dark"] .btn.primary { background-color: var(--accent) !importan
 
 /* Reusable mockup-derived utility classes */
 .font-mono { font-family: var(--font-plex-mono), 'IBM Plex Mono', ui-monospace, monospace; }
-.btn { font-weight: 600; font-size: 13px; border-radius: 9px; padding: 8px 13px; border: 1px solid var(--line-2); background: #fff; cursor: pointer; color: var(--slate); transition: .15s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 13px; border-radius: 9px; padding: 8px 13px; border: 1px solid var(--line-2); background: #fff; cursor: pointer; color: var(--slate); transition: .15s; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
 .btn:hover { border-color: var(--accent); }
 .btn.primary { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; box-shadow: 0 5px 14px -4px var(--accent-strong); }
 .btn.primary:hover { filter: brightness(.95); }
@@ -198,4 +199,16 @@ html[data-theme="dark"] .btn.primary { background-color: var(--accent) !importan
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* --- P1: mobile inputs + touch targets --- */
+/* 16px form text on small screens stops iOS Safari from auto-zooming on focus. */
+@media (max-width: 640px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea, select { font-size: 16px !important; }
+}
+/* Comfortable hit areas on touch devices (visual size can stay compact on desktop). */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .btn.sm { min-height: 40px; }
 }

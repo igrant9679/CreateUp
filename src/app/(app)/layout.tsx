@@ -4,6 +4,7 @@ import { signOut } from "@/auth";
 import { getActiveChannel } from "@/lib/channel";
 import { setActiveChannelAction } from "@/app/actions/channel";
 import { LeftRailNav, type LeftRailItem } from "@/components/LeftRailNav";
+import { MobileNav } from "@/components/MobileNav";
 
 // Each nav item carries its own brand color so the rail reads as a vibrant chip strip
 // (mirrors the CreateUp_Mockups.html per-module accent palette).
@@ -28,10 +29,11 @@ async function signOutAction() {
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, workspace, membership, channels, active } = await getActiveChannel();
   const userLabel = user.name ?? user.email.split("@")[0];
+  const navItems = NAV.filter((n) => !n.adminOnly || membership.role === "ADMIN");
 
   return (
     <div className="flex-1 flex min-h-screen">
-      <aside className="w-[78px] left-rail border-r border-[var(--line)] flex flex-col items-center gap-2.5 py-5 flex-shrink-0 relative z-40">
+      <aside className="w-[78px] left-rail border-r border-[var(--line)] hidden md:flex flex-col items-center gap-2.5 py-5 flex-shrink-0 relative z-40">
         <Link
           href="/dashboard"
           className="w-11 h-11 rounded-2xl text-white grid place-items-center mb-3 font-mono font-bold text-lg shadow-lg shadow-[#E5482F]/30"
@@ -41,7 +43,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           ▲
         </Link>
 
-        <LeftRailNav items={NAV.filter((n) => !n.adminOnly || membership.role === "ADMIN")} />
+        <LeftRailNav items={navItems} />
 
         {/* Profile + sign out — now with a clearer label */}
         <div className="mt-auto flex flex-col items-center gap-2">
@@ -71,8 +73,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       </aside>
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="min-h-[60px] border-b border-[var(--line)] app-header flex items-center gap-3 px-6 py-2 flex-shrink-0">
-          <Link href="/channels" className="font-mono font-bold text-[15px] tracking-tight hover:text-[var(--accent)] transition" title="Manage workspace channels">
+        <header className="min-h-[60px] border-b border-[var(--line)] app-header flex items-center gap-2 md:gap-3 px-3 md:px-6 py-2 flex-shrink-0 flex-wrap">
+          <div className="md:hidden">
+            <MobileNav items={navItems} userLabel={userLabel} signOutAction={signOutAction} />
+          </div>
+          <Link href="/channels" className="font-mono font-bold text-[15px] tracking-tight hover:text-[var(--accent)] transition truncate max-w-[40vw] md:max-w-none" title="Manage workspace channels">
             {workspace.name}
           </Link>
           {active && (
@@ -80,13 +85,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               <ChannelSelect channels={channels} activeId={active.id} />
             </form>
           )}
-          <Link href="/onboarding/channel/new" className="btn sm flex items-center gap-1" title="Create a new YouTube channel">
+          <Link href="/onboarding/channel/new" className="btn sm hidden md:inline-flex items-center gap-1" title="Create a new YouTube channel">
             <Layers className="w-3.5 h-3.5" /> + Channel
           </Link>
-          <Link href="/channels" className="btn sm" title="Manage all channels">Manage channels</Link>
+          <Link href="/channels" className="btn sm hidden md:inline-flex" title="Manage all channels">Manage channels</Link>
           <div className="flex-1" />
           <span className="font-mono text-[11px] uppercase tracking-wider font-bold px-2 py-1 rounded-md" style={{ background: "var(--accent-soft)", color: "var(--accent-on)" }}>{membership.role}</span>
-          <span className="text-[12px] text-[var(--mute)]">{user.email}</span>
+          <span className="hidden md:inline text-[12px] text-[var(--mute)]">{user.email}</span>
         </header>
 
         <main className="flex-1 overflow-auto bg-[var(--panel)] p-6">{children}</main>
