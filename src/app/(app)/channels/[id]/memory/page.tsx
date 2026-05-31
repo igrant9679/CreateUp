@@ -41,8 +41,8 @@ export default async function ChannelMemoryPage({ params }: { params: Promise<{ 
       ) : (
         <ul className="m-0 p-0">
           {entries.map((e) => (
-            <li key={e.id} className="border border-[var(--line)] rounded-lg p-3 mb-2 flex items-start gap-3 bg-white">
-              <Brain className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#6D28D9" }} />
+            <li key={e.id} className="border border-[var(--line)] rounded-lg p-3 mb-2 flex items-start gap-3 bg-[var(--bg)]">
+              <Brain className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "var(--violet-on)" }} />
               <div className="flex-1 text-sm whitespace-pre-wrap">{e.body}</div>
               <form action={removeMemoryEntryAction}>
                 <input type="hidden" name="id" value={e.id} />

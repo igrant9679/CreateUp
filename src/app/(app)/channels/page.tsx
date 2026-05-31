@@ -23,7 +23,7 @@ export default async function ChannelsManagerPage() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-5">
-        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "#EDE7FB", color: "#6D28D9" }}>
+        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "var(--violet-soft)", color: "var(--violet-on)" }}>
           <Layers className="w-6 h-6" strokeWidth={2.25} />
         </span>
         <div>
@@ -72,12 +72,12 @@ export default async function ChannelsManagerPage() {
 
               {/* Sub-page shortcuts */}
               <div className="flex flex-wrap gap-1">
-                <ChannelChip href={`/channels/${c.id}/ideas`}     icon={<Sparkles className="w-3 h-3" />}     color="#D97706">Ideas</ChannelChip>
-                <ChannelChip href={`/channels/${c.id}/scripts`}   icon={<FileText className="w-3 h-3" />}     color="#15924B">Scripts</ChannelChip>
-                <ChannelChip href={`/channels/${c.id}/voice`}     icon={<Mic2 className="w-3 h-3" />}         color="#E5482F">Voice</ChannelChip>
-                <ChannelChip href={`/channels/${c.id}/audience`}  icon={<ImageIcon className="w-3 h-3" />}    color="#2563EB">Audience</ChannelChip>
-                <ChannelChip href={`/channels/${c.id}/memory`}    icon={<Brain className="w-3 h-3" />}        color="#6D28D9">Memory</ChannelChip>
-                <ChannelChip href={`/channels/${c.id}/settings`}                                              color="#0D9488">Settings</ChannelChip>
+                <ChannelChip href={`/channels/${c.id}/ideas`}     icon={<Sparkles className="w-3 h-3" />}     color="var(--amber-on)">Ideas</ChannelChip>
+                <ChannelChip href={`/channels/${c.id}/scripts`}   icon={<FileText className="w-3 h-3" />}     color="var(--green-on)">Scripts</ChannelChip>
+                <ChannelChip href={`/channels/${c.id}/voice`}     icon={<Mic2 className="w-3 h-3" />}         color="var(--brand-on)">Voice</ChannelChip>
+                <ChannelChip href={`/channels/${c.id}/audience`}  icon={<ImageIcon className="w-3 h-3" />}    color="var(--blue-on)">Audience</ChannelChip>
+                <ChannelChip href={`/channels/${c.id}/memory`}    icon={<Brain className="w-3 h-3" />}        color="var(--violet-on)">Memory</ChannelChip>
+                <ChannelChip href={`/channels/${c.id}/settings`}                                              color="var(--teal-on)">Settings</ChannelChip>
               </div>
 
               {/* Actions */}
@@ -109,7 +109,7 @@ function Stat({ n, label }: { n: number; label: string }) {
 
 function ChannelChip({ href, icon, color, children }: { href: string; icon?: React.ReactNode; color: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-mono uppercase tracking-wider border hover:shadow" style={{ borderColor: color + "44", color }}>
+    <Link href={href} className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-mono uppercase tracking-wider border hover:shadow" style={{ borderColor: `color-mix(in srgb, ${color} 30%, transparent)`, color }}>
       {icon} {children}
     </Link>
   );

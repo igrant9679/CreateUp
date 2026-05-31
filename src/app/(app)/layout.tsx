@@ -85,7 +85,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </Link>
           <Link href="/channels" className="btn sm" title="Manage all channels">Manage channels</Link>
           <div className="flex-1" />
-          <span className="font-mono text-[11px] uppercase tracking-wider font-bold px-2 py-1 rounded-md" style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>{membership.role}</span>
+          <span className="font-mono text-[11px] uppercase tracking-wider font-bold px-2 py-1 rounded-md" style={{ background: "var(--accent-soft)", color: "var(--accent-on)" }}>{membership.role}</span>
           <span className="text-[12px] text-[var(--mute)]">{user.email}</span>
         </header>
 
@@ -107,7 +107,7 @@ function ChannelSelect({ channels, activeId }: { channels: { id: string; name: s
         {(active?.name ?? "?").slice(0, 1).toUpperCase()}
       </span>
       <span className="text-[10px] uppercase tracking-wider text-[var(--mute)]">Active</span>
-      <select name="channelId" defaultValue={activeId} className="bg-transparent border-0 focus:outline-none pr-1 cursor-pointer">
+      <select name="channelId" defaultValue={activeId} className="bg-transparent border-0 pr-1 cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2">
         {channels.map((c) => (
           <option key={c.id} value={c.id}>{c.name}</option>
         ))}

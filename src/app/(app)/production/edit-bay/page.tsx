@@ -45,7 +45,7 @@ export default async function EditBayPage() {
               <ul className="m-0 p-0 flex flex-col gap-2">
                 {items.length === 0 && <li className="text-[11px] text-[var(--mute)] py-2 text-center">—</li>}
                 {items.map((p) => (
-                  <li key={p.id} className="bg-white border border-[var(--line)] rounded-lg p-2.5">
+                  <li key={p.id} className="bg-[var(--bg)] border border-[var(--line)] rounded-lg p-2.5">
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-6 h-6 rounded-md text-white grid place-items-center text-[10px] font-mono font-bold" style={{ background: p.channel.accentColor ?? "var(--accent)" }}>{p.channel.name.slice(0, 2).toUpperCase()}</span>
                       <span className="flex-1" />

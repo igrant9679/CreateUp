@@ -54,7 +54,7 @@ export function PromptLibrary({ targetId = "composer-textarea" }: { targetId?: s
 
       {open && (
         <div className="fixed inset-0 z-50 bg-black/40 grid place-items-center p-4" onClick={() => setOpen(false)}>
-          <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex overflow-hidden">
+          <div onClick={(e) => e.stopPropagation()} className="bg-[var(--bg)] rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex overflow-hidden">
             {/* Categories */}
             <aside className="w-44 bg-[var(--zebra)] p-3 border-r border-[var(--line)] flex flex-col gap-1">
               <div className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)] mb-2 px-2 flex items-center justify-between">
@@ -65,7 +65,7 @@ export function PromptLibrary({ targetId = "composer-textarea" }: { targetId?: s
                 <button
                   key={cat.id}
                   onClick={() => setActiveCat(cat.id)}
-                  className={"text-left px-2 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider transition flex items-center gap-2 " + (activeCat === cat.id ? "" : "text-[var(--mute)] hover:bg-white")}
+                  className={"text-left px-2 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider transition flex items-center gap-2 " + (activeCat === cat.id ? "" : "text-[var(--mute)] hover:bg-[var(--zebra)]")}
                   style={activeCat === cat.id ? { background: cat.soft, color: cat.color } : {}}
                 >
                   <span className="w-2 h-2 rounded-full" style={{ background: cat.color }} />
@@ -73,7 +73,7 @@ export function PromptLibrary({ targetId = "composer-textarea" }: { targetId?: s
                 </button>
               ))}
               <div className="mt-auto text-[10px] font-mono text-[var(--mute)] px-2 pt-2 border-t border-[var(--line)]">
-                Shortcut: <kbd className="px-1 py-0.5 rounded bg-white border border-[var(--line-2)]">{PROMPT_SHORTCUT}</kbd>
+                Shortcut: <kbd className="px-1 py-0.5 rounded bg-[var(--zebra)] border border-[var(--line-2)]">{PROMPT_SHORTCUT}</kbd>
               </div>
             </aside>
 

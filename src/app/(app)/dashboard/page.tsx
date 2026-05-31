@@ -55,17 +55,17 @@ export default async function DashboardPage() {
 
       {/* Quick start tiles */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <QuickTile href={`/channels/${channels[0]?.id ?? ""}/ideas`} disabled={!channels[0]} label="Generate ideas" icon={Sparkles} color="#D97706" soft="#FBEED5" />
-        <QuickTile href="/scripts" label="Write a script" icon={PenLine} color="#15924B" soft="#E0F2E8" />
-        <QuickTile href="/intel" label="Explore Intel" icon={Telescope} color="#2563EB" soft="#E5EDFD" />
-        <QuickTile href="/chat" label="Brainstorm chat" icon={MessageCircle} color="#6D28D9" soft="#EDE7FB" />
+        <QuickTile href={`/channels/${channels[0]?.id ?? ""}/ideas`} disabled={!channels[0]} label="Generate ideas" icon={Sparkles} color="var(--amber-on)" soft="var(--amber-soft)" />
+        <QuickTile href="/scripts" label="Write a script" icon={PenLine} color="var(--green-on)" soft="var(--green-soft)" />
+        <QuickTile href="/intel" label="Explore Intel" icon={Telescope} color="var(--blue-on)" soft="var(--blue-soft)" />
+        <QuickTile href="/chat" label="Brainstorm chat" icon={MessageCircle} color="var(--violet-on)" soft="var(--violet-soft)" />
       </div>
 
       {/* Channels strip */}
       {channels.length > 0 && (
         <section className="card mb-6">
           <div className="flex items-center mb-3">
-            <h2 className="font-mono text-[15px] font-bold flex items-center gap-2"><ImageIcon className="w-4 h-4" style={{ color: "var(--accent)" }} /> Your channels</h2>
+            <h2 className="font-mono text-[15px] font-bold flex items-center gap-2"><ImageIcon className="w-4 h-4" style={{ color: "var(--accent-on)" }} /> Your channels</h2>
             <span className="flex-1" />
             <Link href="/onboarding/channel/new" className="text-xs font-mono text-[var(--accent)] font-semibold flex items-center gap-1 hover:underline">+ new channel</Link>
           </div>
@@ -90,7 +90,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <section className="card">
           <h2 className="font-mono text-[15px] font-bold mb-3 flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg grid place-items-center" style={{ background: "#E0F2E8", color: "#15924B" }}><PenLine className="w-4 h-4" strokeWidth={2.5} /></span>
+            <span className="w-7 h-7 rounded-lg grid place-items-center" style={{ background: "var(--green-soft)", color: "var(--green-on)" }}><PenLine className="w-4 h-4" strokeWidth={2.5} /></span>
             Recent scripts
           </h2>
           {recentScripts.length === 0 && <EmptyHint label="No scripts yet" cta={{ href: "/scripts", text: "Start a script" }} />}
@@ -110,7 +110,7 @@ export default async function DashboardPage() {
 
         <section className="card">
           <h2 className="font-mono text-[15px] font-bold mb-3 flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg grid place-items-center" style={{ background: "#FBEED5", color: "#D97706" }}><Sparkles className="w-4 h-4" strokeWidth={2.5} /></span>
+            <span className="w-7 h-7 rounded-lg grid place-items-center" style={{ background: "var(--amber-soft)", color: "var(--amber-on)" }}><Sparkles className="w-4 h-4" strokeWidth={2.5} /></span>
             Latest ideas
           </h2>
           {recentIdeas.length === 0 && <EmptyHint label="No ideas yet" cta={{ href: channels[0] ? `/channels/${channels[0].id}/ideas` : "/onboarding/channel/new", text: "Generate ideas" }} />}
@@ -167,8 +167,8 @@ function EmptyHint({ label, cta }: { label: string; cta: { href: string; text: s
 }
 
 function outlierColor(score: number): { color: string; soft: string } {
-  if (score >= 5) return { color: "#E5482F", soft: "#FDE7E1" };
-  if (score >= 2) return { color: "#D97706", soft: "#FBEED5" };
-  if (score >= 1) return { color: "#2563EB", soft: "#E5EDFD" };
-  return { color: "#6B7280", soft: "#F5F7FA" };
+  if (score >= 5) return { color: "var(--brand-on)", soft: "var(--brand-soft)" };
+  if (score >= 2) return { color: "var(--amber-on)", soft: "var(--amber-soft)" };
+  if (score >= 1) return { color: "var(--blue-on)", soft: "var(--blue-soft)" };
+  return { color: "var(--mute)", soft: "var(--zebra)" };
 }

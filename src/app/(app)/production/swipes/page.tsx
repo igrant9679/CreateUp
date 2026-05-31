@@ -77,7 +77,7 @@ export default async function SwipesPage({ searchParams }: { searchParams: Promi
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {swipes.length === 0 && <p className="col-span-full text-center text-sm text-[var(--mute)] py-10">No swipes yet.</p>}
         {swipes.map((s) => (
-          <div key={s.id} className="border border-[var(--line)] rounded-xl overflow-hidden bg-white relative group">
+          <div key={s.id} className="border border-[var(--line)] rounded-xl overflow-hidden bg-[var(--bg)] relative group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={s.imageUrl} alt={s.title ?? ""} className="w-full aspect-video object-cover" />
             <div className="p-2">

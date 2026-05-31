@@ -44,7 +44,7 @@ export default async function ApiKeysPage({ searchParams }: { searchParams: Prom
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-3 mb-2">
-        <span className="w-10 h-10 rounded-xl grid place-items-center" style={{ background: "#FEF3C7", color: "#D97706" }}>
+        <span className="w-10 h-10 rounded-xl grid place-items-center" style={{ background: "var(--amber-soft)", color: "var(--amber-on)" }}>
           <KeyRound className="w-5 h-5" strokeWidth={2.25} />
         </span>
         <div>
@@ -78,7 +78,7 @@ export default async function ApiKeysPage({ searchParams }: { searchParams: Prom
                 <div className="font-mono font-bold text-sm flex items-center gap-2">
                   {row.label}
                   {hasKey && (
-                    <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded flex items-center gap-1" style={{ background: "var(--green-soft)", color: "var(--green)" }}>
+                    <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded flex items-center gap-1" style={{ background: "var(--green-soft)", color: "var(--green-on)" }}>
                       <CheckCircle2 className="w-3 h-3" /> active
                     </span>
                   )}

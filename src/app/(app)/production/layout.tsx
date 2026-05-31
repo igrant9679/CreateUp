@@ -19,7 +19,7 @@ export default async function ProductionLayout({ children }: { children: React.R
   return (
     <div>
       <div className="flex items-center gap-3 mb-4">
-        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "#D7F1ED", color: "#0D9488" }}>
+        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "var(--teal-soft)", color: "var(--teal-on)" }}>
           <KanbanSquare className="w-6 h-6" strokeWidth={2.25} />
         </span>
         <div>

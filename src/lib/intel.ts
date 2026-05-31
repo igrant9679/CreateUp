@@ -4,10 +4,10 @@ import type { Prisma } from "@prisma/client";
 // severity bands.
 export function outlierBand(score: number | null | undefined): { color: string; soft: string; label: string } {
   const s = score ?? 0;
-  if (s >= 5)  return { color: "#E5482F", soft: "#FDE7E1", label: "exceptional" };
-  if (s >= 2)  return { color: "#D97706", soft: "#FBEED5", label: "strong" };
-  if (s >= 1)  return { color: "#2563EB", soft: "#E5EDFD", label: "average" };
-  return { color: "#6B7280", soft: "#F5F7FA", label: "under" };
+  if (s >= 5)  return { color: "var(--brand-on)", soft: "var(--brand-soft)", label: "exceptional" };
+  if (s >= 2)  return { color: "var(--amber-on)", soft: "var(--amber-soft)", label: "strong" };
+  if (s >= 1)  return { color: "var(--blue-on)", soft: "var(--blue-soft)", label: "average" };
+  return { color: "var(--mute)", soft: "var(--zebra)", label: "under" };
 }
 
 // flag fast-growing channels.
@@ -18,8 +18,8 @@ export function isFastGrowing(velocityScore: number | null | undefined): boolean
 // views/sub high indicator.
 export function viewsPerSubBand(ratio: number | null | undefined): { color: string; soft: string; label: string } | null {
   const r = ratio ?? 0;
-  if (r >= 0.5) return { color: "#15924B", soft: "#E0F2E8", label: "high" };
-  if (r >= 0.1) return { color: "#2563EB", soft: "#E5EDFD", label: "ok" };
+  if (r >= 0.5) return { color: "var(--green-on)", soft: "var(--green-soft)", label: "high" };
+  if (r >= 0.1) return { color: "var(--blue-on)", soft: "var(--blue-soft)", label: "ok" };
   return null;
 }
 

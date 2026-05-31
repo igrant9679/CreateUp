@@ -32,7 +32,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
 
       {/* Profile */}
       <section className="card mb-4">
-        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><User className="w-4 h-4" style={{ color: "var(--accent)" }} /> Profile</h2>
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><User className="w-4 h-4" style={{ color: "var(--accent-on)" }} /> Profile</h2>
         <form action={updateProfileAction} className="flex flex-col gap-3">
           <label className="flex flex-col gap-1">
             <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--mute)]">Display name</span>
@@ -48,7 +48,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
 
       {/* Email verification */}
       <section className="card mb-4">
-        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Mail className="w-4 h-4" style={{ color: "#2563EB" }} /> Email verification</h2>
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Mail className="w-4 h-4" style={{ color: "var(--blue-on)" }} /> Email verification</h2>
         {user.emailVerified ? (
           <p className="text-sm text-[var(--green)] flex items-center gap-1.5"><ShieldCheck className="w-4 h-4" /> Verified on {new Date(user.emailVerified).toLocaleDateString()}.</p>
         ) : (
@@ -61,7 +61,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
 
       {/* Change password */}
       <section className="card mb-4">
-        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Lock className="w-4 h-4" style={{ color: "#D97706" }} /> Change password</h2>
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Lock className="w-4 h-4" style={{ color: "var(--amber-on)" }} /> Change password</h2>
         {error === "wrongpass" && <p className="text-sm text-[var(--brand)] mb-2">Current password doesn&apos;t match.</p>}
         {error === "invalid"   && <p className="text-sm text-[var(--brand)] mb-2">New password must be 8+ characters.</p>}
         {error === "nopass"    && <p className="text-sm text-[var(--brand)] mb-2">No password is set on this account. Use <Link href="/forgot" className="text-[var(--accent)] font-semibold">Forgot password</Link> instead.</p>}
@@ -81,7 +81,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
 
       {/* Theme — click to apply instantly (one form per option, auto-submitting). */}
       <section className="card mb-4">
-        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Palette className="w-4 h-4" style={{ color: "#6D28D9" }} /> Appearance</h2>
+        <h2 className="font-mono font-bold text-[14px] mb-3 flex items-center gap-2"><Palette className="w-4 h-4" style={{ color: "var(--violet-on)" }} /> Appearance</h2>
         <p className="text-xs text-[var(--mute)] mb-3">Click a mode to apply it instantly.</p>
         <div className="flex gap-2">
           {(["light", "dark", "auto"] as const).map((t) => {
@@ -93,7 +93,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
                 <button
                   type="submit"
                   className="card w-full text-center cursor-pointer transition-colors"
-                  style={active ? { borderColor: "var(--accent)", background: "var(--accent-soft)", color: "var(--accent)", fontWeight: 600 } : undefined}
+                  style={active ? { borderColor: "var(--accent)", background: "var(--accent-soft)", color: "var(--accent-on)", fontWeight: 600 } : undefined}
                 >
                   <span className="capitalize">{t}</span>
                   {active && <span className="ml-2 text-[10px] font-mono uppercase tracking-wider">✓ active</span>}
@@ -111,7 +111,7 @@ export default async function UserSettingsPage({ searchParams }: { searchParams:
           {memberships.map((m) => (
             <li key={m.id} className="border-t border-[var(--line)] first:border-t-0 py-2 text-sm flex items-center gap-2">
               <span className="flex-1">{m.workspace.name}</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>{m.role}</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: "var(--accent-soft)", color: "var(--accent-on)" }}>{m.role}</span>
             </li>
           ))}
         </ul>

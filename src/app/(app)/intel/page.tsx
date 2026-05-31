@@ -54,7 +54,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
     <div>
       {/* Header */}
       <div className="flex items-center gap-3 mb-5">
-        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "#E5EDFD", color: "#2563EB" }}>
+        <span className="w-12 h-12 rounded-2xl grid place-items-center" style={{ background: "var(--blue-soft)", color: "var(--blue-on)" }}>
           <Telescope className="w-6 h-6" strokeWidth={2.25} />
         </span>
         <div>
@@ -95,7 +95,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
           {trending.length > 0 && (
             <section className="card">
               <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" style={{ color: "#E5482F" }} /> Outlier videos this week
+                <TrendingUp className="w-4 h-4" style={{ color: "var(--brand-on)" }} /> Outlier videos this week
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {trending.map((v) => (
@@ -116,12 +116,12 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
             {hotChannels.length > 0 && (
               <section className="card">
                 <h2 className="font-mono text-[13px] font-bold mb-2 flex items-center gap-2">
-                  <TrendingUp className="w-3.5 h-3.5" style={{ color: "#E5482F" }} /> Hot new channels
+                  <TrendingUp className="w-3.5 h-3.5" style={{ color: "var(--brand-on)" }} /> Hot new channels
                 </h2>
                 <ul className="m-0 p-0">
                   {hotChannels.map((c) => (
                     <li key={c.id} className="border-t border-[var(--line)] first:border-t-0 py-2 flex items-center gap-2 text-xs">
-                      <span className="font-mono font-bold text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#FDE7E1", color: "#E5482F" }}>{c.velocityScore?.toFixed(1)}</span>
+                      <span className="font-mono font-bold text-[10px] px-1.5 py-0.5 rounded" style={{ background: "var(--brand-soft)", color: "var(--brand-on)" }}>{c.velocityScore?.toFixed(1)}</span>
                       <Link href={`/intel/channels/${c.id}`} className="flex-1 truncate hover:text-[var(--accent)]">{c.name}</Link>
                       <span className="text-[var(--mute)]">{formatNum(c.subscribers)}</span>
                     </li>
@@ -133,7 +133,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
             {byCategory.length > 0 && (
               <section className="card">
                 <h2 className="font-mono text-[13px] font-bold mb-2 flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5" style={{ color: "#6D28D9" }} /> Trending niches
+                  <Sparkles className="w-3.5 h-3.5" style={{ color: "var(--violet-on)" }} /> Trending niches
                 </h2>
                 <ul className="m-0 p-0">
                   {byCategory.filter((c) => c.category).map((c) => (
@@ -153,7 +153,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
       {(biasChannels || channels.length > 0) && (
         <section className="card mb-5">
           <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2">
-            <Sparkles className="w-4 h-4" style={{ color: "#6D28D9" }} /> Channels <span className="text-[var(--mute)] text-xs font-normal">({channels.length})</span>
+            <Sparkles className="w-4 h-4" style={{ color: "var(--violet-on)" }} /> Channels <span className="text-[var(--mute)] text-xs font-normal">({channels.length})</span>
           </h2>
           <ul className="m-0 p-0 grid grid-cols-1 md:grid-cols-2 gap-2">
             {channels.map((c) => (
@@ -163,7 +163,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
                   <div className="font-semibold text-sm truncate flex items-center gap-1.5">
                     {c.name}
                     {isFastGrowing(c.velocityScore) && (
-                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md" style={{ background: "#FDE7E1", color: "#E5482F" }}>▲ FAST</span>
+                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md" style={{ background: "var(--brand-soft)", color: "var(--brand-on)" }}>▲ FAST</span>
                     )}
                   </div>
                   <div className="text-xs text-[var(--mute)]">{c.handle} · {formatNum(c.subscribers)} subs · velocity {c.velocityScore?.toFixed(1)}</div>
@@ -185,7 +185,7 @@ export default async function IntelPage({ searchParams }: { searchParams: Promis
       {videos.length > 0 && (
         <section className="card">
           <h2 className="font-mono text-[14px] font-bold mb-3 flex items-center gap-2">
-            <Eye className="w-4 h-4" style={{ color: "#D97706" }} /> Videos <span className="text-[var(--mute)] text-xs font-normal">({videos.length})</span> <span className="text-[10px] text-[var(--mute)] font-mono">sorted by outlier</span>
+            <Eye className="w-4 h-4" style={{ color: "var(--amber-on)" }} /> Videos <span className="text-[var(--mute)] text-xs font-normal">({videos.length})</span> <span className="text-[10px] text-[var(--mute)] font-mono">sorted by outlier</span>
           </h2>
           <ul className="m-0 p-0">
             {videos.map((v) => (
