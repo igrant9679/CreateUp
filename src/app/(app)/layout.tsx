@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { LogOut, ChevronDown, Layers, User } from "lucide-react";
+import { LogOut, Layers, User } from "lucide-react";
 import { signOut } from "@/auth";
 import { getActiveChannel } from "@/lib/channel";
 import { setActiveChannelAction } from "@/app/actions/channel";
 import { LeftRailNav, type LeftRailItem } from "@/components/LeftRailNav";
 import { MobileNav } from "@/components/MobileNav";
+import { ChannelSwitcher } from "@/components/ChannelSwitcher";
 
 // Each nav item carries its own brand color so the rail reads as a vibrant chip strip
 // (mirrors the CreateUp_Mockups.html per-module accent palette).
@@ -111,14 +112,8 @@ function ChannelSelect({ channels, activeId }: { channels: { id: string; name: s
       >
         {(active?.name ?? "?").slice(0, 1).toUpperCase()}
       </span>
-      <span className="text-[10px] uppercase tracking-wider text-[var(--mute)]">Active</span>
-      <select name="channelId" defaultValue={activeId} className="bg-transparent border-0 pr-1 cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2">
-        {channels.map((c) => (
-          <option key={c.id} value={c.id}>{c.name}</option>
-        ))}
-      </select>
-      <ChevronDown className="w-3.5 h-3.5 text-[var(--mute)]" />
-      <button type="submit" className="text-[10px] uppercase tracking-wider text-[var(--mute)] hover:text-[var(--accent)] border-l border-[var(--line-2)] pl-2 ml-1">Switch</button>
+      <span className="text-[10px] uppercase tracking-wider text-[var(--mute)] hidden sm:inline">Active</span>
+      <ChannelSwitcher channels={channels} activeId={activeId} />
     </label>
   );
 }
